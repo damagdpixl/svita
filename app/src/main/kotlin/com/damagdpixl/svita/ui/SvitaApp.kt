@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.damagdpixl.svita.R
 import com.damagdpixl.svita.core.designsystem.Charcoal
 import com.damagdpixl.svita.core.designsystem.Marigold
+import com.damagdpixl.svita.core.designsystem.monoUpper
 import com.damagdpixl.svita.ui.screens.CalendarScreen
 import com.damagdpixl.svita.ui.screens.OutfitsScreen
 import com.damagdpixl.svita.ui.screens.PackingScreen
@@ -104,7 +105,7 @@ fun SvitaApp(modifier: Modifier = Modifier) {
                                 )
                             }
                             Text(
-                                text = stringResource(destination.labelRes).uppercase(),
+                                text = stringResource(destination.labelRes).monoUpper(),
                                 style = MaterialTheme.typography.labelMedium,
                                 color = if (selected) {
                                     Charcoal

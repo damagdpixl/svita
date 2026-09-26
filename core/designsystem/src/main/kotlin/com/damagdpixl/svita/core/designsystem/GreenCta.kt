@@ -41,7 +41,7 @@ fun GreenCta(
         contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
     ) {
         Text(
-            text = text.uppercase(),
+            text = text.monoUpper(),
             style = MaterialTheme.typography.labelLarge,
             modifier = Modifier.padding(vertical = 2.dp),
         )

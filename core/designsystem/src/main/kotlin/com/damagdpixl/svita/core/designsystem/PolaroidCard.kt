@@ -40,7 +40,7 @@ fun PolaroidCard(
             }
             if (caption != null) {
                 Text(
-                    text = caption.uppercase(),
+                    text = caption.monoUpper(),
                     style = MaterialTheme.typography.labelSmall,
                     color = Charcoal,
                     modifier = Modifier.padding(start = 2.dp, top = 8.dp, bottom = 6.dp),

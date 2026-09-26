@@ -50,7 +50,7 @@ fun StickerBadge(
         shadowElevation = 0.dp,
     ) {
         Text(
-            text = text.uppercase(),
+            text = text.monoUpper(),
             style = MaterialTheme.typography.labelSmall,
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
         )

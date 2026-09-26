@@ -45,7 +45,7 @@ fun CreamMenuBar(
         ) {
             leading?.invoke()
             Text(
-                text = label.uppercase(),
+                text = label.monoUpper(),
                 style = MaterialTheme.typography.labelMedium,
                 color = Charcoal,
             )

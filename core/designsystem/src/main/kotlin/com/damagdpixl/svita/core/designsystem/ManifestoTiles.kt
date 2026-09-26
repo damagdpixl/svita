@@ -40,7 +40,7 @@ fun ManifestoTiles(
             letterSpacing = 1.5.sp,
         )
         val layout = textMeasurer.measure(
-            text = AnnotatedString(text.uppercase()),
+            text = AnnotatedString(text.monoUpper()),
             style = style,
             maxLines = 1,
         )

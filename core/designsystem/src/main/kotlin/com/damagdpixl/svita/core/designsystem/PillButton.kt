@@ -38,7 +38,7 @@ fun PillButton(
         border = BorderStroke(1.5.dp, borderColor),
     ) {
         Text(
-            text = text.uppercase(),
+            text = text.monoUpper(),
             style = MaterialTheme.typography.labelLarge,
             modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
         )
