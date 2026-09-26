@@ -9,12 +9,15 @@ CREATE TABLE outfits (
 insertOutfit:
 INSERT INTO outfits (name, rating, created_at, note) VALUES (?, ?, ?, ?);
 
+deleteOutfit:
+DELETE FROM outfits WHERE id = ?;
+
 selectAllOutfits:
 SELECT * FROM outfits ORDER BY id;
 
 CREATE TABLE outfit_items (
-    outfit_id INTEGER NOT NULL REFERENCES outfits(id),
-    item_id INTEGER NOT NULL REFERENCES items(id),
+    outfit_id INTEGER NOT NULL REFERENCES outfits(id) ON DELETE CASCADE,
+    item_id INTEGER NOT NULL REFERENCES items(id) ON DELETE CASCADE,
     slot TEXT NOT NULL,
     PRIMARY KEY (outfit_id, item_id)
 );

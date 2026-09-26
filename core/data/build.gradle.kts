@@ -12,6 +12,9 @@ sqldelight {
     databases {
         create("AppDatabase") {
             packageName.set("app.svita.core.data.db")
+            // Schema snapshots are committed so migrations can be verified
+            // against the v1 baseline.
+            schemaOutputDirectory.set(file("sqldelight/schemas"))
         }
     }
 }

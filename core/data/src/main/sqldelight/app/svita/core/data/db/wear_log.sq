@@ -1,7 +1,7 @@
 CREATE TABLE wear_log (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     date TEXT NOT NULL,
-    outfit_id INTEGER REFERENCES outfits(id),
+    outfit_id INTEGER REFERENCES outfits(id) ON DELETE SET NULL,
     item_ids TEXT NOT NULL,
     temp_c REAL,
     note TEXT

@@ -19,5 +19,8 @@ insertItem:
 INSERT INTO items (subtype_id, name, notes, price, purchase_date, season_flags, sex, rating, archived, created_at, updated_at)
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
+deleteItem:
+DELETE FROM items WHERE id = ?;
+
 selectAllItems:
 SELECT * FROM items ORDER BY id;

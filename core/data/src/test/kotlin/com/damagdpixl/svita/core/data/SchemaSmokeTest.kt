@@ -5,6 +5,7 @@ import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import app.svita.core.data.db.AppDatabase
 import app.svita.core.data.db.Attribute_values
 import app.svita.core.data.db.Item_tags
+import app.svita.core.data.db.Items
 import app.svita.core.data.db.Photos
 import app.svita.core.data.db.Packing_items
 import com.damagdpixl.svita.core.model.AttributeDefinition
@@ -211,5 +212,38 @@ class SchemaSmokeTest {
         assertEquals("[1,2,3]", encodeItemIds(listOf(1L, 2L, 3L)))
         assertEquals(listOf(1L, 2L, 3L), decodeItemIds("[1,2,3]"))
         assertEquals(emptyList<Long>(), decodeItemIds("[]"))
+    }
+
+    @Test
+    fun `зовнішні ключі — видалення речі каскадно прибирає її рядки-зв'язки`() {
+        seedItem()
+        db.photosQueries.insertPhoto(1L, "content://photo/1.jpg", 0L)
+        db.attribute_definitionsQueries.insertAttributeDefinition(null, "color", "color", null, 0L)
+        db.attribute_valuesQueries.insertAttributeValue(1L, 1L, "#ffffff")
+        db.tagsQueries.insertTag("літнє")
+        db.tagsQueries.insertItemTag(1L, 1L)
+
+        db.itemsQueries.deleteItem(1L)
+
+        assertEquals(emptyList<Items>(), db.itemsQueries.selectAllItems().executeAsList())
+        assertEquals(emptyList<Photos>(), db.photosQueries.selectAllPhotos().executeAsList())
+        assertEquals(emptyList<Attribute_values>(), db.attribute_valuesQueries.selectAllAttributeValues().executeAsList())
+        assertEquals(emptyList<Item_tags>(), db.tagsQueries.selectAllItemTags().executeAsList())
+        // The link rows cascade away, but the referenced definitions themselves stay.
+        assertEquals(1, db.tagsQueries.selectAllTags().executeAsList().size)
+        assertEquals(1, db.attribute_definitionsQueries.selectAllAttributeDefinitions().executeAsList().size)
+    }
+
+    @Test
+    fun `зовнішні ключі — видалення образу зануляє wear_log і не падає`() {
+        db.outfitsQueries.insertOutfit("Прогулянка", 4L, "2025-06-01T09:00:00Z", null)
+        db.wear_logQueries.insertWearLogEntry("2025-06-01", 1L, encodeItemIds(listOf(1L)), 22.5, null)
+
+        db.outfitsQueries.deleteOutfit(1L)
+
+        val entry = db.wear_logQueries.selectAllWearLog().executeAsOne().toDomain()
+        assertEquals(null, entry.outfitId)
+        assertEquals(listOf(1L), entry.itemIds)
+        assertEquals(0, db.outfitsQueries.selectAllOutfits().executeAsList().size)
     }
 }

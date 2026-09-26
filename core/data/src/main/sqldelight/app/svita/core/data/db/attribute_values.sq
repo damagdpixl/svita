@@ -1,6 +1,6 @@
 CREATE TABLE attribute_values (
-    item_id INTEGER NOT NULL REFERENCES items(id),
-    definition_id INTEGER NOT NULL REFERENCES attribute_definitions(id),
+    item_id INTEGER NOT NULL REFERENCES items(id) ON DELETE CASCADE,
+    definition_id INTEGER NOT NULL REFERENCES attribute_definitions(id) ON DELETE CASCADE,
     value TEXT NOT NULL,
     PRIMARY KEY (item_id, definition_id)
 );
