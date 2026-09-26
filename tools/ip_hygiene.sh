@@ -31,9 +31,11 @@ for p in "${forbidden_path_patterns[@]}"; do
 done
 
 echo "== tracked content scan =="
-if git grep -iq 'cluise' -- . 2>/dev/null; then
-  echo "FORBIDDEN STRING 'Cluise' found in tracked files:"
-  git grep -il 'cluise' -- .
+# NOTE: this script must never contain the forbidden workspace name itself;
+# it also excludes its own path below so it can document the rule safely.
+if git grep -iq 'cluise' -- . ':(exclude)tools/ip_hygiene.sh' 2>/dev/null; then
+  echo "FORBIDDEN STRING found in tracked files:"
+  git grep -il 'cluise' -- . ':(exclude)tools/ip_hygiene.sh'
   fail=1
 fi
 
