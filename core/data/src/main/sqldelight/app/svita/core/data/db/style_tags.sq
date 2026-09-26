@@ -14,3 +14,10 @@ SELECT * FROM style_tags ORDER BY sort_order, id;
 
 selectStyleTagByKey:
 SELECT * FROM style_tags WHERE key = ?;
+
+-- Backup restore (REPLACE import re-seeds the style tags after a wipe).
+insertStyleTag:
+INSERT INTO style_tags (id, key, name_en, name_uk, sort_order) VALUES (?, ?, ?, ?, ?);
+
+deleteAllStyleTags:
+DELETE FROM style_tags;

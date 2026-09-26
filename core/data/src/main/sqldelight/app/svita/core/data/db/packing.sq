@@ -47,3 +47,13 @@ UPDATE packing_items SET packed = ? WHERE packing_list_id = ? AND item_id = ?;
 
 deletePackingItem:
 DELETE FROM packing_items WHERE packing_list_id = ? AND item_id = ?;
+
+-- Backup restore: insert with the exported id (see restoreItem).
+restorePackingList:
+INSERT INTO packing_lists (id, title, date_from, date_to, created_at) VALUES (?, ?, ?, ?, ?);
+
+deleteAllPackingLists:
+DELETE FROM packing_lists;
+
+deleteAllPackingItems:
+DELETE FROM packing_items;

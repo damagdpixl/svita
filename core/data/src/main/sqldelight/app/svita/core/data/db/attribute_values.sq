@@ -25,3 +25,6 @@ SELECT * FROM attribute_values ORDER BY item_id, definition_id;
 
 selectAttributeValuesByItem:
 SELECT * FROM attribute_values WHERE item_id = ? ORDER BY definition_id;
+
+deleteAllAttributeValues:
+DELETE FROM attribute_values;

@@ -44,3 +44,13 @@ SELECT * FROM outfit_items WHERE outfit_id = ? ORDER BY item_id;
 
 deleteOutfitItemsByOutfit:
 DELETE FROM outfit_items WHERE outfit_id = ?;
+
+-- Backup restore: insert with the exported id (see restoreItem).
+restoreOutfit:
+INSERT INTO outfits (id, name, rating, created_at, note) VALUES (?, ?, ?, ?, ?);
+
+deleteAllOutfits:
+DELETE FROM outfits;
+
+deleteAllOutfitItems:
+DELETE FROM outfit_items;

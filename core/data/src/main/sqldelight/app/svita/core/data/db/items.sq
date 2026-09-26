@@ -63,3 +63,12 @@ WHERE id = ?;
 
 updateItemArchived:
 UPDATE items SET archived = ?, updated_at = ? WHERE id = ?;
+
+-- Backup restore: insert with the exported id so cross-references survive.
+-- SQLite bumps sqlite_sequence past the explicit id automatically.
+restoreItem:
+INSERT INTO items (id, subtype_id, name, notes, price, purchase_date, season_flags, sex, rating, archived, created_at, updated_at)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+deleteAllItems:
+DELETE FROM items;

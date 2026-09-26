@@ -18,3 +18,10 @@ SELECT * FROM photos WHERE item_id = ? ORDER BY position, id;
 
 deletePhotosByItem:
 DELETE FROM photos WHERE item_id = ?;
+
+-- Backup restore: insert with the exported id (see restoreItem).
+restorePhoto:
+INSERT INTO photos (id, item_id, path, position) VALUES (?, ?, ?, ?);
+
+deleteAllPhotos:
+DELETE FROM photos;

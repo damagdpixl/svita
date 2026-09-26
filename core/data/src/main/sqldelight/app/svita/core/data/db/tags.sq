@@ -39,3 +39,13 @@ WHERE item_tags.item_id = ? ORDER BY tags.id;
 
 deleteItemTagsByItem:
 DELETE FROM item_tags WHERE item_id = ?;
+
+-- Backup restore: insert with the exported id (see restoreItem).
+restoreTag:
+INSERT INTO tags (id, name) VALUES (?, ?);
+
+deleteAllTags:
+DELETE FROM tags;
+
+deleteAllItemTags:
+DELETE FROM item_tags;

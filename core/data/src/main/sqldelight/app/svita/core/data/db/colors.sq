@@ -14,3 +14,10 @@ SELECT * FROM colors ORDER BY id;
 
 selectColorByKey:
 SELECT * FROM colors WHERE key = ?;
+
+-- Backup restore (REPLACE import re-seeds the palette after a wipe).
+insertColor:
+INSERT INTO colors (id, key, name_uk, hex) VALUES (?, ?, ?, ?);
+
+deleteAllColors:
+DELETE FROM colors;

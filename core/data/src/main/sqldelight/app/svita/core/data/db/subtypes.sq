@@ -30,3 +30,7 @@ SELECT subtypes.* FROM subtypes
 JOIN categories ON subtypes.category_id = categories.id
 WHERE categories.section = :section
 ORDER BY subtypes.id;
+
+-- Backup restore (REPLACE import re-seeds the taxonomy after a wipe).
+deleteAllSubtypes:
+DELETE FROM subtypes;

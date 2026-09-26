@@ -20,3 +20,7 @@ SELECT * FROM categories ORDER BY sort_order, id;
 
 selectCategoryById:
 SELECT * FROM categories WHERE id = ?;
+
+-- Backup restore (REPLACE import re-seeds the taxonomy after a wipe).
+deleteAllCategories:
+DELETE FROM categories;

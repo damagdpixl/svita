@@ -14,3 +14,7 @@ DELETE FROM app_settings WHERE key = ?;
 
 selectAllSettings:
 SELECT * FROM app_settings ORDER BY key;
+
+-- Backup restore (REPLACE import wipes user data before re-inserting).
+deleteAllSettings:
+DELETE FROM app_settings;

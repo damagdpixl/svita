@@ -32,6 +32,13 @@ SELECT * FROM wear_log WHERE date BETWEEN :from AND :to ORDER BY date, id;
 updateWearLogItemIds:
 UPDATE wear_log SET item_ids = :itemIds WHERE id = :id;
 
+-- Backup restore: insert with the exported id (see restoreItem).
+restoreWearLogEntry:
+INSERT INTO wear_log (id, date, outfit_id, item_ids, temp_c, note) VALUES (?, ?, ?, ?, ?, ?);
+
+deleteAllWearLog:
+DELETE FROM wear_log;
+
 -- Wear statistics (counters per item, last-worn, not-worn-N-days) are computed
 -- from these rows in Kotlin: the SQL json_each()/table-valued function syntax
 -- is not in the SQLite 3.18 dialect this project compiles against and is not

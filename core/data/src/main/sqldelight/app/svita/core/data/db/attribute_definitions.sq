@@ -35,3 +35,11 @@ WHERE id = ?;
 
 deleteAttributeDefinition:
 DELETE FROM attribute_definitions WHERE id = ?;
+
+-- Backup restore: insert with the exported id (see restoreItem).
+restoreAttributeDefinition:
+INSERT INTO attribute_definitions (id, category_id, key, type, config, sort_order)
+VALUES (?, ?, ?, ?, ?, ?);
+
+deleteAllAttributeDefinitions:
+DELETE FROM attribute_definitions;
