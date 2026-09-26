@@ -10,5 +10,18 @@ CREATE INDEX idx_attribute_values_definition_id ON attribute_values(definition_i
 insertAttributeValue:
 INSERT INTO attribute_values (item_id, definition_id, value) VALUES (?, ?, ?);
 
+-- REPLACE is equivalent to upsert here: the only non-key column is value.
+upsertAttributeValue:
+INSERT OR REPLACE INTO attribute_values (item_id, definition_id, value) VALUES (?, ?, ?);
+
+deleteAttributeValue:
+DELETE FROM attribute_values WHERE item_id = ? AND definition_id = ?;
+
+deleteAttributeValuesByItem:
+DELETE FROM attribute_values WHERE item_id = ?;
+
 selectAllAttributeValues:
 SELECT * FROM attribute_values ORDER BY item_id, definition_id;
+
+selectAttributeValuesByItem:
+SELECT * FROM attribute_values WHERE item_id = ? ORDER BY definition_id;

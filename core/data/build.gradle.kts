@@ -5,6 +5,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
 }
 
@@ -43,7 +44,13 @@ kotlin {
 dependencies {
     implementation(project(":core:model"))
     implementation(libs.kotlinx.datetime)
+    implementation(libs.kotlinx.coroutines.core)
+    // Attribute-config JSON is part of the repository API (enum/multi options,
+    // number min/max), so it is parsed with a real JSON library, not regexes.
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.sqldelight.android.driver)
+    // Flow observation of queries: the repository API is Flow-first for P2 UI.
+    implementation(libs.sqldelight.coroutines)
 
     testImplementation(libs.junit)
     // Plain-JVM JDBC driver backed by sqlite-jdbc for in-memory smoke tests.

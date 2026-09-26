@@ -90,6 +90,38 @@ data class WearLogEntry(
     val note: String?,
 )
 
+/** A photo of a wardrobe item (v1 table `photos`), ordered by [position]. */
+data class Photo(
+    val id: Long,
+    val itemId: Long,
+    val path: String,
+    val position: Int,
+)
+
+/** One wardrobe item placed on a packing list (v1 table `packing_items`). */
+data class PackingEntry(
+    val listId: Long,
+    val itemId: Long,
+    val packed: Boolean,
+)
+
+/** A system palette color (v1 table `colors`, seeded); [key] is the canonical id. */
+data class PaletteColor(
+    val id: Long,
+    val key: String,
+    val nameUk: String,
+    val hex: String,
+)
+
+/** A system style tag (v1 table `style_tags`, seeded); [key] is the functional id. */
+data class StyleTag(
+    val id: Long,
+    val key: String,
+    val nameEn: String,
+    val nameUk: String,
+    val sortOrder: Int,
+)
+
 /** A packing list (v1 table `packing_lists`). */
 data class PackingList(
     val id: Long,

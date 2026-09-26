@@ -19,8 +19,47 @@ insertItem:
 INSERT INTO items (subtype_id, name, notes, price, purchase_date, season_flags, sex, rating, archived, created_at, updated_at)
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
+selectLastInsertedItemId:
+SELECT last_insert_rowid();
+
 deleteItem:
 DELETE FROM items WHERE id = ?;
 
 selectAllItems:
 SELECT * FROM items ORDER BY id;
+
+selectItemById:
+SELECT * FROM items WHERE id = ?;
+
+selectActiveItems:
+SELECT * FROM items WHERE archived = 0 ORDER BY id;
+
+-- Structural filtering for observeItems; the repository combines nullable
+-- params (NULL = constraint off). Tag filtering uses a sentinel-safe pattern:
+-- hasTagFilter is 0 unless the caller passes tags, and tagIds is always a
+-- non-empty list (the repository substitutes [-1] when inactive) so IN is
+-- never given an empty list. Name search stays in Kotlin for Unicode-aware
+-- case folding; seasons use intersect semantics (any requested season matches);
+-- the color filter matches the normalized stored hex of one attribute
+-- definition. Scope: subtypes of one category, or of every category of a
+-- section, are resolved through the join subselects.
+selectItemsFiltered:
+SELECT items.* FROM items
+WHERE (:includeArchived OR archived = 0)
+  AND (:subtypeId IS NULL OR subtype_id = :subtypeId)
+  AND (:categoryId IS NULL OR subtype_id IN (SELECT id FROM subtypes WHERE category_id = :categoryId))
+  AND (:section IS NULL OR subtype_id IN (SELECT s.id FROM subtypes s JOIN categories c ON s.category_id = c.id WHERE c.section = :section))
+  AND (:seasonMask IS NULL OR (season_flags & :seasonMask) != 0)
+  AND (:sex IS NULL OR sex = :sex)
+  AND (:hasTagFilter = 0 OR :tagCount = (SELECT COUNT(DISTINCT it.tag_id) FROM item_tags it WHERE it.item_id = items.id AND it.tag_id IN :tagIds))
+  AND (:colorDefinitionId IS NULL OR id IN (SELECT item_id FROM attribute_values WHERE definition_id = :colorDefinitionId AND value = :colorHex))
+ORDER BY id;
+
+updateItem:
+UPDATE items
+SET subtype_id = ?, name = ?, notes = ?, price = ?, purchase_date = ?,
+    season_flags = ?, sex = ?, rating = ?, archived = ?, updated_at = ?
+WHERE id = ?;
+
+updateItemArchived:
+UPDATE items SET archived = ?, updated_at = ? WHERE id = ?;

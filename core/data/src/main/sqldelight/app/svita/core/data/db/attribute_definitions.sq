@@ -13,5 +13,25 @@ insertAttributeDefinition:
 INSERT INTO attribute_definitions (category_id, key, type, config, sort_order)
 VALUES (?, ?, ?, ?, ?);
 
+selectLastInsertedAttributeDefinitionId:
+SELECT last_insert_rowid();
+
+selectAttributeDefinitionById:
+SELECT * FROM attribute_definitions WHERE id = ?;
+
 selectAllAttributeDefinitions:
 SELECT * FROM attribute_definitions ORDER BY sort_order, id;
+
+-- Global definitions plus the ones scoped to the given category.
+selectAttributeDefinitionsForCategory:
+SELECT * FROM attribute_definitions
+WHERE category_id IS NULL OR category_id = :categoryId
+ORDER BY sort_order, id;
+
+updateAttributeDefinition:
+UPDATE attribute_definitions
+SET category_id = ?, key = ?, type = ?, config = ?, sort_order = ?
+WHERE id = ?;
+
+deleteAttributeDefinition:
+DELETE FROM attribute_definitions WHERE id = ?;

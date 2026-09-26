@@ -11,3 +11,6 @@ CREATE TABLE colors (
 
 selectAllColors:
 SELECT * FROM colors ORDER BY id;
+
+selectColorByKey:
+SELECT * FROM colors WHERE key = ?;

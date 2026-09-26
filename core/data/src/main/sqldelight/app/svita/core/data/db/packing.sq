@@ -9,6 +9,18 @@ CREATE TABLE packing_lists (
 insertPackingList:
 INSERT INTO packing_lists (title, date_from, date_to, created_at) VALUES (?, ?, ?, ?);
 
+selectLastInsertedPackingListId:
+SELECT last_insert_rowid();
+
+selectPackingListById:
+SELECT * FROM packing_lists WHERE id = ?;
+
+updatePackingList:
+UPDATE packing_lists SET title = ?, date_from = ?, date_to = ? WHERE id = ?;
+
+deletePackingList:
+DELETE FROM packing_lists WHERE id = ?;
+
 selectAllPackingLists:
 SELECT * FROM packing_lists ORDER BY id;
 
@@ -26,3 +38,12 @@ INSERT INTO packing_items (packing_list_id, item_id, packed) VALUES (?, ?, ?);
 
 selectAllPackingItems:
 SELECT * FROM packing_items ORDER BY packing_list_id, item_id;
+
+selectPackingItemsByList:
+SELECT * FROM packing_items WHERE packing_list_id = ? ORDER BY item_id;
+
+updatePacked:
+UPDATE packing_items SET packed = ? WHERE packing_list_id = ? AND item_id = ?;
+
+deletePackingItem:
+DELETE FROM packing_items WHERE packing_list_id = ? AND item_id = ?;

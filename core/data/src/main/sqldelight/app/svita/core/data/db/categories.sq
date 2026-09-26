@@ -17,3 +17,6 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 
 selectAllCategories:
 SELECT * FROM categories ORDER BY sort_order, id;
+
+selectCategoryById:
+SELECT * FROM categories WHERE id = ?;

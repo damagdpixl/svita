@@ -6,8 +6,17 @@ CREATE TABLE tags (
 insertTag:
 INSERT INTO tags (name) VALUES (?);
 
+selectLastInsertedTagId:
+SELECT last_insert_rowid();
+
+selectTagByName:
+SELECT * FROM tags WHERE name = ?;
+
 selectAllTags:
 SELECT * FROM tags ORDER BY name;
+
+deleteTag:
+DELETE FROM tags WHERE id = ?;
 
 CREATE TABLE item_tags (
     item_id INTEGER NOT NULL REFERENCES items(id) ON DELETE CASCADE,
@@ -22,3 +31,11 @@ INSERT INTO item_tags (item_id, tag_id) VALUES (?, ?);
 
 selectAllItemTags:
 SELECT * FROM item_tags ORDER BY item_id, tag_id;
+
+-- Tags of one item, resolved to the tag rows themselves.
+selectTagsByItem:
+SELECT tags.* FROM tags JOIN item_tags ON tags.id = item_tags.tag_id
+WHERE item_tags.item_id = ? ORDER BY tags.id;
+
+deleteItemTagsByItem:
+DELETE FROM item_tags WHERE item_id = ?;

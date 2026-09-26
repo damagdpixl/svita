@@ -11,3 +11,6 @@ CREATE TABLE style_tags (
 
 selectAllStyleTags:
 SELECT * FROM style_tags ORDER BY sort_order, id;
+
+selectStyleTagByKey:
+SELECT * FROM style_tags WHERE key = ?;

@@ -13,5 +13,20 @@ insertSubtype:
 INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
 VALUES (?, ?, ?, ?, ?, ?);
 
+selectSubtypeById:
+SELECT * FROM subtypes WHERE id = ?;
+
+selectSubtypeByKey:
+SELECT * FROM subtypes WHERE key = ?;
+
 selectAllSubtypes:
 SELECT * FROM subtypes ORDER BY id;
+
+selectSubtypesByCategory:
+SELECT * FROM subtypes WHERE category_id = :categoryId ORDER BY id;
+
+selectSubtypesBySection:
+SELECT subtypes.* FROM subtypes
+JOIN categories ON subtypes.category_id = categories.id
+WHERE categories.section = :section
+ORDER BY subtypes.id;

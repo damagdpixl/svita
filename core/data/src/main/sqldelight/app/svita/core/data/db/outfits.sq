@@ -9,6 +9,15 @@ CREATE TABLE outfits (
 insertOutfit:
 INSERT INTO outfits (name, rating, created_at, note) VALUES (?, ?, ?, ?);
 
+selectLastInsertedOutfitId:
+SELECT last_insert_rowid();
+
+selectOutfitById:
+SELECT * FROM outfits WHERE id = ?;
+
+updateOutfit:
+UPDATE outfits SET name = ?, rating = ?, note = ? WHERE id = ?;
+
 deleteOutfit:
 DELETE FROM outfits WHERE id = ?;
 
@@ -29,3 +38,9 @@ INSERT INTO outfit_items (outfit_id, item_id, slot) VALUES (?, ?, ?);
 
 selectAllOutfitItems:
 SELECT * FROM outfit_items ORDER BY outfit_id, item_id;
+
+selectOutfitEntriesByOutfit:
+SELECT * FROM outfit_items WHERE outfit_id = ? ORDER BY item_id;
+
+deleteOutfitItemsByOutfit:
+DELETE FROM outfit_items WHERE outfit_id = ?;

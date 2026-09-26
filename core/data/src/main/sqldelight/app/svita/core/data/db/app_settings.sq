@@ -6,5 +6,11 @@ CREATE TABLE app_settings (
 insertSetting:
 INSERT OR REPLACE INTO app_settings (key, value) VALUES (?, ?);
 
+selectSetting:
+SELECT * FROM app_settings WHERE key = ?;
+
+deleteSetting:
+DELETE FROM app_settings WHERE key = ?;
+
 selectAllSettings:
 SELECT * FROM app_settings ORDER BY key;

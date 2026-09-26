@@ -12,3 +12,9 @@ INSERT INTO photos (item_id, path, position) VALUES (?, ?, ?);
 
 selectAllPhotos:
 SELECT * FROM photos ORDER BY item_id, position;
+
+selectPhotosByItem:
+SELECT * FROM photos WHERE item_id = ? ORDER BY position, id;
+
+deletePhotosByItem:
+DELETE FROM photos WHERE item_id = ?;

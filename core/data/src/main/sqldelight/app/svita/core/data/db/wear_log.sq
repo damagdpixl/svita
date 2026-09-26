@@ -12,5 +12,28 @@ CREATE INDEX idx_wear_log_outfit_id ON wear_log(outfit_id);
 insertWearLogEntry:
 INSERT INTO wear_log (date, outfit_id, item_ids, temp_c, note) VALUES (?, ?, ?, ?, ?);
 
+selectLastInsertedWearLogId:
+SELECT last_insert_rowid();
+
+deleteWearLogEntry:
+DELETE FROM wear_log WHERE id = ?;
+
 selectAllWearLog:
 SELECT * FROM wear_log ORDER BY date, id;
+
+selectWearLogByDate:
+SELECT * FROM wear_log WHERE date = :date ORDER BY id;
+
+selectWearLogByRange:
+SELECT * FROM wear_log WHERE date BETWEEN :from AND :to ORDER BY date, id;
+
+-- Used by WardrobeRepository.deleteItem to scrub the deleted item's id out of
+-- every entry that mentions it (item_ids is JSON, invisible to FK cascades).
+updateWearLogItemIds:
+UPDATE wear_log SET item_ids = :itemIds WHERE id = :id;
+
+-- Wear statistics (counters per item, last-worn, not-worn-N-days) are computed
+-- from these rows in Kotlin: the SQL json_each()/table-valued function syntax
+-- is not in the SQLite 3.18 dialect this project compiles against and is not
+-- guaranteed on API-26 devices, while decodeItemIds() over one full scan is
+-- portable and equally correct.

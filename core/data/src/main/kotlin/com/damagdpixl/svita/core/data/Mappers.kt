@@ -4,12 +4,15 @@ import app.svita.core.data.db.App_settings
 import app.svita.core.data.db.Attribute_definitions
 import app.svita.core.data.db.Attribute_values
 import app.svita.core.data.db.Categories
+import app.svita.core.data.db.Colors
 import app.svita.core.data.db.Item_tags
 import app.svita.core.data.db.Items
 import app.svita.core.data.db.Outfit_items
 import app.svita.core.data.db.Outfits
 import app.svita.core.data.db.Packing_items
 import app.svita.core.data.db.Packing_lists
+import app.svita.core.data.db.Photos
+import app.svita.core.data.db.Style_tags
 import app.svita.core.data.db.Subtypes
 import app.svita.core.data.db.Tags
 import app.svita.core.data.db.Wear_log
@@ -20,10 +23,14 @@ import com.damagdpixl.svita.core.model.Category
 import com.damagdpixl.svita.core.model.Item
 import com.damagdpixl.svita.core.model.Outfit
 import com.damagdpixl.svita.core.model.OutfitEntry
+import com.damagdpixl.svita.core.model.PackingEntry
 import com.damagdpixl.svita.core.model.PackingList
+import com.damagdpixl.svita.core.model.PaletteColor
+import com.damagdpixl.svita.core.model.Photo
 import com.damagdpixl.svita.core.model.Season
 import com.damagdpixl.svita.core.model.Section
 import com.damagdpixl.svita.core.model.Sex
+import com.damagdpixl.svita.core.model.StyleTag
 import com.damagdpixl.svita.core.model.Subtype
 import com.damagdpixl.svita.core.model.Tag
 import com.damagdpixl.svita.core.model.WearLogEntry
@@ -122,8 +129,36 @@ fun Packing_lists.toDomain(): PackingList = PackingList(
     createdAt = Instant.parse(created_at),
 )
 
-// app_settings / photos / item_tags / packing_items rows are plain key-value or
-// link rows without dedicated domain types; tests assert on the generated rows.
+fun Photos.toDomain(): Photo = Photo(
+    id = id,
+    itemId = item_id,
+    path = path,
+    position = position.toInt(),
+)
+
+fun Packing_items.toDomain(): PackingEntry = PackingEntry(
+    listId = packing_list_id,
+    itemId = item_id,
+    packed = packed != 0L,
+)
+
+fun Colors.toDomain(): PaletteColor = PaletteColor(
+    id = id,
+    key = key,
+    nameUk = name_uk,
+    hex = hex,
+)
+
+fun Style_tags.toDomain(): StyleTag = StyleTag(
+    id = id,
+    key = key,
+    nameEn = name_en,
+    nameUk = name_uk,
+    sortOrder = sort_order.toInt(),
+)
+
+// app_settings / item_tags rows are plain key-value or link rows without
+// dedicated domain types; tests assert on the generated rows.
 fun App_settings.toPair(): Pair<String, String> = key to value_
 
 fun Packing_items.isPacked(): Boolean = packed != 0L
