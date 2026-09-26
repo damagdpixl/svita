@@ -1,0 +1,17 @@
+{
+  "source": "Monthly temperature normals for Kyiv (temperate continental climate), derived and rounded from public WMO climate normals, 1991-2020 reference period. The per-month condition labels are a coarse repo-owned approximation, not an official statistic.",
+  "months": [
+    { "month": 1,  "tempMinC": -5.8, "tempMaxC": -0.9, "condition": "overcast" },
+    { "month": 2,  "tempMinC": -4.9, "tempMaxC": 0.9,  "condition": "overcast" },
+    { "month": 3,  "tempMinC": -0.3, "tempMaxC": 6.9,  "condition": "overcast" },
+    { "month": 4,  "tempMinC": 5.0,  "tempMaxC": 14.8, "condition": "partly_cloudy" },
+    { "month": 5,  "tempMinC": 10.0, "tempMaxC": 20.8, "condition": "partly_cloudy" },
+    { "month": 6,  "tempMinC": 13.6, "tempMaxC": 24.1, "condition": "partly_cloudy" },
+    { "month": 7,  "tempMinC": 15.9, "tempMaxC": 25.9, "condition": "clear" },
+    { "month": 8,  "tempMinC": 14.9, "tempMaxC": 25.3, "condition": "clear" },
+    { "month": 9,  "tempMinC": 10.4, "tempMaxC": 19.8, "condition": "partly_cloudy" },
+    { "month": 10, "tempMinC": 5.4,  "tempMaxC": 13.2, "condition": "overcast" },
+    { "month": 11, "tempMinC": 0.9,  "tempMaxC": 6.4,  "condition": "overcast" },
+    { "month": 12, "tempMinC": -3.6, "tempMaxC": 0.9,  "condition": "overcast" }
+  ]
+}

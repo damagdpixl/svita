@@ -30,5 +30,6 @@ rootProject.name = "Svita"
 include(":app")
 include(":core:model")
 include(":core:engine")
+include(":core:weather")
 include(":core:data")
 include(":core:designsystem")
