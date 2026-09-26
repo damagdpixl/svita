@@ -2,7 +2,8 @@ package com.damagdpixl.svita.core.model
 
 /**
  * Wardrobe sections (v1 schema `section` / `slot` columns).
- * Values mirror the storage encoding: body | legs | feet | dress | outer | accessory.
+ * Values mirror the storage encoding and cover the full outfit-engine role set:
+ * body | legs | feet | dress | outer | accessory | hat | scarf | bag.
  */
 enum class Section(val db: String) {
     BODY("body"),
@@ -10,7 +11,10 @@ enum class Section(val db: String) {
     FEET("feet"),
     DRESS("dress"),
     OUTER("outer"),
-    ACCESSORY("accessory");
+    ACCESSORY("accessory"),
+    HAT("hat"),
+    SCARF("scarf"),
+    BAG("bag");
 
     companion object {
         fun fromDb(value: String): Section? = entries.firstOrNull { it.db == value }

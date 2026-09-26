@@ -1,0 +1,360 @@
+-- Own product taxonomy seed (authored for Svita; schema v1).
+-- Unlabeled statements execute when the database is first created.
+--
+-- Subtype keys and thermal classes mirror the outfit engine's functional
+-- subtype->class mapping (the engine falls back to class N for unknown keys);
+-- en/uk display names are authored for this product.
+-- Seed ids start at 1000 so user rows and test fixtures stay in the low range.
+
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1001, NULL, 'Tops', 'Топи', 'top', 10, 1, 'body');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1002, NULL, 'Shirts', 'Сорочки', 'shirt', 20, 1, 'body');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1003, NULL, 'Sweaters & sweatshirts', 'Светри й світшоти', 'sweater', 30, 1, 'body');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1004, NULL, 'Dresses', 'Сукні', 'dress', 40, 1, 'dress');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1005, NULL, 'Skirts', 'Спідниці', 'skirt', 50, 1, 'legs');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1006, NULL, 'Trousers', 'Штани', 'trousers', 60, 1, 'legs');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1007, NULL, 'Jumpsuits', 'Комбінезони', 'jumpsuit', 70, 1, 'legs');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1008, NULL, 'Blazers', 'Блейзери', 'blazer', 80, 1, 'outer');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1009, NULL, 'Jackets', 'Куртки', 'jacket', 90, 1, 'outer');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1010, NULL, 'Coats', 'Пальта', 'coat', 100, 1, 'outer');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1011, NULL, 'Vests', 'Жилети', 'vest', 110, 1, 'outer');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1012, NULL, 'Cardigans', 'Кардигани', 'cardigan', 120, 1, 'outer');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1013, NULL, 'Fur', 'Хутро', 'fur', 130, 1, 'outer');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1014, NULL, 'Sandals', 'Сандалі', 'sandals', 140, 1, 'feet');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1015, NULL, 'Heels', 'Туфлі на підборах', 'heels', 150, 1, 'feet');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1016, NULL, 'Flats & loafers', 'Лофери й балетки', 'flats', 160, 1, 'feet');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1017, NULL, 'Sneakers', 'Кросівки й кеди', 'sneakers', 170, 1, 'feet');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1018, NULL, 'Classic shoes', 'Класичне взуття', 'classic_shoes', 180, 1, 'feet');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1019, NULL, 'Other shoes', 'Інше взуття', 'shoes', 190, 1, 'feet');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1020, NULL, 'Boots', 'Чоботи й черевики', 'boots', 200, 1, 'feet');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1021, NULL, 'Hats', 'Капелюхи й шапки', 'hat', 210, 1, 'hat');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1022, NULL, 'Scarves', 'Шарфи й хустки', 'scarf', 220, 1, 'scarf');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1023, NULL, 'Accessories', 'Аксесуари', 'accessory', 230, 1, 'accessory');
+INSERT INTO categories (id, parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (1024, NULL, 'Bags', 'Сумки', 'bag', 240, 1, 'bag');
+
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2001, 1001, 'body.tank', 'Tank top', 'Майка', 'C1');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2002, 1001, 'body.top', 'Top', 'Топ', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2003, 1001, 'body.t-shirt', 'T-shirt', 'Футболка', 'C2');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2004, 1002, 'body.shirt', 'Shirt', 'Сорочка', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2005, 1003, 'body.sweater', 'Sweater', 'Светр', 'C5');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2006, 1003, 'body.sweatshirt.sweats', 'Sweatshirt', 'Світшот', 'C5');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2007, 1003, 'body.sweatshirt.sweats-with-zip', 'Zip sweatshirt', 'Світшот на блискавці', 'C5');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2008, 1003, 'body.sweatshirt.hoody', 'Hoody', 'Худі', 'C5');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2009, 1003, 'body.sweatshirt.hoody-with-zip', 'Zip hoody', 'Худі на блискавці', 'C5');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2010, 1004, 'body.dress.strapless', 'Strapless dress', 'Сукня без лямок', 'C2');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2011, 1004, 'body.dress.mini', 'Mini dress', 'Міні-сукня', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2012, 1004, 'body.dress.gored', 'Gored dress', 'Кліньова сукня', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2013, 1004, 'body.dress.shirt', 'Shirt dress', 'Сорочка-сукня', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2014, 1005, 'legs.skirt.pencil', 'Pencil skirt', 'Спідниця-олівець', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2015, 1005, 'legs.skirt.tulip', 'Tulip skirt', 'Спідниця-тюльпан', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2016, 1005, 'legs.skirt.gored', 'Gored skirt', 'Кліньова спідниця', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2017, 1006, 'legs.trousers.chino', 'Chinos', 'Чіноси', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2018, 1006, 'legs.trousers.sport', 'Sport trousers', 'Спортивні штани', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2019, 1006, 'legs.trousers.formal', 'Formal trousers', 'Класичні штани', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2020, 1006, 'legs.jeans', 'Jeans', 'Джинси', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2021, 1006, 'legs.leggins', 'Leggings', 'Легінси', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2022, 1006, 'legs.shorts', 'Shorts', 'Шорти', 'C2');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2023, 1007, 'legs.jumpsuits.short dungaree', 'Short dungarees', 'Напівкомбінезон-шорти', 'C2');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2024, 1007, 'legs.jumpsuits.short boilersuit', 'Short boilersuit', 'Комбінезон-шорти', 'C2');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2025, 1007, 'legs.jumpsuits.skirt dungaree', 'Skirt dungarees', 'Спідниця-комбінезон', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2026, 1007, 'legs.jumpsuits.long dungaree', 'Long dungarees', 'Напівкомбінезон', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2027, 1007, 'legs.jumpsuits.long boilersuit', 'Boilersuit', 'Комбінезон', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2028, 1008, 'body.blazer', 'Blazer', 'Блейзер', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2029, 1008, 'body.blazer.single breasted', 'Single-breasted blazer', 'Однобортний блейзер', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2030, 1008, 'body.blazer.double breasted', 'Double-breasted blazer', 'Двобортний блейзер', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2031, 1009, 'body.jacket.denim', 'Denim jacket', 'Джинсова куртка', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2032, 1009, 'body.jacket.sport', 'Sport jacket', 'Спортивна куртка', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2033, 1009, 'body.jacket.anorak', 'Anorak', 'Анорак', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2034, 1009, 'body.jacket.classic', 'Classic jacket', 'Класична куртка', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2035, 1009, 'body.jacket.moto', 'Biker jacket', 'Байкерська куртка', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2036, 1009, 'body.jacket.punk', 'Punk jacket', 'Панк-куртка', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2037, 1009, 'body.jacket.varcity', 'Varsity jacket', 'Бейсбольна куртка', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2038, 1009, 'body.jacket.field', 'Field jacket', 'Польова куртка', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2039, 1009, 'body.jacket.alaska', 'Alaska parka', 'Аляска', 'C7');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2040, 1009, 'body.jacket.parka', 'Parka', 'Парка', 'C7');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2041, 1010, 'body.coat.capes', 'Cape', 'Пончо', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2042, 1010, 'body.coat.raincoat', 'Raincoat', 'Плащ', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2043, 1010, 'body.coat.pea', 'Pea coat', 'Бушлат', 'C7');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2044, 1010, 'body.coat.chesterfield', 'Chesterfield coat', 'Пальто-честерфілд', 'C7');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2045, 1010, 'body.coat.duffle', 'Duffle coat', 'Дафлкот', 'C7');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2046, 1010, 'body.coat.military', 'Military coat', 'Шинель', 'C7');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2047, 1010, 'body.coat.monument', 'Straight overcoat', 'Пряме пальто', 'C7');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2048, 1011, 'body.gilet.sweater', 'Sweater vest', 'В''язаний жилет', 'C5');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2049, 1011, 'body.gilet.denim', 'Denim vest', 'Джинсовий жилет', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2050, 1011, 'body.gilet.blazer', 'Blazer vest', 'Жилет-блейзер', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2051, 1011, 'body.gilet.jacket', 'Padded vest', 'Стьобаний жилет', 'C6');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2052, 1011, 'body.gilet.fur', 'Fur vest', 'Хутряний жилет', 'C7');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2053, 1012, 'body.cardigan', 'Cardigan', 'Кардиган', 'C5');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2054, 1013, 'body.fur', 'Fur coat', 'Шуба', 'C8');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2055, 1014, 'feet.sandals.flip-flops', 'Flip-flops', 'Шльопанці', 'C1');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2056, 1014, 'feet.sandals.pool shoes', 'Pool shoes', 'Шльопанці для басейну', 'C1');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2057, 1014, 'feet.sandals.sandals', 'Sandals', 'Сандалі', 'C2');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2058, 1014, 'feet.sandals.columbia', 'Sport sandals', 'Спортивні сандалі', 'C2');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2059, 1014, 'feet.sandals.heel sandals', 'Heeled sandals', 'Сандалі на підборах', 'C2');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2060, 1014, 'feet.sandals.platform sandals', 'Platform sandals', 'Сандалі на платформі', 'C2');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2061, 1014, 'feet.sandals.clog', 'Clogs', 'Сабо', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2062, 1015, 'feet.heels.wedge', 'Wedge heels', 'Туфлі на танкетці', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2063, 1015, 'feet.heels.kitten-heel', 'Kitten heels', 'Туфлі на низькому каблуці', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2064, 1015, 'feet.heels.classic', 'Classic heels', 'Класичні туфлі на підборах', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2065, 1015, 'feet.heels.platform', 'Platform heels', 'Туфлі на платформі', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2066, 1015, 'feet.heels.chunky-heel', 'Chunky heels', 'Туфлі на стійкому каблуці', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2067, 1015, 'feet.heels.heels without-heels', 'Flat pumps', 'Плоскі пумпи', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2068, 1016, 'feet.flats.ballerina', 'Ballet flats', 'Балетки', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2069, 1016, 'feet.flats.boat-shoes', 'Boat shoes', 'Топсайдери', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2070, 1016, 'feet.flats.espadrilles', 'Espadrilles', 'Еспадрилі', 'C2');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2071, 1016, 'feet.flats.loafer', 'Loafers', 'Лофери', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2072, 1016, 'feet.flats.classic lace-up', 'Lace-up flats', 'Туфлі на шнурівці', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2073, 1016, 'feet.flats.creepers', 'Creepers', 'Кріпери', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2074, 1017, 'feet.sport.trainers with heel', 'Heeled trainers', 'Кросівки на підборах', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2075, 1017, 'feet.sport.low trainers', 'Low trainers', 'Кросівки', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2076, 1017, 'feet.sport.keds', 'Keds', 'Кеди', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2077, 1017, 'feet.sport.plimsolls', 'Plimsolls', 'Плімсолі', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2078, 1017, 'feet.sport.slipons', 'Slip-ons', 'Сліпони', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2079, 1017, 'feet.sport.high trainers', 'High trainers', 'Високі кросівки', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2080, 1018, 'feet.classic shoes.classic lace-up', 'Classic lace-ups', 'Класичні туфлі на шнурівці', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2081, 1018, 'feet.classic shoes.brogues', 'Brogues', 'Брогі', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2082, 1018, 'feet.classic shoes.oxford', 'Oxfords', 'Оксфорди', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2083, 1018, 'feet.classic shoes.loafer', 'Classic loafers', 'Класичні лофери', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2084, 1019, 'feet.shoes.espadrilles', 'Lace-up espadrilles', 'Еспадрилі на шнурівці', 'C2');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2085, 1019, 'feet.shoes.boat shoes', 'Deck shoes', 'Дек-туфлі', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2086, 1019, 'feet.shoes.moccasins', 'Moccasins', 'Мокасини', 'C3');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2087, 1019, 'feet.shoes.creepers', 'Creeper shoes', 'Туфлі-кріпери', 'C4');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2088, 1020, 'feet.boots.desert-chukka', 'Desert boots', 'Дезерти', 'DB');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2089, 1020, 'feet.boots.combat', 'Combat boots', 'Берці', 'DB');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2090, 1020, 'feet.boots.chelsea', 'Chelsea boots', 'Челсі', 'DB');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2091, 1020, 'feet.boots.cowboy', 'Cowboy boots', 'Ковбойські чоботи', 'DB');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2092, 1020, 'feet.boots.hiking', 'Hiking boots', 'Трекінгові черевики', 'DB');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2093, 1020, 'feet.boots.moto', 'Biker boots', 'Байкерські черевики', 'DB');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2094, 1020, 'feet.boots.classic heel boots', 'Heeled boots', 'Черевики на підборах', 'DB');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2095, 1020, 'feet.boots.hard life boots', 'Work boots', 'Робочі черевики', 'DB');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2096, 1020, 'feet.boots.wedge boots', 'Wedge boots', 'Черевики на танкетці', 'DB');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2097, 1020, 'feet.hight boots.riding boots', 'Riding boots', 'Верхові чоботи', 'DB');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2098, 1020, 'feet.boots.ugg', 'Ugg boots', 'Уггі', 'WB');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2099, 1020, 'feet.hight boots.foldover', 'Foldover boots', 'Чоботи з відворотом', 'WB');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2100, 1020, 'feet.hight boots.knee-highboots', 'Knee-high boots', 'Чоботи до коліна', 'WB');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2101, 1021, 'head.hats.panama', 'Panama hat', 'Панама', 'C2');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2102, 1021, 'head.hats.boater', 'Boater hat', 'Канотьє', 'C2');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2103, 1021, 'head.hats.cap', 'Cap', 'Кепка', 'DA');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2104, 1021, 'head.hats.beret', 'Beret', 'Берет', 'DA');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2105, 1021, 'head.hats.flat cap', 'Flat cap', 'Картуз', 'DA');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2106, 1021, 'head.hats.pillbox', 'Pillbox hat', 'Капелюшок-таблетка', 'DA');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2107, 1021, 'head.hats.trilby-hat', 'Trilby hat', 'Трілбі', 'DA');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2108, 1021, 'head.hats.boy-hat', 'Boy hat', 'Капелюх-бойфренд', 'DA');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2109, 1021, 'head.hats.beanie', 'Beanie', 'Шапка-біні', 'WA');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2110, 1021, 'head.hats.peruvian-hat', 'Peruvian hat', 'Перуанська шапка', 'WA');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2111, 1021, 'head.hats.ushanka', 'Ushanka', 'Вушанка', 'WA');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2112, 1022, 'head.scarfs.classic', 'Scarf', 'Шарф', 'DA');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2113, 1022, 'head.scarfs.babushka', 'Headscarf', 'Хустка', 'DA');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2114, 1022, 'head.scarfs.snood', 'Snood', 'Снуд', 'WA');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2115, 1023, 'accessory.glasses', 'Glasses', 'Окуляри', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2116, 1023, 'accessory.earrings', 'Earrings', 'Сережки', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2117, 1023, 'accessory.necklace', 'Necklace', 'Кольє', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2118, 1023, 'accessory.ring', 'Ring', 'Кільце', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2119, 1023, 'accessory.bracelet', 'Bracelet', 'Браслет', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2120, 1023, 'accessory.watch', 'Watch', 'Годинник', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2121, 1023, 'accessory.belt', 'Belt', 'Ремінь', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2122, 1023, 'accessory.umbrella', 'Umbrella', 'Парасолька', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2123, 1023, 'accessory.bow-tie', 'Bow tie', 'Краватка-метелик', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2124, 1023, 'accessory.tie', 'Tie', 'Краватка', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2125, 1023, 'accessory.gloves', 'Gloves', 'Рукавички', 'WA');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2126, 1024, 'bag.wallet', 'Wallet', 'Гаманець', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2127, 1024, 'bag.bag', 'Bag', 'Сумка', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2128, 1024, 'bag.clutch', 'Clutch', 'Клатч', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2129, 1024, 'bag.cotton_bag', 'Cotton bag', 'Шопер', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2130, 1024, 'bag.backpack', 'Backpack', 'Рюкзак', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2131, 1024, 'bag.sport_bag', 'Sport bag', 'Спортивна сумка', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2132, 1024, 'bag.travel_bag', 'Travel bag', 'Дорожня сумка', 'N');
+INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
+VALUES (2133, 1024, 'bag.paper_bag', 'Paper bag', 'Паперова сумка', 'N');
+
+-- 24-color garment palette; keys and hex values are the functional
+-- color identifiers the outfit engine's harmony math consumes.
+
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3001, 'White', 'Білий', '#FFFFFF');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3002, 'Sand', 'Пісочний', '#C3B79A');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3003, 'SkyBlue', 'Блакитний', '#3399DB');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3004, 'Mint', 'М''ятний', '#61E0C7');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3005, 'Purple', 'Фіолетовий', '#745EC5');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3006, 'Magenta', 'Маджента', '#B91F81');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3007, 'Black', 'Чорний', '#000000');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3008, 'Gray', 'Сірий', '#95A5A6');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3009, 'PowderBlue', 'Пудрово-синій', '#8497C6');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3010, 'Green', 'Зелений', '#2ECC71');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3011, 'Pink', 'Рожевий', '#F47CC3');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3012, 'Maroon', 'Бордовий', '#79302A');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3013, 'Blue', 'Синій', '#3449BE');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3014, 'Red', 'Червоний', '#D71C0A');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3015, 'Tael', 'Морська хвиля', '#3A6F81');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3016, 'ForestGreen', 'Темно-зелений', '#345F41');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3017, 'Watermelon', 'Кавуновий', '#EF717A');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3018, 'Orange', 'Помаранчевий', '#E77E23');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3019, 'Brown', 'Коричневий', '#5E4433');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3020, 'Coffee', 'Кавовий', '#A38671');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3021, 'Someblue', 'Сіро-синій', '#58659F');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3022, 'Lime', 'Лаймовий', '#A5C63B');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3023, 'Plum', 'Сливовий', '#5E335E');
+INSERT INTO colors (id, key, name_uk, hex) VALUES (3024, 'Yellow', 'Жовтий', '#FFCD02');
+
+-- Outfit style tags the engine filters looks by.
+
+INSERT INTO style_tags (id, key, name_en, name_uk, sort_order) VALUES (4001, 'casual', 'Casual', 'Повсякденний', 10);
+INSERT INTO style_tags (id, key, name_en, name_uk, sort_order) VALUES (4002, 'classic', 'Classic', 'Класичний', 20);
+INSERT INTO style_tags (id, key, name_en, name_uk, sort_order) VALUES (4003, 'business', 'Business', 'Діловий', 30);
+INSERT INTO style_tags (id, key, name_en, name_uk, sort_order) VALUES (4004, 'sport', 'Sport', 'Спортивний', 40);
+INSERT INTO style_tags (id, key, name_en, name_uk, sort_order) VALUES (4005, 'cocktail', 'Cocktail', 'Вечірній', 50);
+INSERT INTO style_tags (id, key, name_en, name_uk, sort_order) VALUES (4006, 'special', 'Special', 'Святковий', 60);

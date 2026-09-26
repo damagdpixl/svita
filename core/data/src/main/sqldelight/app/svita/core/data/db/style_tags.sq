@@ -1,0 +1,13 @@
+-- System style tags the outfit engine filters looks by. `key` is the
+-- functional identifier stored on garment tags; en/uk are display names.
+-- Seeded in taxonomy_seed.sq.
+CREATE TABLE style_tags (
+    id INTEGER NOT NULL PRIMARY KEY,
+    key TEXT NOT NULL UNIQUE,
+    name_en TEXT NOT NULL,
+    name_uk TEXT NOT NULL,
+    sort_order INTEGER NOT NULL
+);
+
+selectAllStyleTags:
+SELECT * FROM style_tags ORDER BY sort_order, id;

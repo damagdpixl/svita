@@ -1,0 +1,13 @@
+-- System color palette for garment attributes. `key` is the canonical English
+-- color name used by the outfit engine as the color identifier; `name_uk` is
+-- the display name; `hex` is the sRGB value the engine's color-harmony math
+-- consumes. Seeded in taxonomy_seed.sq.
+CREATE TABLE colors (
+    id INTEGER NOT NULL PRIMARY KEY,
+    key TEXT NOT NULL UNIQUE,
+    name_uk TEXT NOT NULL,
+    hex TEXT NOT NULL
+);
+
+selectAllColors:
+SELECT * FROM colors ORDER BY id;

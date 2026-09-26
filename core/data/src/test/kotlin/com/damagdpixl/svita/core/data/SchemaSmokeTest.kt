@@ -51,7 +51,9 @@ class SchemaSmokeTest {
 
     private fun seedSubtype() {
         seedCategory()
-        db.subtypesQueries.insertSubtype(1L, 1L, "body.t-shirt", "T-shirt", "Футболка", "C1")
+        // Keys like "body.t-shirt" are seeded system rows (taxonomy_seed.sq), so
+        // the fixture uses a non-seeded key to avoid the UNIQUE(key) conflict.
+        db.subtypesQueries.insertSubtype(1L, 1L, "fixture.t-shirt", "T-shirt", "Футболка", "C1")
     }
 
     private fun seedItem() {
@@ -66,14 +68,18 @@ class SchemaSmokeTest {
     fun `категорія — вставка і читання`() {
         seedCategory()
         val expected = Category(1L, null, "Tops", "Верх", "top", 10, true, Section.BODY)
-        assertEquals(expected, db.categoriesQueries.selectAllCategories().executeAsOne().toDomain())
+        // The taxonomy seed ships in the same schema, so the fixture row is
+        // asserted by id, not as the single table row.
+        val row = db.categoriesQueries.selectAllCategories().executeAsList().first { it.id == 1L }
+        assertEquals(expected, row.toDomain())
     }
 
     @Test
     fun `підтип — вставка і читання`() {
         seedSubtype()
-        val expected = Subtype(1L, 1L, "body.t-shirt", "T-shirt", "Футболка", "C1")
-        assertEquals(expected, db.subtypesQueries.selectAllSubtypes().executeAsOne().toDomain())
+        val expected = Subtype(1L, 1L, "fixture.t-shirt", "T-shirt", "Футболка", "C1")
+        val row = db.subtypesQueries.selectAllSubtypes().executeAsList().first { it.id == 1L }
+        assertEquals(expected, row.toDomain())
     }
 
     @Test
