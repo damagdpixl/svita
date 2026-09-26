@@ -1,0 +1,97 @@
+{
+ "format": "svita-outfit-parity/1",
+ "totalCases": 240,
+ "totalFiles": 18,
+ "files": [
+  {
+   "file": "t_m30.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "t_m20.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "t_m10.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "t_m5.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "t_p0.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "t_p5.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "t_p10.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "t_p15.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "t_p20.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "t_p25.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "t_p26.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "t_p30.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "t_p35.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "t_p40.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "t_p45.json",
+   "cases": 12,
+   "kind": "deterministic"
+  },
+  {
+   "file": "rand_p0.json",
+   "cases": 20,
+   "kind": "randomized"
+  },
+  {
+   "file": "rand_p1.json",
+   "cases": 20,
+   "kind": "randomized"
+  },
+  {
+   "file": "rand_p2.json",
+   "cases": 20,
+   "kind": "randomized"
+  }
+ ]
+}

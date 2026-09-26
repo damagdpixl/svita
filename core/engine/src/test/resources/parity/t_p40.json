@@ -1,0 +1,3524 @@
+{
+ "name": "det T=+40",
+ "cases": [
+  {
+   "name": "T+40|nostyle|exnone",
+   "input": {
+    "garments": [
+     {
+      "id": 101,
+      "subtype": "body.tank",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 102,
+      "subtype": "body.top",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 103,
+      "subtype": "body.shirt",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 104,
+      "subtype": "body.sweatshirt.hoody",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 105,
+      "subtype": "body.sweater",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 107,
+      "subtype": "body.dress.strapless",
+      "colors": [
+       "Watermelon"
+      ],
+      "style": [
+       "cocktail"
+      ]
+     },
+     {
+      "id": 109,
+      "subtype": "body.jacket.denim",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 110,
+      "subtype": "body.jacket.parka",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 111,
+      "subtype": "body.coat.chesterfield",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 112,
+      "subtype": "body.fur",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "cocktail"
+      ]
+     },
+     {
+      "id": 113,
+      "subtype": "legs.shorts",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 114,
+      "subtype": "legs.jeans",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 115,
+      "subtype": "legs.skirt.pencil",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 116,
+      "subtype": "legs.capri",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 117,
+      "subtype": "feet.sandals.sandals",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 118,
+      "subtype": "feet.flats.ballerina",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "business"
+      ]
+     },
+     {
+      "id": 119,
+      "subtype": "feet.sport.low trainers",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 120,
+      "subtype": "feet.boots.chelsea",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 121,
+      "subtype": "feet.boots.ugg",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 122,
+      "subtype": "feet.sandals.flip-flops",
+      "colors": [
+       "Yellow"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 123,
+      "subtype": "head.hats.panama",
+      "colors": [
+       "Sand"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 124,
+      "subtype": "head.hats.beanie",
+      "colors": [
+       "Maroon"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 125,
+      "subtype": "head.scarfs.snood",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 126,
+      "subtype": "accessory.gloves",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 128,
+      "subtype": "bag.backpack",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     }
+    ],
+    "targetTempC": 40,
+    "styleTags": [],
+    "excludeRecent": []
+   },
+   "expected": {
+    "looks": [
+     {
+      "id": 2025499032,
+      "garments": [
+       101,
+       116,
+       122
+      ],
+      "style": [
+       "casual"
+      ],
+      "score": 0.8312
+     }
+    ]
+   }
+  },
+  {
+   "name": "T+40|nostyle|ex114",
+   "input": {
+    "garments": [
+     {
+      "id": 101,
+      "subtype": "body.tank",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 102,
+      "subtype": "body.top",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 103,
+      "subtype": "body.shirt",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 104,
+      "subtype": "body.sweatshirt.hoody",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 105,
+      "subtype": "body.sweater",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 107,
+      "subtype": "body.dress.strapless",
+      "colors": [
+       "Watermelon"
+      ],
+      "style": [
+       "cocktail"
+      ]
+     },
+     {
+      "id": 109,
+      "subtype": "body.jacket.denim",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 110,
+      "subtype": "body.jacket.parka",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 111,
+      "subtype": "body.coat.chesterfield",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 112,
+      "subtype": "body.fur",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "cocktail"
+      ]
+     },
+     {
+      "id": 113,
+      "subtype": "legs.shorts",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 114,
+      "subtype": "legs.jeans",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 115,
+      "subtype": "legs.skirt.pencil",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 116,
+      "subtype": "legs.capri",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 117,
+      "subtype": "feet.sandals.sandals",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 118,
+      "subtype": "feet.flats.ballerina",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "business"
+      ]
+     },
+     {
+      "id": 119,
+      "subtype": "feet.sport.low trainers",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 120,
+      "subtype": "feet.boots.chelsea",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 121,
+      "subtype": "feet.boots.ugg",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 122,
+      "subtype": "feet.sandals.flip-flops",
+      "colors": [
+       "Yellow"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 123,
+      "subtype": "head.hats.panama",
+      "colors": [
+       "Sand"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 124,
+      "subtype": "head.hats.beanie",
+      "colors": [
+       "Maroon"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 125,
+      "subtype": "head.scarfs.snood",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 126,
+      "subtype": "accessory.gloves",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 128,
+      "subtype": "bag.backpack",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     }
+    ],
+    "targetTempC": 40,
+    "styleTags": [],
+    "excludeRecent": [
+     114
+    ]
+   },
+   "expected": {
+    "looks": [
+     {
+      "id": 2025499032,
+      "garments": [
+       101,
+       116,
+       122
+      ],
+      "style": [
+       "casual"
+      ],
+      "score": 0.8312
+     }
+    ]
+   }
+  },
+  {
+   "name": "T+40|nostyle|ex117-118-119-120-121-122",
+   "input": {
+    "garments": [
+     {
+      "id": 101,
+      "subtype": "body.tank",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 102,
+      "subtype": "body.top",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 103,
+      "subtype": "body.shirt",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 104,
+      "subtype": "body.sweatshirt.hoody",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 105,
+      "subtype": "body.sweater",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 107,
+      "subtype": "body.dress.strapless",
+      "colors": [
+       "Watermelon"
+      ],
+      "style": [
+       "cocktail"
+      ]
+     },
+     {
+      "id": 109,
+      "subtype": "body.jacket.denim",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 110,
+      "subtype": "body.jacket.parka",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 111,
+      "subtype": "body.coat.chesterfield",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 112,
+      "subtype": "body.fur",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "cocktail"
+      ]
+     },
+     {
+      "id": 113,
+      "subtype": "legs.shorts",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 114,
+      "subtype": "legs.jeans",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 115,
+      "subtype": "legs.skirt.pencil",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 116,
+      "subtype": "legs.capri",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 117,
+      "subtype": "feet.sandals.sandals",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 118,
+      "subtype": "feet.flats.ballerina",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "business"
+      ]
+     },
+     {
+      "id": 119,
+      "subtype": "feet.sport.low trainers",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 120,
+      "subtype": "feet.boots.chelsea",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 121,
+      "subtype": "feet.boots.ugg",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 122,
+      "subtype": "feet.sandals.flip-flops",
+      "colors": [
+       "Yellow"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 123,
+      "subtype": "head.hats.panama",
+      "colors": [
+       "Sand"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 124,
+      "subtype": "head.hats.beanie",
+      "colors": [
+       "Maroon"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 125,
+      "subtype": "head.scarfs.snood",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 126,
+      "subtype": "accessory.gloves",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 128,
+      "subtype": "bag.backpack",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     }
+    ],
+    "targetTempC": 40,
+    "styleTags": [],
+    "excludeRecent": [
+     117,
+     118,
+     119,
+     120,
+     121,
+     122
+    ]
+   },
+   "expected": {
+    "looks": []
+   }
+  },
+  {
+   "name": "T+40|casual|exnone",
+   "input": {
+    "garments": [
+     {
+      "id": 101,
+      "subtype": "body.tank",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 102,
+      "subtype": "body.top",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 103,
+      "subtype": "body.shirt",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 104,
+      "subtype": "body.sweatshirt.hoody",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 105,
+      "subtype": "body.sweater",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 107,
+      "subtype": "body.dress.strapless",
+      "colors": [
+       "Watermelon"
+      ],
+      "style": [
+       "cocktail"
+      ]
+     },
+     {
+      "id": 109,
+      "subtype": "body.jacket.denim",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 110,
+      "subtype": "body.jacket.parka",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 111,
+      "subtype": "body.coat.chesterfield",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 112,
+      "subtype": "body.fur",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "cocktail"
+      ]
+     },
+     {
+      "id": 113,
+      "subtype": "legs.shorts",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 114,
+      "subtype": "legs.jeans",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 115,
+      "subtype": "legs.skirt.pencil",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 116,
+      "subtype": "legs.capri",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 117,
+      "subtype": "feet.sandals.sandals",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 118,
+      "subtype": "feet.flats.ballerina",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "business"
+      ]
+     },
+     {
+      "id": 119,
+      "subtype": "feet.sport.low trainers",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 120,
+      "subtype": "feet.boots.chelsea",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 121,
+      "subtype": "feet.boots.ugg",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 122,
+      "subtype": "feet.sandals.flip-flops",
+      "colors": [
+       "Yellow"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 123,
+      "subtype": "head.hats.panama",
+      "colors": [
+       "Sand"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 124,
+      "subtype": "head.hats.beanie",
+      "colors": [
+       "Maroon"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 125,
+      "subtype": "head.scarfs.snood",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 126,
+      "subtype": "accessory.gloves",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 128,
+      "subtype": "bag.backpack",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     }
+    ],
+    "targetTempC": 40,
+    "styleTags": [
+     "casual"
+    ],
+    "excludeRecent": []
+   },
+   "expected": {
+    "looks": [
+     {
+      "id": 2025499032,
+      "garments": [
+       101,
+       116,
+       122
+      ],
+      "style": [
+       "casual"
+      ],
+      "score": 0.8312
+     }
+    ]
+   }
+  },
+  {
+   "name": "T+40|casual|ex114",
+   "input": {
+    "garments": [
+     {
+      "id": 101,
+      "subtype": "body.tank",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 102,
+      "subtype": "body.top",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 103,
+      "subtype": "body.shirt",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 104,
+      "subtype": "body.sweatshirt.hoody",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 105,
+      "subtype": "body.sweater",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 107,
+      "subtype": "body.dress.strapless",
+      "colors": [
+       "Watermelon"
+      ],
+      "style": [
+       "cocktail"
+      ]
+     },
+     {
+      "id": 109,
+      "subtype": "body.jacket.denim",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 110,
+      "subtype": "body.jacket.parka",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 111,
+      "subtype": "body.coat.chesterfield",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 112,
+      "subtype": "body.fur",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "cocktail"
+      ]
+     },
+     {
+      "id": 113,
+      "subtype": "legs.shorts",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 114,
+      "subtype": "legs.jeans",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 115,
+      "subtype": "legs.skirt.pencil",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 116,
+      "subtype": "legs.capri",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 117,
+      "subtype": "feet.sandals.sandals",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 118,
+      "subtype": "feet.flats.ballerina",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "business"
+      ]
+     },
+     {
+      "id": 119,
+      "subtype": "feet.sport.low trainers",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 120,
+      "subtype": "feet.boots.chelsea",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 121,
+      "subtype": "feet.boots.ugg",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 122,
+      "subtype": "feet.sandals.flip-flops",
+      "colors": [
+       "Yellow"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 123,
+      "subtype": "head.hats.panama",
+      "colors": [
+       "Sand"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 124,
+      "subtype": "head.hats.beanie",
+      "colors": [
+       "Maroon"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 125,
+      "subtype": "head.scarfs.snood",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 126,
+      "subtype": "accessory.gloves",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 128,
+      "subtype": "bag.backpack",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     }
+    ],
+    "targetTempC": 40,
+    "styleTags": [
+     "casual"
+    ],
+    "excludeRecent": [
+     114
+    ]
+   },
+   "expected": {
+    "looks": [
+     {
+      "id": 2025499032,
+      "garments": [
+       101,
+       116,
+       122
+      ],
+      "style": [
+       "casual"
+      ],
+      "score": 0.8312
+     }
+    ]
+   }
+  },
+  {
+   "name": "T+40|casual|ex117-118-119-120-121-122",
+   "input": {
+    "garments": [
+     {
+      "id": 101,
+      "subtype": "body.tank",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 102,
+      "subtype": "body.top",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 103,
+      "subtype": "body.shirt",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 104,
+      "subtype": "body.sweatshirt.hoody",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 105,
+      "subtype": "body.sweater",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 107,
+      "subtype": "body.dress.strapless",
+      "colors": [
+       "Watermelon"
+      ],
+      "style": [
+       "cocktail"
+      ]
+     },
+     {
+      "id": 109,
+      "subtype": "body.jacket.denim",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 110,
+      "subtype": "body.jacket.parka",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 111,
+      "subtype": "body.coat.chesterfield",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 112,
+      "subtype": "body.fur",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "cocktail"
+      ]
+     },
+     {
+      "id": 113,
+      "subtype": "legs.shorts",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 114,
+      "subtype": "legs.jeans",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 115,
+      "subtype": "legs.skirt.pencil",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 116,
+      "subtype": "legs.capri",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 117,
+      "subtype": "feet.sandals.sandals",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 118,
+      "subtype": "feet.flats.ballerina",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "business"
+      ]
+     },
+     {
+      "id": 119,
+      "subtype": "feet.sport.low trainers",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 120,
+      "subtype": "feet.boots.chelsea",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 121,
+      "subtype": "feet.boots.ugg",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 122,
+      "subtype": "feet.sandals.flip-flops",
+      "colors": [
+       "Yellow"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 123,
+      "subtype": "head.hats.panama",
+      "colors": [
+       "Sand"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 124,
+      "subtype": "head.hats.beanie",
+      "colors": [
+       "Maroon"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 125,
+      "subtype": "head.scarfs.snood",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 126,
+      "subtype": "accessory.gloves",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 128,
+      "subtype": "bag.backpack",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     }
+    ],
+    "targetTempC": 40,
+    "styleTags": [
+     "casual"
+    ],
+    "excludeRecent": [
+     117,
+     118,
+     119,
+     120,
+     121,
+     122
+    ]
+   },
+   "expected": {
+    "looks": []
+   }
+  },
+  {
+   "name": "T+40|business|exnone",
+   "input": {
+    "garments": [
+     {
+      "id": 101,
+      "subtype": "body.tank",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 102,
+      "subtype": "body.top",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 103,
+      "subtype": "body.shirt",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 104,
+      "subtype": "body.sweatshirt.hoody",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 105,
+      "subtype": "body.sweater",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 107,
+      "subtype": "body.dress.strapless",
+      "colors": [
+       "Watermelon"
+      ],
+      "style": [
+       "cocktail"
+      ]
+     },
+     {
+      "id": 109,
+      "subtype": "body.jacket.denim",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 110,
+      "subtype": "body.jacket.parka",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 111,
+      "subtype": "body.coat.chesterfield",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 112,
+      "subtype": "body.fur",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "cocktail"
+      ]
+     },
+     {
+      "id": 113,
+      "subtype": "legs.shorts",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 114,
+      "subtype": "legs.jeans",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 115,
+      "subtype": "legs.skirt.pencil",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 116,
+      "subtype": "legs.capri",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 117,
+      "subtype": "feet.sandals.sandals",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 118,
+      "subtype": "feet.flats.ballerina",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "business"
+      ]
+     },
+     {
+      "id": 119,
+      "subtype": "feet.sport.low trainers",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 120,
+      "subtype": "feet.boots.chelsea",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 121,
+      "subtype": "feet.boots.ugg",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 122,
+      "subtype": "feet.sandals.flip-flops",
+      "colors": [
+       "Yellow"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 123,
+      "subtype": "head.hats.panama",
+      "colors": [
+       "Sand"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 124,
+      "subtype": "head.hats.beanie",
+      "colors": [
+       "Maroon"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 125,
+      "subtype": "head.scarfs.snood",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 126,
+      "subtype": "accessory.gloves",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 128,
+      "subtype": "bag.backpack",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     }
+    ],
+    "targetTempC": 40,
+    "styleTags": [
+     "business"
+    ],
+    "excludeRecent": []
+   },
+   "expected": {
+    "looks": []
+   }
+  },
+  {
+   "name": "T+40|business|ex114",
+   "input": {
+    "garments": [
+     {
+      "id": 101,
+      "subtype": "body.tank",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 102,
+      "subtype": "body.top",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 103,
+      "subtype": "body.shirt",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 104,
+      "subtype": "body.sweatshirt.hoody",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 105,
+      "subtype": "body.sweater",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 107,
+      "subtype": "body.dress.strapless",
+      "colors": [
+       "Watermelon"
+      ],
+      "style": [
+       "cocktail"
+      ]
+     },
+     {
+      "id": 109,
+      "subtype": "body.jacket.denim",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 110,
+      "subtype": "body.jacket.parka",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 111,
+      "subtype": "body.coat.chesterfield",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 112,
+      "subtype": "body.fur",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "cocktail"
+      ]
+     },
+     {
+      "id": 113,
+      "subtype": "legs.shorts",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 114,
+      "subtype": "legs.jeans",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 115,
+      "subtype": "legs.skirt.pencil",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 116,
+      "subtype": "legs.capri",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 117,
+      "subtype": "feet.sandals.sandals",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 118,
+      "subtype": "feet.flats.ballerina",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "business"
+      ]
+     },
+     {
+      "id": 119,
+      "subtype": "feet.sport.low trainers",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 120,
+      "subtype": "feet.boots.chelsea",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 121,
+      "subtype": "feet.boots.ugg",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 122,
+      "subtype": "feet.sandals.flip-flops",
+      "colors": [
+       "Yellow"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 123,
+      "subtype": "head.hats.panama",
+      "colors": [
+       "Sand"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 124,
+      "subtype": "head.hats.beanie",
+      "colors": [
+       "Maroon"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 125,
+      "subtype": "head.scarfs.snood",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 126,
+      "subtype": "accessory.gloves",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 128,
+      "subtype": "bag.backpack",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     }
+    ],
+    "targetTempC": 40,
+    "styleTags": [
+     "business"
+    ],
+    "excludeRecent": [
+     114
+    ]
+   },
+   "expected": {
+    "looks": []
+   }
+  },
+  {
+   "name": "T+40|business|ex117-118-119-120-121-122",
+   "input": {
+    "garments": [
+     {
+      "id": 101,
+      "subtype": "body.tank",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 102,
+      "subtype": "body.top",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 103,
+      "subtype": "body.shirt",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 104,
+      "subtype": "body.sweatshirt.hoody",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 105,
+      "subtype": "body.sweater",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 107,
+      "subtype": "body.dress.strapless",
+      "colors": [
+       "Watermelon"
+      ],
+      "style": [
+       "cocktail"
+      ]
+     },
+     {
+      "id": 109,
+      "subtype": "body.jacket.denim",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 110,
+      "subtype": "body.jacket.parka",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 111,
+      "subtype": "body.coat.chesterfield",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 112,
+      "subtype": "body.fur",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "cocktail"
+      ]
+     },
+     {
+      "id": 113,
+      "subtype": "legs.shorts",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 114,
+      "subtype": "legs.jeans",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 115,
+      "subtype": "legs.skirt.pencil",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 116,
+      "subtype": "legs.capri",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 117,
+      "subtype": "feet.sandals.sandals",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 118,
+      "subtype": "feet.flats.ballerina",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "business"
+      ]
+     },
+     {
+      "id": 119,
+      "subtype": "feet.sport.low trainers",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 120,
+      "subtype": "feet.boots.chelsea",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 121,
+      "subtype": "feet.boots.ugg",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 122,
+      "subtype": "feet.sandals.flip-flops",
+      "colors": [
+       "Yellow"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 123,
+      "subtype": "head.hats.panama",
+      "colors": [
+       "Sand"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 124,
+      "subtype": "head.hats.beanie",
+      "colors": [
+       "Maroon"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 125,
+      "subtype": "head.scarfs.snood",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 126,
+      "subtype": "accessory.gloves",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 128,
+      "subtype": "bag.backpack",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     }
+    ],
+    "targetTempC": 40,
+    "styleTags": [
+     "business"
+    ],
+    "excludeRecent": [
+     117,
+     118,
+     119,
+     120,
+     121,
+     122
+    ]
+   },
+   "expected": {
+    "looks": []
+   }
+  },
+  {
+   "name": "T+40|casual+sport|exnone",
+   "input": {
+    "garments": [
+     {
+      "id": 101,
+      "subtype": "body.tank",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 102,
+      "subtype": "body.top",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 103,
+      "subtype": "body.shirt",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 104,
+      "subtype": "body.sweatshirt.hoody",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 105,
+      "subtype": "body.sweater",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 107,
+      "subtype": "body.dress.strapless",
+      "colors": [
+       "Watermelon"
+      ],
+      "style": [
+       "cocktail"
+      ]
+     },
+     {
+      "id": 109,
+      "subtype": "body.jacket.denim",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 110,
+      "subtype": "body.jacket.parka",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 111,
+      "subtype": "body.coat.chesterfield",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 112,
+      "subtype": "body.fur",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "cocktail"
+      ]
+     },
+     {
+      "id": 113,
+      "subtype": "legs.shorts",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 114,
+      "subtype": "legs.jeans",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 115,
+      "subtype": "legs.skirt.pencil",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 116,
+      "subtype": "legs.capri",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 117,
+      "subtype": "feet.sandals.sandals",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 118,
+      "subtype": "feet.flats.ballerina",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "business"
+      ]
+     },
+     {
+      "id": 119,
+      "subtype": "feet.sport.low trainers",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 120,
+      "subtype": "feet.boots.chelsea",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 121,
+      "subtype": "feet.boots.ugg",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 122,
+      "subtype": "feet.sandals.flip-flops",
+      "colors": [
+       "Yellow"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 123,
+      "subtype": "head.hats.panama",
+      "colors": [
+       "Sand"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 124,
+      "subtype": "head.hats.beanie",
+      "colors": [
+       "Maroon"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 125,
+      "subtype": "head.scarfs.snood",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 126,
+      "subtype": "accessory.gloves",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 128,
+      "subtype": "bag.backpack",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     }
+    ],
+    "targetTempC": 40,
+    "styleTags": [
+     "casual",
+     "sport"
+    ],
+    "excludeRecent": []
+   },
+   "expected": {
+    "looks": [
+     {
+      "id": 2025499032,
+      "garments": [
+       101,
+       116,
+       122
+      ],
+      "style": [
+       "casual"
+      ],
+      "score": 0.8312
+     }
+    ]
+   }
+  },
+  {
+   "name": "T+40|casual+sport|ex114",
+   "input": {
+    "garments": [
+     {
+      "id": 101,
+      "subtype": "body.tank",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 102,
+      "subtype": "body.top",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 103,
+      "subtype": "body.shirt",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 104,
+      "subtype": "body.sweatshirt.hoody",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 105,
+      "subtype": "body.sweater",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 107,
+      "subtype": "body.dress.strapless",
+      "colors": [
+       "Watermelon"
+      ],
+      "style": [
+       "cocktail"
+      ]
+     },
+     {
+      "id": 109,
+      "subtype": "body.jacket.denim",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 110,
+      "subtype": "body.jacket.parka",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 111,
+      "subtype": "body.coat.chesterfield",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 112,
+      "subtype": "body.fur",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "cocktail"
+      ]
+     },
+     {
+      "id": 113,
+      "subtype": "legs.shorts",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 114,
+      "subtype": "legs.jeans",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 115,
+      "subtype": "legs.skirt.pencil",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 116,
+      "subtype": "legs.capri",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 117,
+      "subtype": "feet.sandals.sandals",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 118,
+      "subtype": "feet.flats.ballerina",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "business"
+      ]
+     },
+     {
+      "id": 119,
+      "subtype": "feet.sport.low trainers",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 120,
+      "subtype": "feet.boots.chelsea",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 121,
+      "subtype": "feet.boots.ugg",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 122,
+      "subtype": "feet.sandals.flip-flops",
+      "colors": [
+       "Yellow"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 123,
+      "subtype": "head.hats.panama",
+      "colors": [
+       "Sand"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 124,
+      "subtype": "head.hats.beanie",
+      "colors": [
+       "Maroon"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 125,
+      "subtype": "head.scarfs.snood",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 126,
+      "subtype": "accessory.gloves",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 128,
+      "subtype": "bag.backpack",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     }
+    ],
+    "targetTempC": 40,
+    "styleTags": [
+     "casual",
+     "sport"
+    ],
+    "excludeRecent": [
+     114
+    ]
+   },
+   "expected": {
+    "looks": [
+     {
+      "id": 2025499032,
+      "garments": [
+       101,
+       116,
+       122
+      ],
+      "style": [
+       "casual"
+      ],
+      "score": 0.8312
+     }
+    ]
+   }
+  },
+  {
+   "name": "T+40|casual+sport|ex117-118-119-120-121-122",
+   "input": {
+    "garments": [
+     {
+      "id": 101,
+      "subtype": "body.tank",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 102,
+      "subtype": "body.top",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 103,
+      "subtype": "body.shirt",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 104,
+      "subtype": "body.sweatshirt.hoody",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 105,
+      "subtype": "body.sweater",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 107,
+      "subtype": "body.dress.strapless",
+      "colors": [
+       "Watermelon"
+      ],
+      "style": [
+       "cocktail"
+      ]
+     },
+     {
+      "id": 109,
+      "subtype": "body.jacket.denim",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 110,
+      "subtype": "body.jacket.parka",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 111,
+      "subtype": "body.coat.chesterfield",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 112,
+      "subtype": "body.fur",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "cocktail"
+      ]
+     },
+     {
+      "id": 113,
+      "subtype": "legs.shorts",
+      "colors": [
+       "SkyBlue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 114,
+      "subtype": "legs.jeans",
+      "colors": [
+       "Blue"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 115,
+      "subtype": "legs.skirt.pencil",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "business",
+       "classic"
+      ]
+     },
+     {
+      "id": 116,
+      "subtype": "legs.capri",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 117,
+      "subtype": "feet.sandals.sandals",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 118,
+      "subtype": "feet.flats.ballerina",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "business"
+      ]
+     },
+     {
+      "id": 119,
+      "subtype": "feet.sport.low trainers",
+      "colors": [
+       "White"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 120,
+      "subtype": "feet.boots.chelsea",
+      "colors": [
+       "Brown"
+      ],
+      "style": [
+       "casual",
+       "classic"
+      ]
+     },
+     {
+      "id": 121,
+      "subtype": "feet.boots.ugg",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 122,
+      "subtype": "feet.sandals.flip-flops",
+      "colors": [
+       "Yellow"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 123,
+      "subtype": "head.hats.panama",
+      "colors": [
+       "Sand"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 124,
+      "subtype": "head.hats.beanie",
+      "colors": [
+       "Maroon"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 125,
+      "subtype": "head.scarfs.snood",
+      "colors": [
+       "Gray"
+      ],
+      "style": [
+       "casual"
+      ]
+     },
+     {
+      "id": 126,
+      "subtype": "accessory.gloves",
+      "colors": [
+       "Black"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     },
+     {
+      "id": 128,
+      "subtype": "bag.backpack",
+      "colors": [
+       "ForestGreen"
+      ],
+      "style": [
+       "casual",
+       "sport"
+      ]
+     }
+    ],
+    "targetTempC": 40,
+    "styleTags": [
+     "casual",
+     "sport"
+    ],
+    "excludeRecent": [
+     117,
+     118,
+     119,
+     120,
+     121,
+     122
+    ]
+   },
+   "expected": {
+    "looks": []
+   }
+  }
+ ]
+}

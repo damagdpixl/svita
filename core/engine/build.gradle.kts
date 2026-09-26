@@ -10,4 +10,6 @@ kotlin {
 dependencies {
     implementation(project(":core:model"))
     testImplementation(kotlin("test"))
+    // JSON fixture parsing for the parity suite (JsonElement API only, no codegen plugin needed).
+    testImplementation(libs.kotlinx.serialization.json)
 }
