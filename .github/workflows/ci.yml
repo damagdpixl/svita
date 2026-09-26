@@ -14,7 +14,9 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          # The Gradle toolchain is pinned to 21 (see gradle.properties); the
+          # foojay resolver in settings.gradle.kts can also provision it.
+          java-version: '21'
 
       - name: IP hygiene
         run: bash tools/ip_hygiene.sh

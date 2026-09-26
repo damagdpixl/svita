@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Debug-only additions for Robolectric compose tests.
+
+     androidx.compose.ui.test.junit4 launches androidx.activity.ComponentActivity
+     (normally supplied by the ui-test-manifest artifact). For application
+     modules AGP does not merge that test-only artifact into the manifest seen
+     by local unit tests, so the activity is declared here for debug builds. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application>
+        <activity
+            android:name="androidx.activity.ComponentActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Svita"
+            tools:replace="android:exported,android:theme" />
+    </application>
+</manifest>

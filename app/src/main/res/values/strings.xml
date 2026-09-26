@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Canonical (English) strings. Ukrainian lives in values-uk/strings.xml;
+         a unit test in :app asserts both files carry identical key sets. -->
+    <string name="app_name">Svita</string>
+
+    <string name="nav_wardrobe">Wardrobe</string>
+    <string name="nav_outfits">Outfits</string>
+    <string name="nav_calendar">Calendar</string>
+    <string name="nav_packing">Packing</string>
+    <string name="nav_settings">Settings</string>
+
+    <string name="wardrobe_headline">Your closet</string>
+    <string name="wardrobe_add_item">Add item</string>
+
+    <string name="outfits_headline">Compose outfits</string>
+    <string name="outfits_hint">The looks you love will be assembled here soon.</string>
+
+    <string name="calendar_headline">Plan the days</string>
+    <string name="calendar_hint">Your wardrobe calendar moves in here soon.</string>
+
+    <string name="packing_headline">Pack light</string>
+    <string name="packing_hint">Packing lists arrive with the next milestone.</string>
+
+    <string name="settings_headline">Settings</string>
+    <string name="settings_hint">Preferences land here soon.</string>
+
+    <string name="manifesto_line">NO ACCOUNTS · NO CLOUD · NO ADS · NO SUBSCRIPTIONS · NO TELEMETRY</string>
+</resources>

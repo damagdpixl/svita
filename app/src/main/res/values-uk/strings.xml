@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Повна українська версія: кожен ключ із values/strings.xml має переклад. -->
+    <string name="app_name">Svita</string>
+
+    <string name="nav_wardrobe">Шафа</string>
+    <string name="nav_outfits">Образи</string>
+    <string name="nav_calendar">Календар</string>
+    <string name="nav_packing">Пакування</string>
+    <string name="nav_settings">Налаштування</string>
+
+    <string name="wardrobe_headline">Твоя шафа</string>
+    <string name="wardrobe_add_item">Додати річ</string>
+
+    <string name="outfits_headline">Складай образи</string>
+    <string name="outfits_hint">Улюблені луки зберуться тут уже скоро.</string>
+
+    <string name="calendar_headline">Плануй дні</string>
+    <string name="calendar_hint">Календар гардеробу переїде сюди вже скоро.</string>
+
+    <string name="packing_headline">Пакуй легко</string>
+    <string name="packing_hint">Списки для поїздок з’являться в наступній версії.</string>
+
+    <string name="settings_headline">Налаштування</string>
+    <string name="settings_hint">Уподобання з’являться тут уже скоро.</string>
+
+    <string name="manifesto_line">БЕЗ АКАУНТІВ · БЕЗ ХМАРИ · БЕЗ РЕКЛАМИ · БЕЗ ПІДПИСОК · БЕЗ ТЕЛЕМЕТРІЇ</string>
+</resources>
