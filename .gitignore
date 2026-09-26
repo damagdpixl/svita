@@ -1,0 +1,26 @@
+# --- IP hygiene: private research artifacts / third-party IP. NEVER commit. ---
+re/
+*.apk
+.reference/
+reference_Frontend/
+svita-repo/
+docs/api_contract.md
+docs/outfit_algorithm_spec.md
+*taxonomy_dump*
+
+# --- Keys / secrets ---
+*.jks
+*.keystore
+keystore.properties
+local.properties
+
+# --- Standard Android/Gradle ---
+*.iml
+.gradle/
+build/
+/local.properties
+.idea/
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/

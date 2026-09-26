@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      # TODO: pin third-party actions by full commit SHA (P0-T1 follow-up)
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: IP hygiene
+        run: bash tools/ip_hygiene.sh
+
+      - name: Build & test
+        run: |
+          if [ -x ./gradlew ]; then
+            ./gradlew build test
+          else
+            echo "No Gradle project yet — the app skeleton lands with the first implementation milestone."
+          fi
