@@ -1,0 +1,17 @@
+CREATE TABLE attribute_definitions (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    category_id INTEGER REFERENCES categories(id),
+    key TEXT NOT NULL,
+    type TEXT NOT NULL,
+    config TEXT,
+    sort_order INTEGER NOT NULL
+);
+
+CREATE INDEX idx_attribute_definitions_category_id ON attribute_definitions(category_id);
+
+insertAttributeDefinition:
+INSERT INTO attribute_definitions (category_id, key, type, config, sort_order)
+VALUES (?, ?, ?, ?, ?);
+
+selectAllAttributeDefinitions:
+SELECT * FROM attribute_definitions ORDER BY sort_order, id;

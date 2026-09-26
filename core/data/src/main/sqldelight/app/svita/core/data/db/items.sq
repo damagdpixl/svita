@@ -1,0 +1,23 @@
+CREATE TABLE items (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    subtype_id INTEGER NOT NULL REFERENCES subtypes(id),
+    name TEXT NOT NULL,
+    notes TEXT,
+    price REAL,
+    purchase_date TEXT,
+    season_flags INTEGER NOT NULL DEFAULT 15,
+    sex TEXT,
+    rating INTEGER,
+    archived INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE INDEX idx_items_subtype_id ON items(subtype_id);
+
+insertItem:
+INSERT INTO items (subtype_id, name, notes, price, purchase_date, season_flags, sex, rating, archived, created_at, updated_at)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+selectAllItems:
+SELECT * FROM items ORDER BY id;

@@ -1,0 +1,16 @@
+CREATE TABLE wear_log (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    date TEXT NOT NULL,
+    outfit_id INTEGER REFERENCES outfits(id),
+    item_ids TEXT NOT NULL,
+    temp_c REAL,
+    note TEXT
+);
+
+CREATE INDEX idx_wear_log_outfit_id ON wear_log(outfit_id);
+
+insertWearLogEntry:
+INSERT INTO wear_log (date, outfit_id, item_ids, temp_c, note) VALUES (?, ?, ?, ?, ?);
+
+selectAllWearLog:
+SELECT * FROM wear_log ORDER BY date, id;

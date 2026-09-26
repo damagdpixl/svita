@@ -1,0 +1,24 @@
+CREATE TABLE tags (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE
+);
+
+insertTag:
+INSERT INTO tags (name) VALUES (?);
+
+selectAllTags:
+SELECT * FROM tags ORDER BY name;
+
+CREATE TABLE item_tags (
+    item_id INTEGER NOT NULL REFERENCES items(id),
+    tag_id INTEGER NOT NULL REFERENCES tags(id),
+    PRIMARY KEY (item_id, tag_id)
+);
+
+CREATE INDEX idx_item_tags_tag_id ON item_tags(tag_id);
+
+insertItemTag:
+INSERT INTO item_tags (item_id, tag_id) VALUES (?, ?);
+
+selectAllItemTags:
+SELECT * FROM item_tags ORDER BY item_id, tag_id;

@@ -1,0 +1,14 @@
+CREATE TABLE photos (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    item_id INTEGER NOT NULL REFERENCES items(id),
+    path TEXT NOT NULL,
+    position INTEGER NOT NULL
+);
+
+CREATE INDEX idx_photos_item_id ON photos(item_id);
+
+insertPhoto:
+INSERT INTO photos (item_id, path, position) VALUES (?, ?, ?);
+
+selectAllPhotos:
+SELECT * FROM photos ORDER BY item_id, position;

@@ -1,8 +1,19 @@
-// Android library module. Persistence (SQLDelight) lands in the next milestone —
-// this file only wires plugins and a placeholder so the module graph is complete.
+// Android library module with the SQLDelight persistence core: schema v1 lives in
+// src/main/sqldelight/app/svita/core/data, generated database class is
+// app.svita.core.data.db.AppDatabase. The SqlDriver is always injected
+// (see createSvitaDatabase) — no driver classes are hardcoded here.
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.sqldelight)
+}
+
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("app.svita.core.data.db")
+        }
+    }
 }
 
 android {
@@ -28,5 +39,10 @@ kotlin {
 
 dependencies {
     implementation(project(":core:model"))
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.sqldelight.android.driver)
+
     testImplementation(libs.junit)
+    // Plain-JVM JDBC driver backed by sqlite-jdbc for in-memory smoke tests.
+    testImplementation(libs.sqldelight.sqlite.driver)
 }

@@ -1,8 +1,8 @@
 package com.damagdpixl.svita.core.model
 
 /**
- * Placeholder until the wardrobe domain models land with the data milestone.
- * Keeps the pure-Kotlin module wired into the graph (KMP-ready: no Android deps).
+ * Domain contracts for the wardrobe data model. Typed models live in
+ * [Models] / [Enums] (pure Kotlin, no Android deps, KMP-ready).
  */
 object ModelContracts {
     const val SCHEMA_VERSION: Int = 1

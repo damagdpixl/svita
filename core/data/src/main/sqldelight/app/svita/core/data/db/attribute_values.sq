@@ -1,0 +1,14 @@
+CREATE TABLE attribute_values (
+    item_id INTEGER NOT NULL REFERENCES items(id),
+    definition_id INTEGER NOT NULL REFERENCES attribute_definitions(id),
+    value TEXT NOT NULL,
+    PRIMARY KEY (item_id, definition_id)
+);
+
+CREATE INDEX idx_attribute_values_definition_id ON attribute_values(definition_id);
+
+insertAttributeValue:
+INSERT INTO attribute_values (item_id, definition_id, value) VALUES (?, ?, ?);
+
+selectAllAttributeValues:
+SELECT * FROM attribute_values ORDER BY item_id, definition_id;

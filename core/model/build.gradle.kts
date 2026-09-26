@@ -8,5 +8,7 @@ kotlin {
 }
 
 dependencies {
+    // Domain dates (LocalDate) and timestamps (Instant) are part of the model API.
+    api(libs.kotlinx.datetime)
     testImplementation(kotlin("test"))
 }

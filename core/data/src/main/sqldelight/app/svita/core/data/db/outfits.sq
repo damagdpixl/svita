@@ -1,0 +1,28 @@
+CREATE TABLE outfits (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    rating INTEGER,
+    created_at TEXT NOT NULL,
+    note TEXT
+);
+
+insertOutfit:
+INSERT INTO outfits (name, rating, created_at, note) VALUES (?, ?, ?, ?);
+
+selectAllOutfits:
+SELECT * FROM outfits ORDER BY id;
+
+CREATE TABLE outfit_items (
+    outfit_id INTEGER NOT NULL REFERENCES outfits(id),
+    item_id INTEGER NOT NULL REFERENCES items(id),
+    slot TEXT NOT NULL,
+    PRIMARY KEY (outfit_id, item_id)
+);
+
+CREATE INDEX idx_outfit_items_item_id ON outfit_items(item_id);
+
+insertOutfitItem:
+INSERT INTO outfit_items (outfit_id, item_id, slot) VALUES (?, ?, ?);
+
+selectAllOutfitItems:
+SELECT * FROM outfit_items ORDER BY outfit_id, item_id;
