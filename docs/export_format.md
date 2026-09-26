@@ -97,6 +97,7 @@ Import never lets a raw JSON/zip/SQL exception escape. Typed errors
 |---|---|
 | `NotAnArchive` | The stream is not a ZIP at all (no ZIP signature, garbage) or becomes unreadable mid-scan (stream error). |
 | `MissingManifest` | The archive yielded no `manifest.json` entry — not a Svita backup, an empty archive, or truncated (ZIP streams report EOF inside an entry as a quiet end of data, so truncation surfaces here). |
+| `InvalidPhotoPath` | A manifest photo row's `path` is one no `FileStore` could legally store: empty, absolute (leading `/`), or escaping its root with a `..` segment. Checked before anything is written, so a hostile backup can neither touch files nor crash a store mid-scan; the store's own refusal (defense in depth) maps to the same typed error. |
 | `MalformedManifest` | `manifest.json` is not a parseable v1 manifest (bad JSON, negative/zero version numbers, wrong shape). |
 | `UnsupportedFormatVersion` | `format_version` newer than supported. |
 | `UnsupportedSchemaVersion` | `schema_version` newer than the installed schema. |
@@ -180,13 +181,17 @@ restored rows.
 
 RFC 4180: comma-separated, CRLF line endings, fields containing comma, quote,
 CR or LF wrapped in double quotes with inner quotes doubled. UTF-8. Headers in
-English; **values are emitted as stored, without reformatting**; rows ordered
-by item id. Columns:
+English; rows ordered by item id. Columns:
 
 ```
 id,name,subtype_key,notes,price,purchase_date,seasons,sex,rating,archived,created_at,updated_at,attr.<key>[,...]
 ```
 
+- **Formula guard:** every data field whose first character is `=`, `+`, `-`,
+  `@`, TAB or CR gets a `'` prefix — the standard defense against CSV formula
+  injection (Excel/LibreOffice would otherwise execute such values). This
+  includes legitimate negative numbers, which load as text in spreadsheet
+  applications; all other values are emitted as stored, without reformatting.
 - `subtype_key`: functional subtype id (e.g. `body.t-shirt`), stable across
   devices; category is derivable from it.
 - `seasons`: season names joined with `;` (e.g. `spring;summer`), empty cell

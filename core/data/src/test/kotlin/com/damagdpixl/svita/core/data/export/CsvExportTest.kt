@@ -97,6 +97,32 @@ class CsvExportTest {
     }
 
     @Test
+    fun `CSV - формульна ін'єкція нейтралізується апострофом`() = runBlocking {
+        val brandDef = fixture.a.attributes.createDefinition(null, "brand", AttributeType.TEXT, null, 0)
+        fixture.a.wardrobe.createItem(
+            draft = ItemDraft(
+                subtypeId = fixture.a.subtypeIdOf(fixture.a.subTShirt),
+                name = "Звичайна назва",
+                notes = "=HYPERLINK(\"http://evil.example\",\"натисни\")",
+            ),
+            attributeValues = mapOf(brandDef to "-2+3"),
+        )
+
+        fixture.managerA.exportItemsCsv(fixture.textSink(csvFile))
+        val rows = parseCsv(csvFile.readText())
+
+        assertEquals(2, rows.size)
+        // Headers are never guarded...
+        assertEquals("id", rows[0][0])
+        // ...but a value a spreadsheet would execute gets the `'` prefix.
+        assertEquals("'=HYPERLINK(\"http://evil.example\",\"натисни\")", rows[1][3])
+        assertEquals("'-2+3", rows[1][12])
+        // Clean values pass through untouched.
+        assertEquals("Звичайна назва", rows[1][1])
+        assertEquals("body.t-shirt", rows[1][2])
+    }
+
+    @Test
     fun `CSV - порожня шафа дає тільки заголовок, дублікати ключів отримують суфікс`() = runBlocking {
         // Two definitions sharing a key: columns are disambiguated by id.
         fixture.a.attributes.createDefinition(null, "color", AttributeType.COLOR, null, 0)

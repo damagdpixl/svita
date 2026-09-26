@@ -76,7 +76,16 @@ public class BackupManager(
                 )
                 zip.closeEntry()
                 manifest.photos.forEach { photo ->
-                    val source = files.openPhoto(photo.path) ?: return@forEach
+                    // A path the store cannot legally resolve (hostile row
+                    // planted outside an import) exports as a row without
+                    // binary, like a missing file — it never crashes export.
+                    val source = try {
+                        files.openPhoto(photo.path)
+                    } catch (e: IllegalArgumentException) {
+                        null
+                    } catch (e: IllegalStateException) {
+                        null
+                    } ?: return@forEach
                     source.use {
                         zip.putNextEntry(ZipEntry(photoEntryName(photo.id)))
                         it.inputStream().use { input -> input.copyTo(zip) }
@@ -149,7 +158,7 @@ public class BackupManager(
                             photoId != null && plan != null -> {
                                 val target = plan.photoTargets[photoId]
                                 if (target != null) {
-                                    restorePhotoBytes(target) { out -> zip.copyTo(out) }
+                                    restorePhotoBytes(photoId, target) { out -> zip.copyTo(out) }
                                     restoredIds += photoId
                                 }
                             }
@@ -169,7 +178,7 @@ public class BackupManager(
                 earlyPhotos.forEach { (photoId, bytes) ->
                     val target = finalPlan.photoTargets[photoId]
                     if (target != null) {
-                        restorePhotoBytes(target) { it.write(bytes) }
+                        restorePhotoBytes(photoId, target) { it.write(bytes) }
                         restoredIds += photoId
                     }
                 }
@@ -194,8 +203,9 @@ public class BackupManager(
     /**
      * One row per item: core columns plus one flattened column per attribute
      * definition (`attr.<key>`). Headers are English; values are emitted as
-     * stored, RFC 4180-quoted, CRLF-terminated (see `docs/export_format.md`).
-     * Takes ownership of and closes [output].
+     * stored except for the formula-injection guard, RFC 4180-quoted,
+     * CRLF-terminated (see `docs/export_format.md`). Takes ownership of and
+     * closes [output].
      */
     public suspend fun exportItemsCsv(output: TextSink): Unit = withContext(Dispatchers.IO) {
         output.use { sink ->
@@ -217,8 +227,9 @@ public class BackupManager(
                     )
                     db.itemsQueries.selectAllItems().executeAsList().forEach { item ->
                         val itemValues = values[item.id].orEmpty().toMap()
+                        // Data rows carry the formula-injection guard; headers do not.
                         writer.write(
-                            Csv.encodeRow(
+                            Csv.encodeDataRow(
                                 buildList {
                                     add(item.id.toString())
                                     add(item.name)
@@ -312,9 +323,26 @@ public class BackupManager(
         }
     }
 
-    private suspend fun buildPlan(manifest: ExportManifest, mode: ImportMode): ImportPlan = when (mode) {
-        ImportMode.MERGE -> buildMergePlan(manifest)
-        ImportMode.REPLACE -> buildReplacePlan(manifest)
+    private suspend fun buildPlan(manifest: ExportManifest, mode: ImportMode): ImportPlan {
+        // A hostile photo path (empty, absolute, `..` segment) must fail the
+        // whole import before any row or byte is written — never crash inside
+        // a store mid-scan. Mode-independent: a malicious file is refused, not
+        // partially merged.
+        manifest.photos.forEach { row ->
+            if (!isStorablePhotoPath(row.path)) {
+                throw ImportError.InvalidPhotoPath("photo ${row.id} path '${row.path}'")
+            }
+        }
+        return when (mode) {
+            ImportMode.MERGE -> buildMergePlan(manifest)
+            ImportMode.REPLACE -> buildReplacePlan(manifest)
+        }
+    }
+
+    /** Mirrors the confinement [DirectoryFileStore] enforces at write time. */
+    private fun isStorablePhotoPath(path: String): Boolean {
+        if (path.isBlank() || path.trimStart().startsWith("/")) return false
+        return path.split('/', '\\').none { it == ".." }
     }
 
     /**
@@ -816,9 +844,18 @@ public class BackupManager(
         db.style_tagsQueries.deleteAllStyleTags()
     }
 
-    private fun restorePhotoBytes(path: String, write: (OutputStream) -> Unit) {
-        files.sinkPhoto(path).use { sink ->
-            sink.outputStream().use { out -> write(out) }
+    private fun restorePhotoBytes(photoId: Long, path: String, write: (OutputStream) -> Unit) {
+        try {
+            files.sinkPhoto(path).use { sink ->
+                sink.outputStream().use { out -> write(out) }
+            }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: IllegalArgumentException) {
+            // Defense in depth: the store itself refused the path.
+            throw ImportError.InvalidPhotoPath("photo $photoId path '$path' rejected by the file store", e)
+        } catch (e: IllegalStateException) {
+            throw ImportError.InvalidPhotoPath("photo $photoId path '$path' rejected by the file store", e)
         }
     }
 

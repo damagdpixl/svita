@@ -1,5 +1,12 @@
 package com.damagdpixl.svita.core.data.export
 
+import app.cash.sqldelight.db.QueryResult
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.db.SqlPreparedStatement
+import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
+import com.damagdpixl.svita.core.data.ItemDraft
+import com.damagdpixl.svita.core.data.SvitaRepositories
+import com.damagdpixl.svita.core.data.createSvitaDatabase
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -178,11 +185,94 @@ class BackupErrorTest {
             fullSnapshot(fixture.b.db).withoutReminder(),
         )
     }
+
+    @Test
+    fun `ворожі шляхи фото - InvalidPhotoPath, база не змінена`() = runBlocking {
+        fixture.seedRichData()
+        fixture.managerA.exportAll(fixture.sink())
+        val manifest = readManifest(fixture.backupFile)
+        val photos = readPhotoEntries(fixture.backupFile)
+        val firstItem = manifest.items.first().id
+
+        val escaping = manifest.copy(
+            photos = manifest.photos +
+                PhotoRow(id = 900L, itemId = firstItem, path = "../../evil.jpg", position = 9),
+        )
+        expectTypedError(zipOf(escaping, photos), ImportMode.MERGE) { error ->
+            assertTrue("got: $error", error is ImportError.InvalidPhotoPath)
+            assertTrue(error.message!!.contains("evil"))
+        }
+
+        val blank = manifest.copy(
+            photos = manifest.photos +
+                PhotoRow(id = 901L, itemId = firstItem, path = "  ", position = 9),
+        )
+        expectTypedError(zipOf(blank, photos), ImportMode.REPLACE) { error ->
+            assertTrue("got: $error", error is ImportError.InvalidPhotoPath)
+        }
+    }
+
+    /**
+     * Fault injection mid-applyPlan: the driver throws on the first tags
+     * insert — well after REPLACE has wiped every table inside the
+     * transaction. The typed error must surface AND the rollback must leave
+     * the database byte-identical: the wipe persists nothing.
+     */
+    @Test
+    fun `REPLACE зі збоєм посеред транзакції - повний відкат`() = runBlocking {
+        // Target device with data a REPLACE would wipe.
+        val faultDb = createSvitaDatabase(
+            ExplodingDriver(JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY), "INSERT INTO tags"),
+            createSchema = true,
+        )
+        val repos = SvitaRepositories(faultDb)
+        repos.wardrobe.createItem(
+            ItemDraft(repos.taxonomy.subtypeByKey("body.t-shirt")!!.id, "Річ до відкату"),
+        )
+        repos.settings.putString("units", "metric")
+        val before = fullSnapshot(faultDb)
+
+        // A full backup whose restore plan includes tags (restored mid-apply).
+        fixture.seedRichData()
+        fixture.managerA.exportAll(fixture.sink())
+
+        val manager = BackupManager(faultDb, fixture.storeB, appVersion = "test")
+        val error = assertThrows<ImportError> {
+            manager.importAll(fixture.source(), ImportMode.REPLACE)
+        }
+        assertTrue("got: $error", error is ImportError.WriteFailed)
+        // The wipe rolled back: seed taxonomy, local item, settings — intact.
+        assertEquals(before, fullSnapshot(faultDb))
+        assertNull(manager.lastExportAt())
+    }
 }
 
-/** Seeds a small non-empty wardrobe on device B (rollback witnesses). */
+/** Driver proxy injecting a failure on the first statement matching [failOnSql]. */
+private class ExplodingDriver(
+    private val real: SqlDriver,
+    private val failOnSql: String,
+) : SqlDriver by real {
+    private var fired = false
+
+    override fun execute(
+        identifier: Int?,
+        sql: String,
+        parameters: Int,
+        binders: (SqlPreparedStatement.() -> Unit)?,
+    ): QueryResult<Long> {
+        if (!fired && sql.startsWith(failOnSql)) {
+            fired = true
+            throw IllegalStateException("injected fault: $sql")
+        }
+        return real.execute(identifier, sql, parameters, binders)
+    }
+}
+
+/** Seeds a small non-empty wardrobe on device B (rollback witnesses); idempotent. */
 private suspend fun BackupFixture.seedRichDataOnB() {
     b.createItem("Річ Б1", b.subTShirt)
-    b.wardrobe.createTag("тег Б")
+    if (b.wardrobe.tagByName("тег Б") == null) {
+        b.wardrobe.createTag("тег Б")
+    }
     b.settings.putString("units", "imperial")
 }

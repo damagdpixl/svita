@@ -228,6 +228,14 @@ public sealed class ImportError(message: String, cause: Throwable? = null) : Exc
     /** The archive yielded no `manifest.json` — not a Svita backup, empty, or truncated. */
     public data object MissingManifest : ImportError("backup archive has no manifest.json")
 
+    /**
+     * A manifest photo row carries a path no [FileStore] could legally store
+     * (empty, absolute, or escaping its root with a `..` segment). Checked
+     * before anything is written, so a hostile backup cannot touch files.
+     */
+    public class InvalidPhotoPath(detail: String, cause: Throwable? = null) :
+        ImportError("backup photo path is invalid: $detail", cause)
+
     /** `manifest.json` exists but is not a parseable v1 manifest. */
     public class MalformedManifest(detail: String, cause: Throwable? = null) :
         ImportError("backup manifest is malformed: $detail", cause)
