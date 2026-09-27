@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paper-doll avatar accessibility description; the %1$s/%2$s placeholders
+         are the body type and skin tone ids (slim|regular|curvy, light|medium|deep). -->
+    <string name="avatar_canvas_description">Paper-doll avatar: %1$s body, %2$s skin</string>
+</resources>

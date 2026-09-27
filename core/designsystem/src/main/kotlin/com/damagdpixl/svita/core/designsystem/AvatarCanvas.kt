@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 
@@ -55,8 +56,13 @@ public fun AvatarCanvas(
     testTag: String? = null,
 ) {
     val layers = remember(manifest) { manifest.resolvedLayers() }
-    val description = contentDescription
-        ?: "Paper-doll avatar: ${manifest.bodyType.id} body, ${manifest.skinTone.id} skin"
+    // Default accessibility description comes from resources (en/uk); the
+    // caller may override it with a fully custom string.
+    val description = contentDescription ?: stringResource(
+        R.string.avatar_canvas_description,
+        manifest.bodyType.id,
+        manifest.skinTone.id,
+    )
     var drawModifier = modifier
         .semantics { this.contentDescription = description }
     if (testTag != null) {

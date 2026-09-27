@@ -56,12 +56,14 @@ public fun collageColumnCount(tileCount: Int): Int = if (tileCount <= 4) 2 else 
 /**
  * The collage grid. Empty [tiles] renders nothing (callers show their own
  * empty state); more than 9 tiles are truncated to 9 — the composition is a
- * look, not a wardrobe list.
+ * look, not a wardrobe list. Silhouette tiles are drawn through
+ * [layerSource], so the asset-pack seam covers collage thumbnails too.
  */
 @Composable
 public fun OutfitCollage(
     tiles: List<CollageTile>,
     modifier: Modifier = Modifier,
+    layerSource: AvatarLayerSource = VectorAvatarLayerSource,
     spacing: Dp = 6.dp,
     tileCorner: Dp = 4.dp,
     silhouetteBackground: Color = Cream,
@@ -100,7 +102,7 @@ public fun OutfitCollage(
                             )
 
                             is CollageTile.Silhouette -> Canvas(modifier = Modifier.fillMaxSize()) {
-                                drawSilhouette(tile, silhouetteBackground)
+                                drawSilhouette(tile, silhouetteBackground, layerSource)
                             }
                         }
                     }
@@ -113,7 +115,11 @@ public fun OutfitCollage(
 private const val MAX_TILES = 9
 
 /** Draws one garment silhouette fitted into the tile, over a cream well. */
-private fun DrawScope.drawSilhouette(tile: CollageTile.Silhouette, background: Color) {
+private fun DrawScope.drawSilhouette(
+    tile: CollageTile.Silhouette,
+    background: Color,
+    layerSource: AvatarLayerSource,
+) {
     drawRect(color = background)
     val tint = AvatarTint.normalized(tile.tintHex)
     val layer = AvatarLayer.Garment(
@@ -123,7 +129,7 @@ private fun DrawScope.drawSilhouette(tile: CollageTile.Silhouette, background: C
         tintHex = tint,
         outlineHex = AvatarTint.outlineFor(tint),
     )
-    val bounds = VectorAvatarLayerSource.shapeBounds(tile.shape)
+    val bounds = layerSource.shapeBounds(tile.shape)
     val pad = minOf(size.width, size.height) * 0.08f
     val availableW = (size.width - 2f * pad).coerceAtLeast(1f)
     val availableH = (size.height - 2f * pad).coerceAtLeast(1f)
@@ -134,6 +140,6 @@ private fun DrawScope.drawSilhouette(tile: CollageTile.Silhouette, background: C
         translate(originX - bounds.left * scale, originY - bounds.top * scale)
         scale(scale, scale, pivot = Offset.Zero)
     }) {
-        VectorAvatarLayerSource.drawGarment(this, layer)
+        layerSource.drawGarment(this, layer)
     }
 }

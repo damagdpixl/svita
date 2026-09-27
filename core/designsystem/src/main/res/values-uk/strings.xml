@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Опис аватара (паперова лялька) для доступності; %1$s/%2$s — ідентифікатори
+         типу тіла та тону шкіри (slim|regular|curvy, light|medium|deep). -->
+    <string name="avatar_canvas_description">Паперова лялька: тіло %1$s, тон шкіри %2$s</string>
+</resources>

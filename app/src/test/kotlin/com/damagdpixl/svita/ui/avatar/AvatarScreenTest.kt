@@ -8,14 +8,27 @@ import com.damagdpixl.svita.data.AvatarPrefs
 import com.damagdpixl.svita.ui.wardrobe.WardrobeUiTestBase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
+import org.robolectric.RuntimeEnvironment
 
 /**
  * Налаштування -> Аватар: пункт у хабі відкриває екран, вибір типу тіла й тону
  * шкіри миттєво відображається на попередньому перегляді та зберігається в
  * налаштуваннях (ключі avatar.body / avatar.tone), і після повторного входу
  * вибір відновлюється.
+ *
+ * Очікувані описи аватара розв'язуються через РЕСУРС (Robolectric application
+ * context), а не буквальник: тестуємо зв'язок «стан -> опис», а не рядок
+ * англійською.
  */
 class AvatarScreenTest : WardrobeUiTestBase() {
+
+    /** Ресурсний опис аватара для заданої конфігурації маніфеста. */
+    private fun expectedDescription(bodyId: String, toneId: String): String =
+        RuntimeEnvironment.getApplication().getString(
+            com.damagdpixl.svita.core.designsystem.R.string.avatar_canvas_description,
+            bodyId,
+            toneId,
+        )
 
     private fun openAvatar() {
         setContent()
@@ -49,7 +62,7 @@ class AvatarScreenTest : WardrobeUiTestBase() {
                 graph.repos.settings.getString(AvatarPrefs.AVATAR_BODY) == "curvy"
             }
         }
-        composeRule.onNodeWithContentDescription("Paper-doll avatar: curvy body, light skin")
+        composeRule.onNodeWithContentDescription(expectedDescription("curvy", "light"))
             .assertExists()
     }
 
@@ -62,7 +75,7 @@ class AvatarScreenTest : WardrobeUiTestBase() {
                 graph.repos.settings.getString(AvatarPrefs.AVATAR_TONE) == "deep"
             }
         }
-        composeRule.onNodeWithContentDescription("Paper-doll avatar: regular body, deep skin")
+        composeRule.onNodeWithContentDescription(expectedDescription("regular", "deep"))
             .assertExists()
     }
 
@@ -76,10 +89,10 @@ class AvatarScreenTest : WardrobeUiTestBase() {
         // Завантаження збережених значень асинхронне: чекаємо саме на
         // відновлений стан, а не на перший кадр із дефолтами (гонка,
         // яку спіймав CI).
+        val expected = expectedDescription("slim", "medium")
         waitUntilTrue("попередній перегляд відновив slim/medium") {
-            composeRule.onAllNodesWithContentDescription(
-                "Paper-doll avatar: slim body, medium skin",
-            ).fetchSemanticsNodes().isNotEmpty()
+            composeRule.onAllNodesWithContentDescription(expected)
+                .fetchSemanticsNodes().isNotEmpty()
         }
         waitUntilTrue("чип slim присутній") {
             composeRule.onAllNodesWithTag("avatar_body_slim", useUnmergedTree = true)
