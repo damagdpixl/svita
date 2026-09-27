@@ -110,6 +110,13 @@ class WardrobeViewModel(
         .map { it == "true" }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), true)
 
+    /** Items created by the last bulk import («N речей додано»), until dismissed. */
+    val importSummary: StateFlow<Int?> = graph.importSummary
+
+    fun clearImportSummary() {
+        graph.importSummary.value = null
+    }
+
     /** subtypeId -> owning category, loaded once when the VM is created. */
     private val taxonomyIndex = MutableStateFlow<Map<Long, Category>>(emptyMap())
 

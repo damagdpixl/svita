@@ -12,13 +12,10 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -49,7 +46,6 @@ import com.damagdpixl.svita.R
 import com.damagdpixl.svita.core.model.AttributeType
 import com.damagdpixl.svita.core.designsystem.Cream
 import com.damagdpixl.svita.core.designsystem.GreenCta
-import com.damagdpixl.svita.core.designsystem.Marigold
 import com.damagdpixl.svita.core.designsystem.PillButton
 import com.damagdpixl.svita.data.SvitaGraph
 
@@ -81,7 +77,7 @@ fun ItemEditorScreen(
         if (state.saved) onBack()
     }
 
-    val pickPhotos = rememberPhotoPicker(onPicked = viewModel::addPhotos)
+    val pickPhotos = rememberPhotoPicker(onPicked = viewModel::addPhotos, maxItems = 8)
 
     Column(
         modifier = modifier
@@ -412,61 +408,6 @@ private fun PhotoThumb(
                 .clickable(onClick = onRemove)
                 .padding(4.dp),
         )
-    }
-}
-
-@Composable
-private fun SubtypePickerDialog(
-    groups: List<SubtypeGroup>,
-    selectedId: Long?,
-    localize: (com.damagdpixl.svita.core.model.Subtype) -> String,
-    onSelect: (Long) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    EditorialDialog(onDismiss = onDismiss, scrimTag = "subtype_scrim") {
-        Text(
-            text = stringResource(R.string.editor_subtype_pick_title),
-            style = MaterialTheme.typography.headlineSmall,
-            color = Cream,
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        LazyColumn(
-            modifier = Modifier
-                .heightIn(max = 420.dp)
-                .testTag("subtype_picker_list"),
-        ) {
-            groups.forEach { group ->
-                item(key = "group_${group.category.id}") {
-                    Text(
-                        text = if (LocalConfiguration.current.locales[0].language == "uk") {
-                            group.category.nameUk
-                        } else {
-                            group.category.nameEn
-                        },
-                        style = MaterialTheme.typography.titleSmall,
-                        color = Cream.copy(alpha = 0.7f),
-                        modifier = Modifier.padding(top = 12.dp, bottom = 4.dp),
-                    )
-                }
-                itemsIndexed(
-                    items = group.subtypes,
-                    key = { _, subtype -> "pick_${subtype.id}" },
-                ) { _, subtype ->
-                    val selected = subtype.id == selectedId
-                    Text(
-                        text = localize(subtype),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = if (selected) Marigold else Cream,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(if (selected) Marigold.copy(alpha = 0.18f) else androidx.compose.ui.graphics.Color.Transparent)
-                            .clickable { onSelect(subtype.id) }
-                            .padding(horizontal = 8.dp, vertical = 9.dp)
-                            .testTag("editor_subtype_${subtype.key}"),
-                    )
-                }
-            }
-        }
     }
 }
 

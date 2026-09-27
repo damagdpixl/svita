@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -76,6 +77,7 @@ fun WardrobeScreen(
     val gallery by viewModel.gallery.collectAsState()
     val onboardingDone by viewModel.onboardingDone.collectAsState()
     val hintDismissed by viewModel.importHintDismissed.collectAsState()
+    val importSummary by viewModel.importSummary.collectAsState()
     var showFilters by remember { mutableStateOf(false) }
 
     val showHint = onboardingDone == true && !hintDismissed
@@ -113,8 +115,14 @@ fun WardrobeScreen(
                         modifier = Modifier.weight(1f),
                     )
                     // The empty state carries its own centered CTA; show the header
-                    // one only when the grid is populated (single ADD ITEM node).
+                    // ones only when the grid is populated (single ADD/IMPORT node).
                     if ((gallery?.totalCount ?: 0) > 0) {
+                        PillButton(
+                            text = stringResource(R.string.import_entry),
+                            onClick = onOpenImport,
+                            modifier = Modifier.testTag("wardrobe_import"),
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
                         GreenCta(
                             text = stringResource(R.string.wardrobe_add_item),
                             onClick = onAddItem,
@@ -156,11 +164,35 @@ fun WardrobeScreen(
                     onShowFilters = { showFilters = true },
                 )
 
+                if ((importSummary ?: 0) > 0) {
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        val count = importSummary ?: 0
+                        StickerBadge(
+                            text = pluralStringResource(R.plurals.import_summary_added, count, count),
+                            modifier = Modifier.testTag("import_summary"),
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(
+                            text = "✕",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                            modifier = Modifier
+                                .testTag("import_summary_dismiss")
+                                .clickable(onClick = viewModel::clearImportSummary)
+                                .padding(6.dp),
+                        )
+                    }
+                }
+
                 Spacer(modifier = Modifier.height(12.dp))
                 val state = gallery
                 when {
                     state == null -> Unit
-                    state.totalCount == 0 -> EmptyWardrobe(onAddItem = onAddItem)
+                    state.totalCount == 0 -> EmptyWardrobe(
+                        onAddItem = onAddItem,
+                        onOpenImport = onOpenImport,
+                    )
                     else -> GalleryGrid(state = state, onOpenItem = onOpenItem)
                 }
             }
@@ -210,7 +242,10 @@ private fun SearchAndControlsRow(
 }
 
 @Composable
-private fun EmptyWardrobe(onAddItem: () -> Unit) {
+private fun EmptyWardrobe(
+    onAddItem: () -> Unit,
+    onOpenImport: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -234,6 +269,12 @@ private fun EmptyWardrobe(onAddItem: () -> Unit) {
             text = stringResource(R.string.wardrobe_add_item),
             onClick = onAddItem,
             modifier = Modifier.testTag("wardrobe_add_empty"),
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        PillButton(
+            text = stringResource(R.string.import_entry),
+            onClick = onOpenImport,
+            modifier = Modifier.testTag("wardrobe_import_empty"),
         )
     }
 }

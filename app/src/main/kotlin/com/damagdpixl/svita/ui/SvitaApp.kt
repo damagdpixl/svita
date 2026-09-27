@@ -35,6 +35,7 @@ import com.damagdpixl.svita.ui.screens.CalendarScreen
 import com.damagdpixl.svita.ui.screens.OutfitsScreen
 import com.damagdpixl.svita.ui.screens.PackingScreen
 import com.damagdpixl.svita.ui.screens.SettingsScreen
+import com.damagdpixl.svita.ui.wardrobe.ImportScreen
 import com.damagdpixl.svita.ui.wardrobe.ItemDetailScreen
 import com.damagdpixl.svita.ui.wardrobe.ItemEditorScreen
 import com.damagdpixl.svita.ui.wardrobe.WardrobeScreen
@@ -50,7 +51,7 @@ object Routes {
     const val ITEM_DETAIL = "wardrobe/item/{itemId}"
     const val ITEM_EDITOR = "wardrobe/edit/{itemId}"
 
-    /** The bulk-import screen lands in P2 T3; the hint deep-links it if present. */
+    /** Bulk gallery import (photos -> one item each, pHash-lite dedupe). */
     const val IMPORT = "wardrobe/import"
 
     fun itemDetail(itemId: Long): String = "wardrobe/item/$itemId"
@@ -150,13 +151,7 @@ fun SvitaApp(modifier: Modifier = Modifier) {
                 WardrobeScreen(
                     onOpenItem = { itemId -> navController.navigate(Routes.itemDetail(itemId)) },
                     onAddItem = { navController.navigate(Routes.itemEditor(null)) },
-                    // The bulk-import screen lands in T3; until its route exists
-                    // the hint falls back to the wardrobe grid it lives on.
-                    onOpenImport = {
-                        if (navController.graph.findNode(route = Routes.IMPORT) != null) {
-                            navController.navigate(Routes.IMPORT)
-                        }
-                    },
+                    onOpenImport = { navController.navigate(Routes.IMPORT) },
                 )
             }
             composable(Routes.ITEM_DETAIL) { entry ->
@@ -173,6 +168,9 @@ fun SvitaApp(modifier: Modifier = Modifier) {
                     itemId = itemId.takeIf { it > 0 },
                     onBack = { navController.popBackStack() },
                 )
+            }
+            composable(Routes.IMPORT) {
+                ImportScreen(onBack = { navController.popBackStack() })
             }
             composable(Routes.OUTFITS) { OutfitsScreen() }
             composable(Routes.CALENDAR) { CalendarScreen() }

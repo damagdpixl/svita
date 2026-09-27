@@ -21,6 +21,30 @@
     <string name="wardrobe_nothing_found">Nothing found</string>
     <string name="wardrobe_in_archive">In archive</string>
 
+    <string name="import_entry">Import</string>
+    <string name="import_title">Import from gallery</string>
+    <string name="import_empty_intro">Fill the closet in bulk</string>
+    <string name="import_empty_hint">Choose wardrobe photos — each one becomes an item. Nothing leaves this device.</string>
+    <string name="import_pick_photos">Choose photos</string>
+    <string name="import_shared_note">Applies to every photo unless overridden</string>
+    <string name="import_subtype_reset">As for all</string>
+    <string name="import_analyzing">Checking photos…</string>
+    <string name="import_cta">Import %1$d</string>
+    <string name="import_progress">Added %1$d of %2$d</string>
+    <string name="import_created_line">Added: %1$d</string>
+    <string name="import_failures_title">These couldn’t be added</string>
+    <string name="import_failure_unreadable">the photo couldn’t be read</string>
+    <string name="import_failure_write">the item couldn’t be saved</string>
+    <string name="import_duplicate_title">Possible duplicate</string>
+    <string name="import_duplicate_text_existing">This photo looks like “%1$s” already in your wardrobe.</string>
+    <string name="import_duplicate_text_batch">This photo matches another photo in this import.</string>
+    <string name="import_duplicate_keep">Add anyway</string>
+
+    <plurals name="import_summary_added">
+        <item quantity="one">%1$d item added</item>
+        <item quantity="other">%1$d items added</item>
+    </plurals>
+
     <string name="wizard_title">Quick start</string>
     <string name="wizard_step_of">Step %1$d of %2$d</string>
     <string name="wizard_photo_title">Start with a photo</string>

@@ -32,6 +32,25 @@ class StringsParityTest {
         return result
     }
 
+    /** Plural name -> the set of quantities defined for it in this file. */
+    private fun parsePlurals(file: File): Map<String, Set<String>> {
+        val doc = DocumentBuilderFactory.newInstance()
+            .newDocumentBuilder()
+            .parse(file)
+        val plurals = doc.getElementsByTagName("plurals")
+        val result = mutableMapOf<String, MutableSet<String>>()
+        for (i in 0 until plurals.length) {
+            val node = plurals.item(i) as Element
+            val name = node.getAttribute("name")
+            val items = node.getElementsByTagName("item")
+            val quantities = result.getOrPut(name) { mutableSetOf() }
+            for (j in 0 until items.length) {
+                quantities += (items.item(j) as Element).getAttribute("quantity")
+            }
+        }
+        return result
+    }
+
     @Test
     fun `english and ukrainian key sets are identical`() {
         val en = parse(enFile)
@@ -61,5 +80,27 @@ class StringsParityTest {
         val blankUk = uk.filterValues { it.isBlank() }.keys
         assertTrue("Blank values in en: $blankEn", blankEn.isEmpty())
         assertTrue("Blank values in uk: $blankUk", blankUk.isEmpty())
+    }
+
+    /**
+     * Plurals carry their own key namespace — checked for name parity only:
+     * the required QUANTITY sets legitimately differ per language
+     * (English one/other; Ukrainian one/few/many/other).
+     */
+    @Test
+    fun `plural key sets are identical and every plural is non-empty`() {
+        val en = parsePlurals(enFile)
+        val uk = parsePlurals(ukFile)
+
+        val missingInUk = en.keys - uk.keys
+        val missingInEn = uk.keys - en.keys
+        assertTrue("Plurals missing in values-uk/strings.xml: $missingInUk", missingInUk.isEmpty())
+        assertTrue("Plurals missing in values/strings.xml: $missingInEn", missingInEn.isEmpty())
+        assertEquals(en.keys, uk.keys)
+
+        val emptyUk = uk.filterValues { it.isEmpty() }.keys
+        val emptyEn = en.filterValues { it.isEmpty() }.keys
+        assertTrue("Empty plurals in en: $emptyEn", emptyEn.isEmpty())
+        assertTrue("Empty plurals in uk: $emptyUk", emptyUk.isEmpty())
     }
 }

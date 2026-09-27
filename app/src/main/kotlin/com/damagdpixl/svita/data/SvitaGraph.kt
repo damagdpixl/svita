@@ -10,6 +10,7 @@ import com.damagdpixl.svita.core.data.SvitaRepositories
 import com.damagdpixl.svita.core.data.createSvitaDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 /** Settings keys used by the wardrobe UI layer. */
@@ -42,6 +43,14 @@ object SvitaGraph {
         val photoStore: PhotoStore,
         /** itemId -> cover photo path (lowest position), re-emitted on any photo change. */
         val coverPhotos: Flow<Map<Long, String>>,
+        /**
+         * How many items the last bulk import created («N речей додано»), or
+         * null. The import screen writes it right before navigating back; the
+         * wardrobe grid shows the StickerBadge summary until dismissed. A tiny
+         * cross-screen signal the graph owns — navigation arguments would be
+         * overkill for one nullable Int.
+         */
+        val importSummary: MutableStateFlow<Int?> = MutableStateFlow(null),
     )
 
     @Volatile

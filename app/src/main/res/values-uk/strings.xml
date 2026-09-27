@@ -20,6 +20,32 @@
     <string name="wardrobe_nothing_found">Нічого не знайдено</string>
     <string name="wardrobe_in_archive">В архіві</string>
 
+    <string name="import_entry">Імпорт</string>
+    <string name="import_title">Імпорт із галереї</string>
+    <string name="import_empty_intro">Наповни шафу одним махом</string>
+    <string name="import_empty_hint">Оберіть фото речей — кожне стане окремою річчю. Нічого не залишає цей пристрій.</string>
+    <string name="import_pick_photos">Обрати фото</string>
+    <string name="import_shared_note">Застосовується до всіх фото, якщо не змінено окремо</string>
+    <string name="import_subtype_reset">Як у всіх</string>
+    <string name="import_analyzing">Перевіряємо фото…</string>
+    <string name="import_cta">Імпортувати %1$d</string>
+    <string name="import_progress">Додано %1$d з %2$d</string>
+    <string name="import_created_line">Додано: %1$d</string>
+    <string name="import_failures_title">Ці додати не вдалося</string>
+    <string name="import_failure_unreadable">фото не вдалося прочитати</string>
+    <string name="import_failure_write">річ не вдалося зберегти</string>
+    <string name="import_duplicate_title">Можливий дублікат</string>
+    <string name="import_duplicate_text_existing">Це фото схоже на «%1$s» — така вже є в шафі.</string>
+    <string name="import_duplicate_text_batch">Це фото збігається з іншим фото цього імпорту.</string>
+    <string name="import_duplicate_keep">Все одно додати</string>
+
+    <plurals name="import_summary_added">
+        <item quantity="one">Додано %1$d річ</item>
+        <item quantity="few">Додано %1$d речі</item>
+        <item quantity="many">Додано %1$d речей</item>
+        <item quantity="other">Додано %1$d речі</item>
+    </plurals>
+
     <string name="wizard_title">Швидкий старт</string>
     <string name="wizard_step_of">Крок %1$d з %2$d</string>
     <string name="wizard_photo_title">Почніть із фото</string>
