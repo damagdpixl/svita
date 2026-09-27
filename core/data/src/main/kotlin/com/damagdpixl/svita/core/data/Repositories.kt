@@ -87,6 +87,14 @@ public interface WardrobeRepository {
 
     /** Deletes the tag; its item links cascade away. */
     public suspend fun deleteTag(id: Long)
+
+    /**
+     * Renames the tag in place: `item_tags` rows reference the id, so every
+     * item link survives. A duplicate [newName] raises the UNIQUE constraint
+     * (surface it in the UI instead of crashing the caller's scope).
+     * Throws [NoSuchElementException] when the tag does not exist.
+     */
+    public suspend fun renameTag(id: Long, newName: String)
 }
 
 /** Read-only access to the seeded taxonomy (categories, subtypes, colors, style tags). */
@@ -111,6 +119,84 @@ public interface TaxonomyRepository {
     public fun observeStyleTags(): Flow<List<StyleTag>>
     public suspend fun styleTagByKey(key: String): StyleTag?
 }
+
+/**
+ * The write side of the taxonomy — the customization USP on top of the read-only
+ * [TaxonomyRepository].
+ *
+ * Product rules (P2 T4):
+ * - SYSTEM (seeded) categories are editable in display names and icon only;
+ *   their section and sort order are engine/seed data and stay locked;
+ * - a CUSTOM category is created with one auto subtype (`key = custom.<id>`,
+ *   display names follow the category, thermal class `N` = engine-neutral) so
+ *   it shows up in the subtype pickers like any seeded category;
+ * - deleting any category is refused while items reference it; a SYSTEM
+ *   category is additionally refused while its seeded subtypes remain (they
+ *   carry engine thermal data — removing them would strand the restored row
+ *   without a single subtype after a reset);
+ * - `resetToDefaults` deletes every custom category (with its auto subtypes and
+ *   attribute definitions scoped to it) and restores all system rows from
+ *   [TaxonomyDefaults] — updating modified rows and re-inserting deleted ones.
+ */
+public interface TaxonomyEditorRepository {
+    /**
+     * Creates a custom category with one auto subtype. Sort order defaults to
+     * the current maximum + 10. Returns the new category id.
+     */
+    public suspend fun createCategory(
+        section: Section,
+        nameEn: String,
+        nameUk: String,
+        icon: String?,
+    ): Long
+
+    /** Edits display names and icon; allowed for system and custom categories. */
+    public suspend fun updateCategory(id: Long, nameEn: String, nameUk: String, icon: String?)
+
+    /**
+     * Full custom-category edit (names, icon, section, sort order). Renaming
+     * also renames the auto subtype's display names. Throws
+     * [NoSuchElementException] when the category does not exist and
+     * [IllegalArgumentException] when it is a system category.
+     */
+    public suspend fun updateCustomCategory(
+        id: Long,
+        section: Section,
+        nameEn: String,
+        nameUk: String,
+        icon: String?,
+        sortOrder: Int,
+    )
+
+    /**
+     * Moves a custom category by swapping its sort order with the adjacent row
+     * in [direction]. Returns the category's new sort order. Only custom rows
+     * move; a system neighbour stays put and the swap happens with the nearest
+     * custom row beyond it instead (system rows keep their seed spacing, the
+     * custom row may cross them).
+     */
+    public suspend fun moveCustomCategory(id: Long, direction: SortMove): Int
+
+    /** categoryId -> item count (items joined through subtypes), categories without items absent. */
+    public suspend fun itemCountsByCategory(): Map<Long, Long>
+
+    /**
+     * Deletes the category and everything hanging off it (subtypes, attribute
+     * definitions scoped to it) in one transaction — unless blocked, see
+     * [CategoryDeleteResult.Blocked].
+     */
+    public suspend fun deleteCategory(id: Long): CategoryDeleteResult
+
+    /**
+     * Restores the factory taxonomy: custom categories (and definitions scoped
+     * to them) are deleted, every system row is reset to its seed values.
+     * Refused as a whole while any custom category still holds items.
+     */
+    public suspend fun resetToDefaults(): ResetTaxonomyResult
+}
+
+/** Direction of a [TaxonomyEditorRepository.moveCustomCategory] step. */
+public enum class SortMove { UP, DOWN }
 
 /** CRUD for attribute definitions and validated read/write of their values. */
 public interface AttributesRepository {
@@ -265,10 +351,11 @@ public interface SettingsRepository {
     public suspend fun putDouble(key: String, value: Double)
 }
 
-/** The seven repositories wired over one [AppDatabase]; the P2 entry point. */
+/** The eight repositories wired over one [AppDatabase]; the P2 entry point. */
 public class SvitaRepositories(db: AppDatabase) {
     public val wardrobe: WardrobeRepository = WardrobeRepositoryImpl(db)
     public val taxonomy: TaxonomyRepository = TaxonomyRepositoryImpl(db)
+    public val taxonomyEditor: TaxonomyEditorRepository = TaxonomyEditorRepositoryImpl(db)
     public val attributes: AttributesRepository = AttributesRepositoryImpl(db)
     public val outfits: OutfitRepository = OutfitRepositoryImpl(db)
     public val wearLog: WearLogRepository = WearLogRepositoryImpl(db)

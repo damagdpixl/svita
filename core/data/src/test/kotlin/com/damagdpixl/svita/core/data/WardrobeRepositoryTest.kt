@@ -228,6 +228,43 @@ class WardrobeRepositoryTest {
     }
 
     @Test
+    fun `перейменування тегу — на місці, зв'язки з речами живуть`() = runBlocking {
+        val id = f.wardrobe.createTag("літнє")
+        val item = f.createItem("Футболка", f.subTShirt, tagIds = setOf(id))
+
+        f.wardrobe.renameTag(id, "спекотне")
+
+        // Той самий рядок під новою назвою: старої немає, нова за тим самим id.
+        assertNull(f.wardrobe.tagByName("літнє"))
+        val renamed = f.wardrobe.tagByName("спекотне")!!
+        assertEquals(id, renamed.id)
+        assertEquals(listOf("спекотне"), f.wardrobe.getItem(item)!!.tags.map { it.name })
+        // Невідомий id — швидка відмова.
+        try {
+            f.wardrobe.renameTag(99999L, "привид")
+            error("renameTag must fail on an unknown id")
+        } catch (expected: NoSuchElementException) {
+            // очікувано
+        }
+    }
+
+    @Test
+    fun `перейменування тегу на наявну назву падає з UNIQUE`() = runBlocking {
+        val a = f.wardrobe.createTag("літнє")
+        f.wardrobe.createTag("зимове")
+        var constraintHit = false
+        try {
+            f.wardrobe.renameTag(a, "зимове")
+        } catch (expected: Exception) {
+            constraintHit = expected.message?.contains("UNIQUE", ignoreCase = true) == true
+        }
+        assertTrue(constraintHit)
+        // Назви лишилися недоторканими.
+        assertEquals("літнє", f.wardrobe.tagByName("літнє")!!.name)
+        assertEquals("зимове", f.wardrobe.tagByName("зимове")!!.name)
+    }
+
+    @Test
     fun `архівація — перемикається і ховається з базового списку`() = runBlocking {
         val id = f.createItem("Футболка", f.subTShirt)
         f.wardrobe.setArchived(id, true)

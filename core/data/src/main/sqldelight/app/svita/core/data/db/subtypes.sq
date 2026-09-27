@@ -13,6 +13,10 @@ insertSubtype:
 INSERT INTO subtypes (id, category_id, key, name_en, name_uk, thermal_class)
 VALUES (?, ?, ?, ?, ?, ?);
 
+-- Id slot for a user-facing auto subtype (see TaxonomyEditorRepositoryImpl).
+selectMaxSubtypeId:
+SELECT COALESCE(MAX(id), 0) FROM subtypes;
+
 selectSubtypeById:
 SELECT * FROM subtypes WHERE id = ?;
 

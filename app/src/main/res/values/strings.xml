@@ -151,7 +151,79 @@
     <string name="packing_hint">Packing lists arrive with the next milestone.</string>
 
     <string name="settings_headline">Settings</string>
-    <string name="settings_hint">Preferences land here soon.</string>
+
+    <!-- Settings hub -->
+    <string name="settings_menu_customization">Customization</string>
+    <string name="settings_menu_customization_hint">Categories and custom fields</string>
+    <string name="settings_menu_tags">Tags and seasons</string>
+    <string name="settings_menu_tags_hint">Rename or remove your tags</string>
+    <string name="settings_menu_export">Export data</string>
+    <string name="settings_menu_export_stub">Coming soon</string>
+    <string name="settings_menu_debug_log">Export debug log</string>
+    <string name="settings_debug_log_note">Nothing is sent automatically</string>
+    <string name="settings_debug_log_ready">Log saved: %1$s</string>
+    <string name="settings_debug_log_failed">Couldn’t create the log file</string>
+    <string name="settings_menu_about">About the app</string>
+    <string name="about_title">About Svita</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_license">License: GPL-3.0</string>
+    <string name="about_tagline">A wardrobe that lives entirely on your device. No accounts, no cloud, no telemetry.</string>
+
+    <!-- Customization: categories -->
+    <string name="customization_title">Customization</string>
+    <string name="categories_title">Categories</string>
+    <string name="category_add">Add category</string>
+    <string name="category_edit">Edit category</string>
+    <string name="category_name_en">Name (English)</string>
+    <string name="category_name_uk">Name (Ukrainian)</string>
+    <string name="category_section_label">Section</string>
+    <string name="category_icon">Icon</string>
+    <string name="category_icon_none">No icon</string>
+    <string name="category_system_hint">System category: the name and icon are editable</string>
+    <string name="categories_reset">Reset to defaults</string>
+    <string name="categories_reset_confirm_title">Reset to defaults?</string>
+    <string name="categories_reset_confirm_text">Custom categories and their fields will be deleted; changed system categories will return to their standard names and icons.</string>
+    <string name="categories_reset_blocked">Custom categories still have items — move or delete them first</string>
+    <string name="category_delete_confirm_title">Delete category?</string>
+    <string name="category_delete_confirm_text">The category “%1$s”, its types and its fields will be deleted.</string>
+    <string name="category_delete_blocked_items">The category has items — move or delete them first</string>
+    <string name="category_delete_blocked_subtypes">The category is not empty: it still has types</string>
+    <string name="category_move_up">Move up</string>
+    <string name="category_move_down">Move down</string>
+    <string name="category_items_count">Items: %1$d</string>
+
+    <!-- Outfit sections (categories grouping) -->
+    <string name="section_body">Top</string>
+    <string name="section_legs">Bottom</string>
+    <string name="section_feet">Shoes</string>
+    <string name="section_dress">Dresses</string>
+    <string name="section_outer">Outerwear</string>
+    <string name="section_accessory">Accessories</string>
+    <string name="section_hat">Headwear</string>
+    <string name="section_scarf">Scarves</string>
+    <string name="section_bag">Bags</string>
+
+    <!-- Customization: attribute definition editor -->
+    <string name="fields_title">Custom fields</string>
+    <string name="fields_empty">No fields yet</string>
+    <string name="field_add">Add field</string>
+    <string name="field_edit">Edit field</string>
+    <string name="field_scope">Applies to</string>
+    <string name="field_scope_global">All categories</string>
+    <string name="field_delete_confirm_title">Delete field?</string>
+    <string name="field_delete_confirm_text">The field “%1$s” and all its saved values on items will be deleted.</string>
+    <string name="field_option_add">Add option</string>
+    <string name="field_duplicate">A field with this name already exists</string>
+
+    <!-- Tag manager -->
+    <string name="tags_title">Tags</string>
+    <string name="tags_empty">No tags yet</string>
+    <string name="tag_rename">Rename</string>
+    <string name="tag_new_name">New name</string>
+    <string name="tag_rename_duplicate">A tag with this name already exists</string>
+    <string name="tag_delete_confirm_title">Delete tag?</string>
+    <string name="tag_delete_confirm_text">The tag “%1$s” will be removed from all items.</string>
+    <string name="tags_seasons_note">Seasons are fixed: spring, summer, autumn, winter.</string>
 
     <string name="manifesto_line">NO ACCOUNTS · NO CLOUD · NO ADS · NO SUBSCRIPTIONS · NO TELEMETRY</string>
 </resources>

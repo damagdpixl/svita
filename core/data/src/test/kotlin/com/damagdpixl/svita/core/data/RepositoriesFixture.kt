@@ -23,6 +23,7 @@ internal class RepositoriesFixture {
 
     val wardrobe: WardrobeRepository = WardrobeRepositoryImpl(db)
     val taxonomy: TaxonomyRepository = TaxonomyRepositoryImpl(db)
+    val taxonomyEditor: TaxonomyEditorRepository = TaxonomyEditorRepositoryImpl(db)
     val attributes: AttributesRepository = AttributesRepositoryImpl(db)
     val outfits: OutfitRepository = OutfitRepositoryImpl(db)
     val wearLog: WearLogRepository = WearLogRepositoryImpl(db)

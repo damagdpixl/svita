@@ -5,15 +5,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.damagdpixl.svita.core.data.ItemDraft
 import com.damagdpixl.svita.core.data.ValueValidation
+import com.damagdpixl.svita.core.model.AttributeDefinition
 import com.damagdpixl.svita.core.model.AttributeType
 import com.damagdpixl.svita.core.model.Season
 import com.damagdpixl.svita.core.model.Sex
 import com.damagdpixl.svita.core.model.Tag
 import com.damagdpixl.svita.data.SvitaGraph
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
@@ -53,7 +59,13 @@ data class ItemEditorState(
  * contract: createItem/updateItem write values as-is), imports picked photos
  * into private storage (downscale + JPEG 85) and writes through the repository
  * in one transaction.
+ *
+ * Custom-attribute fields are REACTIVE: the definitions flow of the selected
+ * subtype's category is observed, so a field created/edited/deleted in the
+ * customization screens (or through the inline creator) appears/changes in the
+ * form immediately. Typed values survive the refresh (keyed by definition id).
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 class ItemEditorViewModel(
     private val graph: SvitaGraph.Graph,
     localeTag: String = "uk",
@@ -65,6 +77,9 @@ class ItemEditorViewModel(
 
     /** Originals of the loaded item — removed ones get their files deleted. */
     private var originalPhotos: List<String> = emptyList()
+
+    /** definitionId -> raw input, the source of truth across flow refreshes. */
+    private val attributeValues = MutableStateFlow<Map<Long, String>>(emptyMap())
 
     private val _state = MutableStateFlow(ItemEditorState())
     val state: StateFlow<ItemEditorState> = _state
@@ -90,10 +105,7 @@ class ItemEditorViewModel(
                 return@launch
             }
             originalPhotos = aggregate.photos.sortedBy { photo -> photo.position }.map { it.path }
-            val definitions = repos.attributes
-                .observeDefinitions(aggregate.subtype.categoryId)
-                .first()
-            val storedValues = aggregate.attributes.associate { entry ->
+            attributeValues.value = aggregate.attributes.associate { entry ->
                 entry.definitionId to entry.value
             }
             _state.value = _state.value.copy(
@@ -108,10 +120,29 @@ class ItemEditorViewModel(
                 notes = aggregate.item.notes.orEmpty(),
                 storedPhotos = originalPhotos,
                 selectedTagIds = aggregate.tags.map { it.id }.toSet(),
-                attributeInputs = definitions.map { definition ->
-                    AttributeInput(definition, storedValues[definition.id].orEmpty())
-                },
             )
+        }
+        // Live attribute fields: switched whenever the selected subtype's
+        // category changes, re-emitted on every definition CRUD.
+        viewModelScope.launch {
+            state
+                .map(::selectedCategoryId)
+                .distinctUntilChanged()
+                .flatMapLatest { categoryId ->
+                    if (categoryId == null) {
+                        flowOf(emptyList())
+                    } else {
+                        repos.attributes.observeDefinitions(categoryId)
+                    }
+                }
+                .collect { definitions ->
+                    val values = attributeValues.value
+                    _state.value = _state.value.copy(
+                        attributeInputs = definitions.map { definition ->
+                            AttributeInput(definition, values[definition.id].orEmpty())
+                        },
+                    )
+                }
         }
     }
 
@@ -178,6 +209,7 @@ class ItemEditorViewModel(
     }
 
     fun setAttributeValue(definitionId: Long, value: String) {
+        attributeValues.value = attributeValues.value + (definitionId to value)
         _state.value = _state.value.copy(
             attributeInputs = _state.value.attributeInputs.map { input ->
                 if (input.definition.id == definitionId) {
@@ -190,7 +222,12 @@ class ItemEditorViewModel(
         )
     }
 
-    /** Creates a new attribute definition scoped to the selected subtype's category. */
+    /**
+     * Creates a new attribute definition scoped to the selected subtype's
+     * category. The reactive definitions flow picks it up — no manual append.
+     * A duplicate key raises UNIQUE on the database — surface it as a no-op
+     * instead of crashing the coroutine scope.
+     */
     fun addAttributeDefinition(
         name: String,
         type: AttributeType,
@@ -201,11 +238,7 @@ class ItemEditorViewModel(
         val key = name.trim()
         if (key.isEmpty()) return
         viewModelScope.launch {
-            val categoryId = _state.value.subtypeId?.let { subtypeId ->
-                _state.value.groups
-                    .firstOrNull { group -> group.subtypes.any { it.id == subtypeId } }
-                    ?.category?.id
-            }
+            val categoryId = selectedCategoryId(_state.value)
             val config: String? = when (type) {
                 AttributeType.ENUM, AttributeType.MULTI ->
                     optionsText.split(',')
@@ -219,9 +252,7 @@ class ItemEditorViewModel(
 
                 else -> null
             }
-            // A duplicate key raises UNIQUE on the database — surface it as a
-            // no-op instead of crashing the coroutine scope.
-            val definitionId = runCatching {
+            runCatching {
                 repos.attributes.createDefinition(
                     categoryId = categoryId,
                     key = key.lowercase().replace(' ', '_'),
@@ -229,11 +260,7 @@ class ItemEditorViewModel(
                     config = config,
                     sortOrder = 0,
                 )
-            }.getOrNull() ?: return@launch
-            val definition = repos.attributes.definition(definitionId) ?: return@launch
-            _state.value = _state.value.copy(
-                attributeInputs = _state.value.attributeInputs + AttributeInput(definition, ""),
-            )
+            }
         }
     }
 
@@ -331,6 +358,15 @@ class ItemEditorViewModel(
 
     fun localizeSubtype(subtype: com.damagdpixl.svita.core.model.Subtype): String =
         if (ukrainian) subtype.nameUk else subtype.nameEn
+
+    /** Category of the selected subtype; null before a subtype is picked. */
+    private fun selectedCategoryId(state: ItemEditorState): Long? {
+        val subtypeId = state.subtypeId ?: return null
+        if (state.groups.isEmpty()) return null
+        return state.groups
+            .firstOrNull { group -> group.subtypes.any { it.id == subtypeId } }
+            ?.category?.id
+    }
 
     private fun <T> Set<T>.toggle(value: T): Set<T> =
         if (value in this) this - value else this + value

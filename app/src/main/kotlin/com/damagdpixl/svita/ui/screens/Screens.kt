@@ -87,12 +87,3 @@ fun PackingScreen(modifier: Modifier = Modifier) {
     )
 }
 
-@Composable
-fun SettingsScreen(modifier: Modifier = Modifier) {
-    PlaceholderScreen(
-        headlineText = stringResource(R.string.settings_headline),
-        hintText = stringResource(R.string.settings_hint),
-        screenTag = "screen_settings",
-        modifier = modifier,
-    )
-}

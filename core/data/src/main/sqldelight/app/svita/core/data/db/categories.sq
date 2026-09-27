@@ -24,3 +24,72 @@ SELECT * FROM categories WHERE id = ?;
 -- Backup restore (REPLACE import re-seeds the taxonomy after a wipe).
 deleteAllCategories:
 DELETE FROM categories;
+
+-- ---- P2 category editor / reset-to-defaults -------------------------------
+
+-- User-created category: the id is assigned by SQLite (INTEGER PRIMARY KEY).
+insertCustomCategory:
+INSERT INTO categories (parent_id, name_en, name_uk, icon, sort_order, system_flag, section)
+VALUES (?, ?, ?, ?, ?, 0, ?);
+
+selectLastInsertedCategoryId:
+SELECT last_insert_rowid();
+
+updateCategoryRow:
+UPDATE categories
+SET name_en = ?, name_uk = ?, icon = ?, sort_order = ?, section = ?
+WHERE id = ?;
+
+-- Display names of a custom category's auto subtype follow category renames.
+renameCustomSubtypeNames:
+UPDATE subtypes SET name_en = ?, name_uk = ?
+WHERE category_id = ? AND key LIKE 'custom.%';
+
+countItemsByCategory:
+SELECT COUNT(*) FROM items
+JOIN subtypes ON items.subtype_id = subtypes.id
+WHERE subtypes.category_id = ?;
+
+-- One row per category that has items (absent category ids = zero items).
+selectItemCountsByCategory:
+SELECT subtypes.category_id AS categoryId, COUNT(*) AS itemCount
+FROM items JOIN subtypes ON items.subtype_id = subtypes.id
+GROUP BY subtypes.category_id;
+
+deleteAttributeDefinitionsByCategory:
+DELETE FROM attribute_definitions WHERE category_id = ?;
+
+deleteSubtypesByCategory:
+DELETE FROM subtypes WHERE category_id = ?;
+
+deleteCategoryRow:
+DELETE FROM categories WHERE id = ?;
+
+-- Custom categories are roots in this product; detach defensively so the bulk
+-- delete below cannot hit the self-referencing FK on future data shapes.
+detachCustomCategoryParents:
+UPDATE categories SET parent_id = NULL WHERE system_flag = 0;
+
+deleteCustomCategories:
+DELETE FROM categories WHERE system_flag = 0;
+
+-- Reset-to-defaults: restore the pristine captured row of a system category.
+restoreCategoryRow:
+UPDATE categories
+SET parent_id = ?, name_en = ?, name_uk = ?, icon = ?, sort_order = ?, system_flag = ?, section = ?
+WHERE id = ?;
+
+selectCategoryIds:
+SELECT id FROM categories;
+
+selectCategoryCount:
+SELECT COUNT(*) FROM categories;
+
+-- Default sort slot for a newly created custom category (max + 10).
+selectMaxCategorySortOrder:
+SELECT COALESCE(MAX(sort_order), 0) FROM categories;
+
+-- System categories are deletable only when truly empty: no items (checked
+-- via countItemsByCategory) and no subtypes left under them.
+countSubtypesByCategory:
+SELECT COUNT(*) FROM subtypes WHERE category_id = ?;

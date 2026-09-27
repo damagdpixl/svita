@@ -169,6 +169,15 @@ internal class WardrobeRepositoryImpl(private val db: AppDatabase) : WardrobeRep
         db.tagsQueries.deleteTag(id)
     }
 
+    override suspend fun renameTag(id: Long, newName: String): Unit = db.write {
+        if (db.tagsQueries.selectTagById(id).executeAsOneOrNull() == null) {
+            throw NoSuchElementException("tag $id does not exist")
+        }
+        // A duplicate newName raises the tags.name UNIQUE constraint here; the
+        // item_tags links survive either way — the update is in place by id.
+        db.tagsQueries.updateTagName(name = newName, id = id)
+    }
+
     private fun replaceChildren(id: Long, photos: List<String>, tagIds: Set<Long>, attributeValues: Map<Long, String>) {
         photos.forEachIndexed { index, path -> db.photosQueries.insertPhoto(id, path, index.toLong()) }
         tagIds.forEach { db.tagsQueries.insertItemTag(id, it) }

@@ -12,6 +12,13 @@ SELECT last_insert_rowid();
 selectTagByName:
 SELECT * FROM tags WHERE name = ?;
 
+selectTagById:
+SELECT * FROM tags WHERE id = ?;
+
+-- Tag rename in place: item_tags references the id, so links survive.
+updateTagName:
+UPDATE tags SET name = ? WHERE id = ?;
+
 selectAllTags:
 SELECT * FROM tags ORDER BY name;
 

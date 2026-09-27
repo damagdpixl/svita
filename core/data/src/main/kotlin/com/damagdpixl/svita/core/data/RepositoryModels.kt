@@ -152,3 +152,26 @@ data class CategoryNode(
     val category: Category,
     val children: List<CategoryNode>,
 )
+
+/** Why a category deletion was refused (see TaxonomyEditorRepository.deleteCategory). */
+enum class CategoryDeleteBlock {
+    /** Items still reference the category's subtypes. */
+    HAS_ITEMS,
+
+    /** A system category still carries its seeded subtypes (engine data). */
+    HAS_SUBTYPES,
+}
+
+/** Result of TaxonomyEditorRepository.deleteCategory. */
+sealed interface CategoryDeleteResult {
+    data object Deleted : CategoryDeleteResult
+    data class Blocked(val reason: CategoryDeleteBlock) : CategoryDeleteResult
+}
+
+/** Result of TaxonomyEditorRepository.resetToDefaults. */
+sealed interface ResetTaxonomyResult {
+    data object Reset : ResetTaxonomyResult
+
+    /** Some custom category still holds items — nothing was touched. */
+    data object BlockedByItems : ResetTaxonomyResult
+}

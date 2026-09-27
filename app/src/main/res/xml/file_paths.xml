@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Only the manual debug-log export directory is shareable. -->
+<paths>
+    <cache-path
+        name="debug_logs"
+        path="debug_logs/" />
+</paths>

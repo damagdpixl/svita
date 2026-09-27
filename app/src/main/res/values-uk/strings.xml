@@ -152,7 +152,79 @@
     <string name="packing_hint">Списки для поїздок з’являться в наступній версії.</string>
 
     <string name="settings_headline">Налаштування</string>
-    <string name="settings_hint">Уподобання з’являться тут уже скоро.</string>
+
+    <!-- Головна налаштувань -->
+    <string name="settings_menu_customization">Кастомізація</string>
+    <string name="settings_menu_customization_hint">Категорії та власні поля</string>
+    <string name="settings_menu_tags">Теги й сезони</string>
+    <string name="settings_menu_tags_hint">Перейменовуйте та видаляйте свої теги</string>
+    <string name="settings_menu_export">Експорт даних</string>
+    <string name="settings_menu_export_stub">Незабаром</string>
+    <string name="settings_menu_debug_log">Експортувати лог налагодження</string>
+    <string name="settings_debug_log_note">Нічого не надсилається автоматично</string>
+    <string name="settings_debug_log_ready">Лог збережено: %1$s</string>
+    <string name="settings_debug_log_failed">Не вдалося створити файл лога</string>
+    <string name="settings_menu_about">Про застосунок</string>
+    <string name="about_title">Про застосунок</string>
+    <string name="about_version">Версія %1$s</string>
+    <string name="about_license">Ліцензія: GPL-3.0</string>
+    <string name="about_tagline">Гардероб, що живе повністю на вашому пристрої. Без акаунтів, хмари й телеметрії.</string>
+
+    <!-- Кастомізація: категорії -->
+    <string name="customization_title">Кастомізація</string>
+    <string name="categories_title">Категорії</string>
+    <string name="category_add">Додати категорію</string>
+    <string name="category_edit">Редагувати категорію</string>
+    <string name="category_name_en">Назва (англійською)</string>
+    <string name="category_name_uk">Назва (українською)</string>
+    <string name="category_section_label">Розділ</string>
+    <string name="category_icon">Іконка</string>
+    <string name="category_icon_none">Без іконки</string>
+    <string name="category_system_hint">Системна категорія: можна змінювати назву та іконку</string>
+    <string name="categories_reset">Скинути до стандартних</string>
+    <string name="categories_reset_confirm_title">Скинути до стандартних?</string>
+    <string name="categories_reset_confirm_text">Власні категорії та їхні поля буде видалено; змінені системні категорії повернуться до стандартних назв та іконок.</string>
+    <string name="categories_reset_blocked">У власних категоріях ще є речі — спочатку перемістіть або видаліть їх</string>
+    <string name="category_delete_confirm_title">Видалити категорію?</string>
+    <string name="category_delete_confirm_text">Категорію «%1$s», її типи та поля буде видалено.</string>
+    <string name="category_delete_blocked_items">У категорії є речі — спочатку перемістіть або видаліть їх</string>
+    <string name="category_delete_blocked_subtypes">Категорія не порожня: у ній лишилися типи</string>
+    <string name="category_move_up">Вище</string>
+    <string name="category_move_down">Нижче</string>
+    <string name="category_items_count">Речей: %1$d</string>
+
+    <!-- Розділи образів (групування категорій) -->
+    <string name="section_body">Верх</string>
+    <string name="section_legs">Низ</string>
+    <string name="section_feet">Взуття</string>
+    <string name="section_dress">Сукні</string>
+    <string name="section_outer">Верхній одяг</string>
+    <string name="section_accessory">Аксесуари</string>
+    <string name="section_hat">Головні убори</string>
+    <string name="section_scarf">Шарфи</string>
+    <string name="section_bag">Сумки</string>
+
+    <!-- Кастомізація: редактор власних полів -->
+    <string name="fields_title">Власні поля</string>
+    <string name="fields_empty">Ще немає полів</string>
+    <string name="field_add">Додати поле</string>
+    <string name="field_edit">Редагувати поле</string>
+    <string name="field_scope">Застосовується до</string>
+    <string name="field_scope_global">Усі категорії</string>
+    <string name="field_delete_confirm_title">Видалити поле?</string>
+    <string name="field_delete_confirm_text">Поле «%1$s» і всі збережені значення речей буде видалено.</string>
+    <string name="field_option_add">Додати варіант</string>
+    <string name="field_duplicate">Поле з такою назвою вже існує</string>
+
+    <!-- Менеджер тегів -->
+    <string name="tags_title">Теги</string>
+    <string name="tags_empty">Тегів ще немає</string>
+    <string name="tag_rename">Перейменувати</string>
+    <string name="tag_new_name">Нова назва</string>
+    <string name="tag_rename_duplicate">Тег з такою назвою вже існує</string>
+    <string name="tag_delete_confirm_title">Видалити тег?</string>
+    <string name="tag_delete_confirm_text">Тег «%1$s» буде знято з усіх речей.</string>
+    <string name="tags_seasons_note">Сезони фіксовані: весна, літо, осінь, зима.</string>
 
     <string name="manifesto_line">БЕЗ АКАУНТІВ · БЕЗ ХМАРИ · БЕЗ РЕКЛАМИ · БЕЗ ПІДПИСОК · БЕЗ ТЕЛЕМЕТРІЇ</string>
 </resources>
