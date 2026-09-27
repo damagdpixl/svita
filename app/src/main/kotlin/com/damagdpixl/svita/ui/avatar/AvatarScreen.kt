@@ -2,6 +2,7 @@ package com.damagdpixl.svita.ui.avatar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -93,16 +94,28 @@ fun AvatarScreen(
                     .padding(top = 8.dp)
                     .testTag("avatar_preview_card"),
             ) {
-                AvatarCanvas(
-                    manifest = AvatarManifest(
-                        bodyType = state.body,
-                        skinTone = state.tone,
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(0.55f),
-                    testTag = "avatar_preview",
-                )
+                if (state.loading) {
+                    // Held until the persisted body/tone are loaded, so the
+                    // preview never flashes the defaults before the real
+                    // configuration appears.
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(0.55f)
+                            .testTag("avatar_preview_loading"),
+                    )
+                } else {
+                    AvatarCanvas(
+                        manifest = AvatarManifest(
+                            bodyType = state.body,
+                            skinTone = state.tone,
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(0.55f),
+                        testTag = "avatar_preview",
+                    )
+                }
             }
 
             Text(

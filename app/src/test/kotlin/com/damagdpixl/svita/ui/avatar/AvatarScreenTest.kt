@@ -1,6 +1,7 @@
 package com.damagdpixl.svita.ui.avatar
 
 import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import com.damagdpixl.svita.data.AvatarPrefs
@@ -72,10 +73,14 @@ class AvatarScreenTest : WardrobeUiTestBase() {
             graph.repos.settings.putString(AvatarPrefs.AVATAR_TONE, "medium")
         }
         openAvatar()
-        composeRule.onNodeWithContentDescription("Paper-doll avatar: slim body, medium skin")
-            .assertExists()
-        // Обидва чипи «стрункий» і «середній» у вибраному стані (мариголд):
-        // у дереві семантики вони існують саме як вибрані чипи з цим текстом.
+        // Завантаження збережених значень асинхронне: чекаємо саме на
+        // відновлений стан, а не на перший кадр із дефолтами (гонка,
+        // яку спіймав CI).
+        waitUntilTrue("попередній перегляд відновив slim/medium") {
+            composeRule.onAllNodesWithContentDescription(
+                "Paper-doll avatar: slim body, medium skin",
+            ).fetchSemanticsNodes().isNotEmpty()
+        }
         waitUntilTrue("чип slim присутній") {
             composeRule.onAllNodesWithTag("avatar_body_slim", useUnmergedTree = true)
                 .fetchSemanticsNodes().isNotEmpty()

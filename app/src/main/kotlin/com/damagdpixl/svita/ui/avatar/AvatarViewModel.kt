@@ -29,21 +29,32 @@ class AvatarViewModel(private val graph: SvitaGraph.Graph) : ViewModel() {
     private val _state = MutableStateFlow(AvatarState())
     val state: StateFlow<AvatarState> = _state
 
+    /**
+     * Once true, the initial load result is discarded: a picker change made
+     * before the (asynchronous) load completes must never be clobbered by
+     * the stale stored values.
+     */
+    private var userEdited = false
+
     init {
         viewModelScope.launch {
             val body = AvatarBodyType.fromId(settings.getString(AvatarPrefs.AVATAR_BODY))
             val tone = AvatarSkinTone.fromId(settings.getString(AvatarPrefs.AVATAR_TONE))
-            _state.value = AvatarState(loading = false, body = body, tone = tone)
+            if (!userEdited) {
+                _state.value = AvatarState(loading = false, body = body, tone = tone)
+            }
         }
     }
 
     fun setBody(body: AvatarBodyType) {
-        _state.value = _state.value.copy(body = body)
+        userEdited = true
+        _state.value = _state.value.copy(loading = false, body = body)
         viewModelScope.launch { settings.putString(AvatarPrefs.AVATAR_BODY, body.id) }
     }
 
     fun setTone(tone: AvatarSkinTone) {
-        _state.value = _state.value.copy(tone = tone)
+        userEdited = true
+        _state.value = _state.value.copy(loading = false, tone = tone)
         viewModelScope.launch { settings.putString(AvatarPrefs.AVATAR_TONE, tone.id) }
     }
 }
