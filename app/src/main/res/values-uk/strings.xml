@@ -156,6 +156,8 @@
     <!-- Головна налаштувань -->
     <string name="settings_menu_customization">Кастомізація</string>
     <string name="settings_menu_customization_hint">Категорії та власні поля</string>
+    <string name="settings_menu_avatar">Аватар</string>
+    <string name="settings_menu_avatar_hint">Тіло та тон шкіри</string>
     <string name="settings_menu_tags">Теги й сезони</string>
     <string name="settings_menu_tags_hint">Перейменовуйте та видаляйте свої теги</string>
     <string name="settings_menu_export">Експорт даних</string>
@@ -229,4 +231,16 @@
     <string name="tags_seasons_note">Сезони фіксовані: весна, літо, осінь, зима.</string>
 
     <string name="manifesto_line">БЕЗ АКАУНТІВ · БЕЗ ХМАРИ · БЕЗ РЕКЛАМИ · БЕЗ ПІДПИСОК · БЕЗ ТЕЛЕМЕТРІЇ</string>
+
+    <!-- Налаштування аватара (паперова лялька) -->
+    <string name="avatar_title">Аватар</string>
+    <string name="avatar_preview_caption">Мій аватар</string>
+    <string name="avatar_body_label">Тип тіла</string>
+    <string name="avatar_tone_label">Тон шкіри</string>
+    <string name="avatar_body_slim">Стрункий</string>
+    <string name="avatar_body_regular">Звичайний</string>
+    <string name="avatar_body_curvy">Пишні форми</string>
+    <string name="avatar_tone_light">Світлий</string>
+    <string name="avatar_tone_medium">Середній</string>
+    <string name="avatar_tone_deep">Темний</string>
 </resources>

@@ -52,4 +52,7 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.compose.ui.test.junit4)
     testImplementation(libs.androidx.compose.ui.test.manifest)
+    // TEST-ONLY: the avatar tint test pins its contrast contract against the
+    // canonical 24-color palette data table; the main source set stays clean.
+    testImplementation(project(":core:engine"))
 }

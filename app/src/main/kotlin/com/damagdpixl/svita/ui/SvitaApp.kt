@@ -34,6 +34,7 @@ import com.damagdpixl.svita.core.designsystem.monoUpper
 import com.damagdpixl.svita.ui.screens.CalendarScreen
 import com.damagdpixl.svita.ui.screens.OutfitsScreen
 import com.damagdpixl.svita.ui.screens.PackingScreen
+import com.damagdpixl.svita.ui.avatar.AvatarScreen
 import com.damagdpixl.svita.ui.settings.CustomizationScreen
 import com.damagdpixl.svita.ui.settings.SettingsScreen
 import com.damagdpixl.svita.ui.settings.TagsScreen
@@ -53,6 +54,7 @@ object Routes {
     /** Settings hub sub-screens (the customization USP). */
     const val CUSTOMIZATION = "settings/customization"
     const val TAGS = "settings/tags"
+    const val AVATAR = "settings/avatar"
 
     const val ITEM_DETAIL = "wardrobe/item/{itemId}"
     const val ITEM_EDITOR = "wardrobe/edit/{itemId}"
@@ -185,6 +187,7 @@ fun SvitaApp(modifier: Modifier = Modifier) {
                 SettingsScreen(
                     onOpenCustomization = { navController.navigate(Routes.CUSTOMIZATION) },
                     onOpenTags = { navController.navigate(Routes.TAGS) },
+                    onOpenAvatar = { navController.navigate(Routes.AVATAR) },
                 )
             }
             composable(Routes.CUSTOMIZATION) {
@@ -192,6 +195,9 @@ fun SvitaApp(modifier: Modifier = Modifier) {
             }
             composable(Routes.TAGS) {
                 TagsScreen(onBack = { navController.popBackStack() })
+            }
+            composable(Routes.AVATAR) {
+                AvatarScreen(onBack = { navController.popBackStack() })
             }
         }
     }

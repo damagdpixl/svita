@@ -24,3 +24,5 @@ build/
 captures/
 .externalNativeBuild/
 .cxx/
+# Kotlin daemon/build session artifacts
+.kotlin/

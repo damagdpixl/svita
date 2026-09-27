@@ -22,6 +22,15 @@ object WardrobePrefs {
     const val IMPORT_HINT_DISMISSED: String = "wardrobe.import_hint_dismissed"
 }
 
+/** Settings keys of the paper-doll avatar (Settings -> Аватар). */
+object AvatarPrefs {
+    /** Body silhouette: slim | regular | curvy (AvatarBodyType.id). */
+    const val AVATAR_BODY: String = "avatar.body"
+
+    /** Skin tone: light | medium | deep (AvatarSkinTone.id). */
+    const val AVATAR_TONE: String = "avatar.tone"
+}
+
 /**
  * The manual dependency graph of the app (no DI framework, per task contract).
  *

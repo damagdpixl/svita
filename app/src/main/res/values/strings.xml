@@ -155,6 +155,8 @@
     <!-- Settings hub -->
     <string name="settings_menu_customization">Customization</string>
     <string name="settings_menu_customization_hint">Categories and custom fields</string>
+    <string name="settings_menu_avatar">Avatar</string>
+    <string name="settings_menu_avatar_hint">Body and skin tone</string>
     <string name="settings_menu_tags">Tags and seasons</string>
     <string name="settings_menu_tags_hint">Rename or remove your tags</string>
     <string name="settings_menu_export">Export data</string>
@@ -228,4 +230,16 @@
     <string name="tags_seasons_note">Seasons are fixed: spring, summer, autumn, winter.</string>
 
     <string name="manifesto_line">NO ACCOUNTS · NO CLOUD · NO ADS · NO SUBSCRIPTIONS · NO TELEMETRY</string>
+
+    <!-- Avatar (paper-doll) settings -->
+    <string name="avatar_title">Avatar</string>
+    <string name="avatar_preview_caption">My avatar</string>
+    <string name="avatar_body_label">Body type</string>
+    <string name="avatar_tone_label">Skin tone</string>
+    <string name="avatar_body_slim">Slim</string>
+    <string name="avatar_body_regular">Regular</string>
+    <string name="avatar_body_curvy">Curvy</string>
+    <string name="avatar_tone_light">Light</string>
+    <string name="avatar_tone_medium">Medium</string>
+    <string name="avatar_tone_deep">Deep</string>
 </resources>
