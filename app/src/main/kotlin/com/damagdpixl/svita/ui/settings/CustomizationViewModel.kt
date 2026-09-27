@@ -139,7 +139,9 @@ class CustomizationViewModel(private val graph: SvitaGraph.Graph) : ViewModel() 
     /**
      * Creates a definition. Config JSON matches the internal
      * :core:data AttributeValidator shapes exactly (mirrored encoders live in
-     * the wardrobe Common.kt). Duplicate key+scope is refused client-side.
+     * the wardrobe Common.kt). A duplicate key+scope is refused client-side —
+     * [onResult] reports false, the caller keeps the dialog open with the
+     * inline `field_duplicate` error; true is reported only after the write.
      */
     fun createDefinition(
         name: String,
@@ -148,16 +150,19 @@ class CustomizationViewModel(private val graph: SvitaGraph.Graph) : ViewModel() 
         minText: String,
         maxText: String,
         categoryId: Long?,
-        onDuplicate: () -> Unit,
+        onResult: (Boolean) -> Unit,
     ) {
         val key = definitionKey(name)
-        if (key.isEmpty()) return
+        if (key.isEmpty()) {
+            onResult(false)
+            return
+        }
         if (_state.value.definitions.any { it.key == key && it.categoryId == categoryId }) {
-            onDuplicate()
+            onResult(false)
             return
         }
         viewModelScope.launch {
-            runCatching {
+            val success = runCatching {
                 repos.attributes.createDefinition(
                     categoryId = categoryId,
                     key = key,
@@ -165,7 +170,8 @@ class CustomizationViewModel(private val graph: SvitaGraph.Graph) : ViewModel() 
                     config = buildConfig(type, options, minText, maxText),
                     sortOrder = 0,
                 )
-            }
+            }.isSuccess
+            onResult(success)
         }
     }
 
@@ -177,16 +183,19 @@ class CustomizationViewModel(private val graph: SvitaGraph.Graph) : ViewModel() 
         minText: String,
         maxText: String,
         categoryId: Long?,
-        onDuplicate: () -> Unit,
+        onResult: (Boolean) -> Unit,
     ) {
         val key = definitionKey(name)
-        if (key.isEmpty()) return
+        if (key.isEmpty()) {
+            onResult(false)
+            return
+        }
         if (_state.value.definitions.any { it.key == key && it.categoryId == categoryId && it.id != id }) {
-            onDuplicate()
+            onResult(false)
             return
         }
         viewModelScope.launch {
-            runCatching {
+            val success = runCatching {
                 repos.attributes.updateDefinition(
                     id = id,
                     categoryId = categoryId,
@@ -195,7 +204,8 @@ class CustomizationViewModel(private val graph: SvitaGraph.Graph) : ViewModel() 
                     config = buildConfig(type, options, minText, maxText),
                     sortOrder = 0,
                 )
-            }
+            }.isSuccess
+            onResult(success)
         }
     }
 

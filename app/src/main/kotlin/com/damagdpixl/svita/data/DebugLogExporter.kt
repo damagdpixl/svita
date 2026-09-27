@@ -22,12 +22,20 @@ import java.io.File
 class DebugLogExporter(
     private val context: Context,
     private val logLines: () -> List<String> = Companion::recentLogcatLines,
+    /** Injectable so tests never touch the FileProvider's static authority cache. */
+    private val shareUriOf: (File) -> Uri = { file ->
+        FileProvider.getUriForFile(context, context.packageName + ".fileprovider", file)
+    },
 ) {
 
-    /** The written log file plus its share-sheet content URI (FileProvider). */
-    data class Exported(val file: File, val shareUri: Uri)
+    /** Content URI for the system share sheet (FileProvider authority). */
+    fun shareUri(file: File): Uri = shareUriOf(file)
 
-    fun export(): Result<Exported> = runCatching {
+    /**
+     * Writes the log file; NEVER touches the share glue, so a FileProvider
+     * problem can't mask whether the file itself was produced.
+     */
+    fun export(): Result<File> = runCatching {
         val dir = File(context.cacheDir, "debug_logs").apply { mkdirs() }
         val file = File(dir, "svita-debug-log.txt")
         val appVersion = runCatching {
@@ -39,22 +47,20 @@ class DebugLogExporter(
             appendLine("android: ${Build.VERSION.RELEASE} (SDK ${Build.VERSION.SDK_INT})")
             appendLine("app: $appVersion")
             appendLine()
-            logLines().forEach(::appendLine)
+            // Cap enforced here too: an injected (or misbehaving) source must
+            // not balloon the file. Newest lines win.
+            logLines().takeLast(MAX_LINES).forEach(::appendLine)
         })
-        Exported(
-            file = file,
-            shareUri = FileProvider.getUriForFile(
-                context,
-                context.packageName + ".fileprovider",
-                file,
-            ),
-        )
+        file
     }
 
     companion object {
+        /** Newest-lines cap of the exported log section. */
+        const val MAX_LINES: Int = 500
+
         /** Logcat lines of this process, Debug level+, newest ~[limit]. Empty
          * when the logcat binary is unavailable (some test environments). */
-        fun recentLogcatLines(limit: Int = 500): List<String> = runCatching {
+        fun recentLogcatLines(limit: Int = MAX_LINES): List<String> = runCatching {
             val process = ProcessBuilder(
                 "logcat", "-d", "-t", limit.toString(), "-v", "time",
                 "--pid=" + Process.myPid(), "*:D",

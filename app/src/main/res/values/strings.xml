@@ -214,6 +214,8 @@
     <string name="field_delete_confirm_text">The field “%1$s” and all its saved values on items will be deleted.</string>
     <string name="field_option_add">Add option</string>
     <string name="field_duplicate">A field with this name already exists</string>
+    <string name="field_options_required">Add at least one option</string>
+    <string name="field_range_invalid">The minimum cannot exceed the maximum</string>
 
     <!-- Tag manager -->
     <string name="tags_title">Tags</string>

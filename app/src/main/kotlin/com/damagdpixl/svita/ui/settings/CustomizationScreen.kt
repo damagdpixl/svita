@@ -34,6 +34,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
@@ -55,6 +57,7 @@ import com.damagdpixl.svita.ui.wardrobe.EditorialDialog
 import com.damagdpixl.svita.ui.wardrobe.OutlinedInput
 import com.damagdpixl.svita.ui.wardrobe.attributeTypeLabelRes
 import com.damagdpixl.svita.ui.wardrobe.optionsOf
+import com.damagdpixl.svita.ui.wardrobe.parsePrice
 
 @StringRes
 fun sectionLabelRes(section: Section): Int = when (section) {
@@ -296,11 +299,8 @@ fun CustomizationScreen(
     if (showFieldCreator) {
         FieldEditorDialog(
             categories = state.categories,
-            onCreate = { name, type, options, min, max, categoryId ->
-                viewModel.createDefinition(name, type, options, min, max, categoryId) {
-                    // duplicate key: surfaced inline by the dialog state
-                }
-                showFieldCreator = false
+            onSave = { name, type, options, min, max, categoryId, onResult ->
+                viewModel.createDefinition(name, type, options, min, max, categoryId, onResult)
             },
             onDismiss = { showFieldCreator = false },
         )
@@ -309,11 +309,10 @@ fun CustomizationScreen(
         FieldEditorDialog(
             categories = state.categories,
             existing = definition,
-            onUpdate = { name, type, options, min, max, categoryId ->
+            onSave = { name, type, options, min, max, categoryId, onResult ->
                 viewModel.updateDefinition(
-                    definition.id, name, type, options, min, max, categoryId,
-                ) { }
-                editingField = null
+                    definition.id, name, type, options, min, max, categoryId, onResult,
+                )
             },
             onDismiss = { editingField = null },
         )
@@ -353,6 +352,8 @@ private fun CategoryRow(
     onMoveUp: () -> Unit,
     onMoveDown: () -> Unit,
 ) {
+    val moveUpLabel = stringResource(R.string.category_move_up)
+    val moveDownLabel = stringResource(R.string.category_move_down)
     Column(modifier = Modifier.padding(vertical = 4.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {
@@ -379,6 +380,9 @@ private fun CategoryRow(
                     modifier = Modifier
                         .clickable(onClick = onMoveUp)
                         .padding(6.dp)
+                        .semantics {
+                            contentDescription = moveUpLabel
+                        }
                         .testTag("category_up_${category.id}"),
                 )
                 Text(
@@ -387,6 +391,9 @@ private fun CategoryRow(
                     modifier = Modifier
                         .clickable(onClick = onMoveDown)
                         .padding(6.dp)
+                        .semantics {
+                            contentDescription = moveDownLabel
+                        }
                         .testTag("category_down_${category.id}"),
                 )
             }
@@ -532,8 +539,15 @@ private fun CategoryEditorDialog(
             tagOf = { it },
             selected = { it == icon },
             enabled = true,
-            onSelect = { icon = if (icon == it) null else it },
+            onSelect = { icon = it },
             tagPrefix = "category_icon",
+        )
+        EditorialChip(
+            text = stringResource(R.string.category_icon_none),
+            selected = icon == null,
+            onClick = { icon = null },
+            modifier = Modifier.testTag("category_icon_none"),
+            onDark = true,
         )
         Spacer(modifier = Modifier.height(16.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -562,8 +576,8 @@ private fun CategoryEditorDialog(
 private fun FieldEditorDialog(
     categories: List<Category>,
     existing: AttributeDefinition? = null,
-    onCreate: (String, AttributeType, List<String>, String, String, Long?) -> Unit = { _, _, _, _, _, _ -> },
-    onUpdate: (String, AttributeType, List<String>, String, String, Long?) -> Unit = { _, _, _, _, _, _ -> },
+    onSave: (String, AttributeType, List<String>, String, String, Long?, (Boolean) -> Unit) -> Unit =
+        { _, _, _, _, _, _, _ -> },
     onDismiss: () -> Unit,
 ) {
     var name by remember { mutableStateOf(existing?.key.orEmpty()) }
@@ -574,6 +588,8 @@ private fun FieldEditorDialog(
     var max by remember { mutableStateOf("") }
     var scopeId by remember { mutableStateOf(existing?.categoryId) }
     var duplicate by remember { mutableStateOf(false) }
+    var optionsError by remember { mutableStateOf(false) }
+    var rangeError by remember { mutableStateOf(false) }
 
     EditorialDialog(onDismiss = onDismiss, scrimTag = "field_editor_scrim") {
         Text(
@@ -607,7 +623,11 @@ private fun FieldEditorDialog(
             tagOf = { it.name },
             selected = { it == type },
             enabled = true,
-            onSelect = { type = it },
+            onSelect = {
+                type = it
+                optionsError = false
+                rangeError = false
+            },
             tagPrefix = "field_type",
         )
         if (type == AttributeType.ENUM || type == AttributeType.MULTI) {
@@ -678,9 +698,18 @@ private fun FieldEditorDialog(
                         if (trimmed.isNotEmpty()) {
                             options = options + trimmed
                             optionInput = ""
+                            optionsError = false
                         }
                     },
                     modifier = Modifier.testTag("field_option_commit"),
+                )
+            }
+            if (optionsError) {
+                Text(
+                    text = stringResource(R.string.field_options_required),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.testTag("field_options_error"),
                 )
             }
         }
@@ -690,9 +719,13 @@ private fun FieldEditorDialog(
                 Box(modifier = Modifier.weight(1f)) {
                     OutlinedInput(
                         value = min,
-                        onValueChange = { min = it },
+                        onValueChange = {
+                            min = it
+                            rangeError = false
+                        },
                         label = stringResource(R.string.editor_attribute_min),
                         numberKeyboard = true,
+                        errorRes = if (rangeError) R.string.field_range_invalid else null,
                         testTagValue = "field_min",
                         onDark = true,
                     )
@@ -700,9 +733,13 @@ private fun FieldEditorDialog(
                 Box(modifier = Modifier.weight(1f)) {
                     OutlinedInput(
                         value = max,
-                        onValueChange = { max = it },
+                        onValueChange = {
+                            max = it
+                            rangeError = false
+                        },
                         label = stringResource(R.string.editor_attribute_max),
                         numberKeyboard = true,
+                        errorRes = if (rangeError) R.string.field_range_invalid else null,
                         testTagValue = "field_max",
                         onDark = true,
                     )
@@ -744,10 +781,29 @@ private fun FieldEditorDialog(
                 text = stringResource(R.string.action_save),
                 enabled = name.isNotBlank(),
                 onClick = {
-                    if (existing == null) {
-                        onCreate(name.trim(), type, options.toList(), min, max, scopeId)
-                    } else {
-                        onUpdate(name.trim(), type, options.toList(), min, max, scopeId)
+                    // Client-side gates first: no write attempt on a broken form.
+                    val needsOptions = type == AttributeType.ENUM || type == AttributeType.MULTI
+                    if (needsOptions && options.none { it.isNotBlank() }) {
+                        optionsError = true
+                        return@GreenCta
+                    }
+                    if (type == AttributeType.NUMBER) {
+                        val minBound = parsePrice(min)
+                        val maxBound = parsePrice(max)
+                        if (minBound != null && maxBound != null && minBound > maxBound) {
+                            rangeError = true
+                            return@GreenCta
+                        }
+                    }
+                    duplicate = false
+                    onSave(name.trim(), type, options.toList(), min, max, scopeId) { saved ->
+                        if (saved) {
+                            onDismiss()
+                        } else {
+                            // Duplicate key+scope (or a repository refusal):
+                            // keep the dialog open with the inline error.
+                            duplicate = true
+                        }
                     }
                 },
                 modifier = Modifier.testTag("field_editor_save"),

@@ -78,6 +78,11 @@ fun SettingsScreen(
                 .clickable(onClick = onOpenCustomization)
                 .testTag("settings_row_customization"),
             trailing = {
+                Text(
+                    text = stringResource(R.string.settings_menu_customization_hint),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Charcoal.copy(alpha = 0.45f),
+                )
                 Text(text = "›", style = MaterialTheme.typography.titleMedium)
             },
         )
@@ -88,6 +93,11 @@ fun SettingsScreen(
                 .clickable(onClick = onOpenTags)
                 .testTag("settings_row_tags"),
             trailing = {
+                Text(
+                    text = stringResource(R.string.settings_menu_tags_hint),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Charcoal.copy(alpha = 0.45f),
+                )
                 Text(text = "›", style = MaterialTheme.typography.titleMedium)
             },
         )
@@ -113,12 +123,17 @@ fun SettingsScreen(
                     scope.launch {
                         val exported = withContext(Dispatchers.IO) { exporter.export() }
                         exported.fold(
-                            onSuccess = { result ->
+                            onSuccess = { file ->
                                 logStatus = context.getString(
                                     R.string.settings_debug_log_ready,
-                                    result.file.name,
+                                    file.name,
                                 )
-                                shareDebugLog(context, result.shareUri)
+                                // Share glue is best-effort: the file's existence
+                                // is the user-facing fact, the chooser may fail
+                                // on hosts without a share target.
+                                runCatching {
+                                    shareDebugLog(context, exporter.shareUri(file))
+                                }
                             },
                             onFailure = {
                                 logStatus = context.getString(R.string.settings_debug_log_failed)

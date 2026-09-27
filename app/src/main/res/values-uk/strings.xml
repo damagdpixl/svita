@@ -215,6 +215,8 @@
     <string name="field_delete_confirm_text">Поле «%1$s» і всі збережені значення речей буде видалено.</string>
     <string name="field_option_add">Додати варіант</string>
     <string name="field_duplicate">Поле з такою назвою вже існує</string>
+    <string name="field_options_required">Додайте щонайменше один варіант</string>
+    <string name="field_range_invalid">Мінімум не може перевищувати максимум</string>
 
     <!-- Менеджер тегів -->
     <string name="tags_title">Теги</string>

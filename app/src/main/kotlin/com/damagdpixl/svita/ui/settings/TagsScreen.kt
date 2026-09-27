@@ -40,6 +40,7 @@ import com.damagdpixl.svita.R
 import com.damagdpixl.svita.core.designsystem.Cream
 import com.damagdpixl.svita.core.designsystem.GreenCta
 import com.damagdpixl.svita.core.designsystem.PillButton
+import com.damagdpixl.svita.core.designsystem.monoUpper
 import com.damagdpixl.svita.core.model.Tag
 import com.damagdpixl.svita.data.SvitaGraph
 import com.damagdpixl.svita.ui.wardrobe.EditorialDialog
@@ -137,11 +138,17 @@ fun TagsScreen(
                 .verticalScroll(rememberScrollState()),
         ) {
             Text(
+                text = stringResource(R.string.tags_title).monoUpper(),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                modifier = Modifier.padding(top = 4.dp),
+            )
+            Text(
                 text = stringResource(R.string.tags_seasons_note),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                 modifier = Modifier
-                    .padding(top = 4.dp, bottom = 12.dp)
+                    .padding(top = 2.dp, bottom = 12.dp)
                     .testTag("tags_seasons_note"),
             )
         }
