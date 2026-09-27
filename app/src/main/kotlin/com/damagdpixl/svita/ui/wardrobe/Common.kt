@@ -1,5 +1,6 @@
 package com.damagdpixl.svita.ui.wardrobe
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -294,6 +295,7 @@ fun AttributeField(
                 onValueChange = onValueChange,
                 errorRes = errorRes,
                 singleLine = false,
+                testTagValue = "attribute_input_${definition.key}",
             )
 
             AttributeType.NUMBER -> OutlinedInput(
@@ -302,6 +304,7 @@ fun AttributeField(
                 errorRes = errorRes,
                 singleLine = true,
                 numberKeyboard = true,
+                testTagValue = "attribute_input_${definition.key}",
             )
 
             AttributeType.ENUM -> ChipFlowRow {
@@ -390,30 +393,46 @@ data class AttributeInput(
     val value: String,
 )
 
+/** Display-decode targets (long side, px) per surface. PhotoStore caps stored
+ * files at 2048px, so sampling engages exactly when the target is below that. */
+const val PHOTO_DECODE_THUMB: Int = 256
+const val PHOTO_DECODE_GRID: Int = 512
+const val PHOTO_DECODE_LARGE: Int = 1280
+
 /**
- * Decodes a stored photo file off the main thread, downsampled for display.
- * Missing/corrupt files yield null — callers render their own placeholder.
+ * Size-aware decode of a stored photo file: bounds probe first, then a
+ * power-of-two `inSampleSize` against [targetLongSide], then one sampled
+ * decode. Without this every card decoded the full 2048px file (~16MB ARGB)
+ * per composition — fast-scroll churn and low-RAM OOM risk. Missing/corrupt
+ * files yield null. Dependency-free (BitmapFactory only).
+ */
+suspend fun decodeStoredPhoto(path: String?, targetLongSide: Int): Bitmap? =
+    withContext(Dispatchers.IO) {
+        runCatching {
+            if (path.isNullOrBlank()) return@runCatching null
+            val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+            BitmapFactory.decodeFile(path, bounds)
+            if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return@runCatching null
+            var sample = 1
+            while (maxOf(bounds.outWidth, bounds.outHeight) / (sample * 2) >= targetLongSide) {
+                sample *= 2
+            }
+            BitmapFactory.decodeFile(
+                path,
+                BitmapFactory.Options().apply { inSampleSize = sample },
+            )
+        }.getOrNull()
+    }
+
+/**
+ * Decodes a stored photo file off the main thread, downsampled to
+ * [targetLongSide] on the long side. Missing/corrupt files yield null —
+ * callers render their own placeholder.
  */
 @Composable
-fun rememberStoredPhoto(path: String?, targetLongSide: Int = 1280): ImageBitmap? {
+fun rememberStoredPhoto(path: String?, targetLongSide: Int = PHOTO_DECODE_LARGE): ImageBitmap? {
     return produceState<ImageBitmap?>(initialValue = null, path, targetLongSide) {
-        value = if (path.isNullOrBlank()) {
-            null
-        } else {
-            withContext(Dispatchers.IO) {
-                runCatching {
-                    val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-                    BitmapFactory.decodeFile(path, bounds)
-                    if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return@runCatching null
-                    var sample = 1
-                    while (maxOf(bounds.outWidth, bounds.outHeight) / (sample * 2) >= targetLongSide) {
-                        sample *= 2
-                    }
-                    val options = BitmapFactory.Options().apply { inSampleSize = sample }
-                    BitmapFactory.decodeFile(path, options)?.asImageBitmap()
-                }.getOrNull()
-            }
-        }
+        value = decodeStoredPhoto(path, targetLongSide)?.asImageBitmap()
     }.value
 }
 
@@ -424,9 +443,10 @@ fun StoredPhoto(
     contentDescription: String?,
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Crop,
+    targetLongSide: Int = PHOTO_DECODE_LARGE,
     placeholder: @Composable () -> Unit,
 ) {
-    val bitmap = rememberStoredPhoto(path)
+    val bitmap = rememberStoredPhoto(path, targetLongSide)
     if (bitmap != null) {
         Image(
             bitmap = bitmap,

@@ -43,6 +43,8 @@ data class ItemEditorState(
     val attributeErrors: Map<Long, Int> = emptyMap(),
     val saving: Boolean = false,
     val saved: Boolean = false,
+    /** The repository write itself failed (item NOT written); shows a banner. */
+    val writeFailed: Boolean = false,
 )
 
 /**
@@ -243,6 +245,7 @@ class ItemEditorViewModel(
         _state.value = current.copy(
             nameError = name.isEmpty(),
             subtypeMissing = subtypeId == null,
+            writeFailed = false,
         )
         if (name.isEmpty() || subtypeId == null) return
 
@@ -288,27 +291,41 @@ class ItemEditorViewModel(
                 seasons = current.seasons,
                 sex = current.sex,
             )
-            if (itemId == null) {
-                repos.wardrobe.createItem(
-                    draft = draft,
-                    photos = photos,
-                    tagIds = current.selectedTagIds,
-                    attributeValues = values,
-                )
-            } else {
-                repos.wardrobe.updateItem(
-                    id = itemId,
-                    draft = draft,
-                    photos = photos,
-                    tagIds = current.selectedTagIds,
-                    attributeValues = values,
-                )
+            val written = runCatching {
+                if (itemId == null) {
+                    repos.wardrobe.createItem(
+                        draft = draft,
+                        photos = photos,
+                        tagIds = current.selectedTagIds,
+                        attributeValues = values,
+                    )
+                } else {
+                    repos.wardrobe.updateItem(
+                        id = itemId,
+                        draft = draft,
+                        photos = photos,
+                        tagIds = current.selectedTagIds,
+                        attributeValues = values,
+                    )
+                }
             }
-            // Photo files replaced or dropped in this edit leave orphans — remove.
-            val finalPaths = photos.toSet()
-            originalPhotos.filter { it !in finalPaths }.forEach(graph.photoStore::deleteIfOwned)
-            originalPhotos = photos
-            _state.value = _state.value.copy(saving = false, saved = true)
+            written.fold(
+                onSuccess = {
+                    // Photo files replaced or dropped in this edit leave
+                    // orphans — remove.
+                    val finalPaths = photos.toSet()
+                    originalPhotos.filter { it !in finalPaths }
+                        .forEach(graph.photoStore::deleteIfOwned)
+                    originalPhotos = photos
+                    _state.value = _state.value.copy(saving = false, saved = true)
+                },
+                onFailure = {
+                    // The row was not written: the just-imported files would
+                    // become orphans — delete them.
+                    imported.forEach(graph.photoStore::deleteIfOwned)
+                    _state.value = _state.value.copy(saving = false, writeFailed = true)
+                },
+            )
         }
     }
 

@@ -280,6 +280,16 @@ fun ItemEditorScreen(
             )
 
             Spacer(modifier = Modifier.height(20.dp))
+            if (state.writeFailed) {
+                Text(
+                    text = stringResource(R.string.save_failed),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                        .testTag("editor_save_failed"),
+                )
+            }
             GreenCta(
                 text = stringResource(R.string.action_save),
                 onClick = viewModel::save,
@@ -378,6 +388,7 @@ private fun PhotoThumb(
             modifier = Modifier
                 .size(72.dp)
                 .clip(RoundedCornerShape(12.dp)),
+            targetLongSide = PHOTO_DECODE_THUMB,
             placeholder = {
                 Box(
                     modifier = Modifier

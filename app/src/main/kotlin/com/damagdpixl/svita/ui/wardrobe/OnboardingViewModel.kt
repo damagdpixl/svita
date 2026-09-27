@@ -36,6 +36,8 @@ data class OnboardingState(
     val attributeErrors: Map<Long, Int> = emptyMap(),
     val saving: Boolean = false,
     val finished: Boolean = false,
+    /** The repository write itself failed (item NOT written); shows a banner. */
+    val writeFailed: Boolean = false,
 )
 
 /**
@@ -137,7 +139,7 @@ class OnboardingViewModel(
             return
         }
         viewModelScope.launch {
-            _state.value = _state.value.copy(saving = true)
+            _state.value = _state.value.copy(saving = true, writeFailed = false)
             val values = LinkedHashMap<Long, String>()
             val errors = LinkedHashMap<Long, Int>()
             for (input in current.attributeInputs) {
@@ -153,17 +155,29 @@ class OnboardingViewModel(
             }
             val name = current.name.trim().ifEmpty { localize(subtype) }
             val photos = graph.photoStore.import(current.pickedUris)
-            repos.wardrobe.createItem(
-                draft = ItemDraft(
-                    subtypeId = subtype.id,
-                    name = name,
-                    seasons = Season.entries.toSet(),
-                ),
-                photos = photos,
-                attributeValues = values,
+            val written = runCatching {
+                repos.wardrobe.createItem(
+                    draft = ItemDraft(
+                        subtypeId = subtype.id,
+                        name = name,
+                        seasons = Season.entries.toSet(),
+                    ),
+                    photos = photos,
+                    attributeValues = values,
+                )
+            }
+            written.fold(
+                onSuccess = {
+                    repos.settings.putBoolean(WardrobePrefs.ONBOARDING_DONE, true)
+                    _state.value = _state.value.copy(saving = false, finished = true)
+                },
+                onFailure = {
+                    // The row was not written: the just-imported files would
+                    // become orphans — delete them.
+                    photos.forEach(graph.photoStore::deleteIfOwned)
+                    _state.value = _state.value.copy(saving = false, writeFailed = true)
+                },
             )
-            repos.settings.putBoolean(WardrobePrefs.ONBOARDING_DONE, true)
-            _state.value = _state.value.copy(saving = false, finished = true)
         }
     }
 

@@ -124,6 +124,16 @@ fun OnboardingWizardScreen(
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+        if (state.writeFailed) {
+            Text(
+                text = stringResource(R.string.save_failed),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .testTag("wizard_save_failed"),
+            )
+        }
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically,

@@ -115,6 +115,7 @@
     <string name="action_unarchive">Restore</string>
     <string name="action_apply">Apply</string>
     <string name="action_reset">Reset</string>
+    <string name="save_failed">Couldn’t save the item. Try again.</string>
 
     <string name="outfits_headline">Compose outfits</string>
     <string name="outfits_hint">The looks you love will be assembled here soon.</string>

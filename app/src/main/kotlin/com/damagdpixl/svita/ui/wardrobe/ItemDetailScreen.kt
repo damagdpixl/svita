@@ -324,6 +324,7 @@ private fun DetailPhotoPager(aggregate: ItemAggregate) {
                 .fillMaxWidth()
                 .aspectRatio(1.2f)
                 .clip(RoundedCornerShape(16.dp)),
+            targetLongSide = PHOTO_DECODE_LARGE,
             placeholder = {
                 Box(
                     modifier = Modifier

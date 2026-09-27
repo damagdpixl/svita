@@ -307,6 +307,7 @@ private fun PolaroidCardItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f),
+                targetLongSide = PHOTO_DECODE_GRID,
                 placeholder = {
                     Box(
                         modifier = Modifier
