@@ -120,4 +120,52 @@ class WearLogRepositoryTest {
         f.wearLog.deleteEntry(id)
         assertTrue(f.wearLog.observeByDate(LocalDate(2025, 6, 15)).first().isEmpty())
     }
+
+    @Test
+    fun `запланований запис — не носіння, лічильники й не-носилось не змінюються`() = runBlocking {
+        // План на майбутню дату для «c» (ніколи не носилось).
+        f.wearLog.addEntry(
+            LocalDate(2025, 9, 1), null, listOf(c), tempC = 10.4,
+            note = WearLogRepository.PLAN_NOTE,
+        )
+
+        // Лічильники не побачили план.
+        assertEquals(
+            listOf(ItemWearCount(a, 3), ItemWearCount(b, 1)),
+            f.wearLog.wearCounts(),
+        )
+        // «c» лишається у вікні «не носилось».
+        val notWorn = f.wearLog.observeNotWornSince(LocalDate(2025, 8, 9)).first().map { it.id }
+        assertTrue(c in notWorn)
+        assertFalse(a in notWorn)
+
+        // Але запис видно через спостереження (календар будується на них).
+        val planned = f.wearLog.observeByDate(LocalDate(2025, 9, 1)).first().single()
+        assertEquals(WearLogRepository.PLAN_NOTE, planned.note)
+        assertEquals(listOf(c), planned.itemIds)
+
+        // Останнє носіння також ігнорує план.
+        assertNull(f.wearLog.lastWorn(c))
+    }
+
+    @Test
+    fun `план конвертований у реальне носіння — зараховується`() = runBlocking {
+        f.wearLog.addEntry(
+            LocalDate(2025, 9, 1), null, listOf(c),
+            note = WearLogRepository.PLAN_NOTE,
+        )
+        assertEquals(
+            listOf(ItemWearCount(a, 3), ItemWearCount(b, 1)),
+            f.wearLog.wearCounts(),
+        )
+
+        // Той самий предмет надягнуто по-справжньому: звичайний запис без плану.
+        f.wearLog.addEntry(LocalDate(2025, 8, 20), null, listOf(c))
+
+        val counts = f.wearLog.wearCounts()
+        assertEquals(ItemWearCount(c, 1), counts.first { it.itemId == c })
+        assertEquals(LocalDate(2025, 8, 20), f.wearLog.lastWorn(c))
+        val notWorn = f.wearLog.observeNotWornSince(LocalDate(2025, 8, 9)).first().map { it.id }
+        assertFalse(c in notWorn)
+    }
 }

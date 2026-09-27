@@ -184,7 +184,6 @@
     <string name="calendar_legend_planned">Planned</string>
     <string name="calendar_entry_none">Nothing logged or planned for this day</string>
     <string name="calendar_add_wear">Log wear</string>
-    <string name="calendar_plan">Plan</string>
     <string name="calendar_plan_choose_title">Plan an outfit</string>
     <string name="calendar_plan_outfit">Saved outfit</string>
     <string name="calendar_plan_dressme">Dress me</string>

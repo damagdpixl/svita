@@ -61,6 +61,7 @@ internal class WearLogRepositoryImpl(private val db: AppDatabase) : WearLogRepos
         db.wear_logQueries.selectAllWearLog().executeAsList()
             .asSequence()
             .map { it.toDomain() }
+            .filter { it.isWear() }
             .filter { itemId in it.itemIds }
             .mapNotNull { it.date }
             .maxOrNull()
@@ -72,6 +73,7 @@ internal class WearLogRepositoryImpl(private val db: AppDatabase) : WearLogRepos
         val wornRecently = db.wear_logQueries.selectAllWearLog().observed().map { rows ->
             rows.asSequence()
                 .map { it.toDomain() }
+                .filter { it.isWear() }
                 .filter { it.date >= cutoff }
                 .flatMap { it.itemIds }
                 .toSet()
@@ -81,15 +83,25 @@ internal class WearLogRepositoryImpl(private val db: AppDatabase) : WearLogRepos
     }
 
     /**
+     * A PLANNED entry ([PLAN_NOTE]) is never a wear event: it stays visible
+     * through the date/range observations (the calendar) but is invisible to
+     * every statistic — counters, last-worn and the not-worn query. The plan
+     * marker is the shared [WearLogRepository.PLAN_NOTE] constant so the
+     * repository layer and the UI layer cannot drift apart.
+     */
+    private fun WearLogEntry.isWear(): Boolean = note != WearLogRepository.PLAN_NOTE
+
+    /**
      * One pass over wear_log: item id -> all wear dates mentioned for it.
      * (json_each()/table-valued functions are unavailable in the SQLite 3.18
      * dialect this project compiles against, so aggregation is done here; the
-     * DB still answers with a single indexed scan.)
+     * DB still answers with a single indexed scan.) Plan entries excluded.
      */
     private fun wearEventsByItem(db: AppDatabase): Map<Long, List<LocalDate>> {
         val byItem = mutableMapOf<Long, MutableList<LocalDate>>()
         db.wear_logQueries.selectAllWearLog().executeAsList().forEach { row ->
             val entry = row.toDomain()
+            if (!entry.isWear()) return@forEach
             entry.itemIds.forEach { itemId ->
                 byItem.getOrPut(itemId) { mutableListOf() }.add(entry.date)
             }

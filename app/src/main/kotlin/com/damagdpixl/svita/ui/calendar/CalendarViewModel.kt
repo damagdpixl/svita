@@ -75,7 +75,11 @@ class CalendarViewModel(
 
     private val monthEntries: StateFlow<Map<LocalDate, List<WearLogEntry>>> = month
         .flatMapLatest { m ->
-            repos.wearLog.observeByRange(m.firstDay, m.lastDay)
+            // Query the RENDERED grid range (whole weeks, leading/trailing
+            // padding included) so out-month cells get honest dots too —
+            // matching the CalendarMonth.markCells contract.
+            val grid = CalendarMonth.cells(m.year, m.month)
+            repos.wearLog.observeByRange(grid.first().date, grid.last().date)
         }.map { entries -> entries.groupBy { it.date } }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
 

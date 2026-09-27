@@ -35,6 +35,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
@@ -102,6 +104,8 @@ fun CalendarScreen(
         )
 
         // Month navigation.
+        val prevMonthDesc = stringResource(R.string.calendar_prev_month)
+        val nextMonthDesc = stringResource(R.string.calendar_next_month)
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
                 modifier = Modifier
@@ -111,6 +115,7 @@ fun CalendarScreen(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null,
                     ) { viewModel.shiftMonth(-1) }
+                    .semantics { contentDescription = prevMonthDesc }
                     .testTag("calendar_prev"),
                 contentAlignment = Alignment.Center,
             ) {
@@ -132,6 +137,7 @@ fun CalendarScreen(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null,
                     ) { viewModel.shiftMonth(1) }
+                    .semantics { contentDescription = nextMonthDesc }
                     .testTag("calendar_next"),
                 contentAlignment = Alignment.Center,
             ) {
@@ -241,10 +247,18 @@ fun CalendarScreen(
                 // Future date: planning UI.
                 if (currentSheet.future) {
                     Text(
+                        text = stringResource(R.string.calendar_plan_choose_title),
+                        style = MaterialTheme.typography.titleSmall,
+                        color = Cream,
+                        modifier = Modifier
+                            .padding(top = 10.dp)
+                            .testTag("plan_section_title"),
+                    )
+                    Text(
                         text = stringResource(R.string.calendar_plan_hint),
                         style = MaterialTheme.typography.bodySmall,
                         color = Cream.copy(alpha = 0.7f),
-                        modifier = Modifier.padding(top = 8.dp),
+                        modifier = Modifier.padding(top = 4.dp),
                     )
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(10.dp),

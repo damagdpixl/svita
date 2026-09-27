@@ -295,6 +295,7 @@ public interface WearLogRepository {
     /**
      * Active (non-archived) items with no wear entry on/after
      * `referenceDate - [minDaysIdle]` days, re-emitted on changes.
+     * Plan entries ([PLAN_NOTE]) never count as wear here.
      */
     public fun observeNotWornSince(
         referenceDate: LocalDate,
@@ -303,6 +304,18 @@ public interface WearLogRepository {
 
     public companion object {
         public const val DEFAULT_IDLE_DAYS: Int = 60
+
+        /**
+         * The `note` marker of a PLANNED (not yet worn) entry — the shared
+         * constant both the repository layer and the UI layer agree on.
+         *
+         * Plan entries stay visible through [observeByDate]/[observeByRange]
+         * (the calendar is built on them), but they are NEVER wear events:
+         * they are excluded from [wearCounts], [lastWorn], [lastWornDates]
+         * and [observeNotWornSince] — planning a future outfit must not
+         * remove its items from «не носилось 60 днів» or inflate any counter.
+         */
+        public const val PLAN_NOTE: String = "plan"
     }
 }
 

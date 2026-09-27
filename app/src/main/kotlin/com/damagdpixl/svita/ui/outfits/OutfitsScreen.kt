@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -49,7 +50,11 @@ import com.damagdpixl.svita.data.SvitaGraph
 import com.damagdpixl.svita.ui.avatar.AvatarMapper
 import com.damagdpixl.svita.ui.wardrobe.ChipFlowRow
 import com.damagdpixl.svita.ui.wardrobe.EditorialChip
+import kotlinx.coroutines.delay
 import java.util.Locale
+
+/** How long the «додано до щоденника» sticker stays before auto-clearing. */
+private const val WEAR_SAVED_VISIBLE_MS = 3_000L
 
 /**
  * The Outfits tab (P2 T6): «Сьогодні» dress-me pick over the live wardrobe
@@ -332,6 +337,12 @@ fun OutfitsScreen(
                         .padding(top = 10.dp)
                         .testTag("outfit_worn_confirm"),
                 )
+                // The confirmation is a transient ack, not a state: clear it
+                // automatically so it never sticks around forever.
+                LaunchedEffect(wearSaved) {
+                    delay(WEAR_SAVED_VISIBLE_MS)
+                    viewModel.consumeWearSaved()
+                }
             }
         }
 

@@ -54,9 +54,12 @@ object OutfitPrefs {
      * The `wear_log.note` marker that turns an entry into a PLAN (P2 T6
      * contract): an entry with this note and `date >= today` is a planned
      * outfit; the same note on a past date reads as history. Entries without
-     * the note are always logged wear.
+     * the note are always logged wear. Aliased from the SHARED repository
+     * constant so both layers cannot drift apart (plan entries are excluded
+     * from wear statistics in :core:data).
      */
-    const val PLAN_NOTE: String = "plan"
+    const val PLAN_NOTE: String =
+        com.damagdpixl.svita.core.data.WearLogRepository.PLAN_NOTE
 
     /**
      * Dress-me location: Kyiv, matching the provenance of the bundled climate
