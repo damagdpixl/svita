@@ -3,6 +3,7 @@ package com.damagdpixl.svita.ui.packing
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.damagdpixl.svita.core.data.ItemFilter
+import com.damagdpixl.svita.core.data.PackingListAggregate
 import com.damagdpixl.svita.core.model.Item
 import com.damagdpixl.svita.core.model.PackingEntry
 import com.damagdpixl.svita.core.model.PackingList
@@ -10,6 +11,7 @@ import com.damagdpixl.svita.data.SvitaGraph
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -33,10 +35,15 @@ data class TripUi(
  * manual adds from the wardrobe, item removal and list deletion.
  *
  * The repository exposes no reactive entries query (v1 schema contract), so
- * the aggregate is re-read after every mutation — each operation is a single
- * local transaction followed by one read; the list header stays reactive
- * through `observePackingLists` so a delete from elsewhere still unblocks the
- * screen.
+ * the raw aggregate is re-read after every mutation — each operation is a
+ * single local transaction followed by one read.
+ *
+ * Name resolution (fix round 1): checklist rows are RE-DERIVED whenever the
+ * wardrobe index emits, not snapshot at reload time. The wardrobe flow starts
+ * empty and its first real emission can land after the aggregate's — deriving
+ * inside [combine] means a freshly opened trip resolves item names on its own
+ * render without any user mutation. Both flows stay hot for the VM's lifetime
+ * ([SharingStarted.Eagerly]) so the derivation cannot stall between mutations.
  */
 class TripDetailViewModel(
     graph: SvitaGraph.Graph,
@@ -48,38 +55,31 @@ class TripDetailViewModel(
     /** Wardrobe index for names (archived included: packed lists outlive archives). */
     val items: StateFlow<List<Item>> = repos.wardrobe
         .observeItems(ItemFilter(includeArchived = true))
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
-    val trip = MutableStateFlow<TripUi?>(null)
+    /** Raw aggregate; null until the first read completes (screen shows nothing). */
+    private val aggregate = MutableStateFlow<PackingListAggregate?>(null)
+
+    /** Derived UI state: null = aggregate not loaded yet. */
+    val trip: StateFlow<TripUi?> = combine(aggregate, items) { aggregate, items ->
+        aggregate?.let { agg ->
+            val byId = items.associateBy { it.id }
+            TripUi(
+                list = agg.list,
+                rows = agg.entries.map { entry ->
+                    ChecklistRow(entry = entry, item = byId[entry.itemId])
+                },
+            )
+        }
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     init {
         reload()
-        // Keep the header honest if the list disappears under us (deleted).
-        viewModelScope.launch {
-            repos.packing.observePackingLists().collect { lists ->
-                val current = trip.value ?: TripUi()
-                if (current.list?.id != null && lists.none { it.id == listId }) {
-                    trip.value = current.copy(list = null)
-                } else if (lists.any { it.id == listId } && current.list == null) {
-                    reload()
-                }
-            }
-        }
     }
 
     fun reload() {
         viewModelScope.launch {
-            val aggregate = repos.packing.getPackingList(listId) ?: run {
-                trip.value = TripUi()
-                return@launch
-            }
-            val byId = items.value.associateBy { it.id }
-            trip.value = TripUi(
-                list = aggregate.list,
-                rows = aggregate.entries.map { entry ->
-                    ChecklistRow(entry = entry, item = byId[entry.itemId])
-                },
-            )
+            aggregate.value = repos.packing.getPackingList(listId)
         }
     }
 

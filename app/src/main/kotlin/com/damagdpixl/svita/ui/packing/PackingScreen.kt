@@ -256,6 +256,12 @@ private fun TripWizardDialog(
     val fromDate = parseDate(fromText)
     val toDate = parseDate(toText)
 
+    // Range policy (fix round 1): an inverted range (to < from) is refused at
+    // the UI edge — Create stays disabled and the offending field carries an
+    // inline error. The persistence layer stores the pair as-is (documented on
+    // PackingRepository), so the wizard is the single validation point.
+    val rangeInvalid = fromDate != null && toDate != null && toDate < fromDate
+
     // Push the valid range up whenever it changes; empty end = single day.
     LaunchedEffect(fromDate, toDate) {
         if (fromDate != null && (toDate == null || toDate >= fromDate)) {
@@ -304,10 +310,11 @@ private fun TripWizardDialog(
                 value = toText,
                 onValueChange = { toText = it },
                 label = stringResource(R.string.packing_date_to),
-                errorRes = if (toText.isNotBlank() && toDate == null) {
-                    R.string.editor_date_invalid
-                } else {
-                    null
+                errorRes = when {
+                    toText.isBlank() -> null
+                    toDate == null -> R.string.editor_date_invalid
+                    rangeInvalid -> R.string.packing_range_invalid
+                    else -> null
                 },
                 onDark = true,
                 modifier = Modifier.padding(top = 4.dp),
@@ -368,7 +375,7 @@ private fun TripWizardDialog(
                 GreenCta(
                     text = stringResource(R.string.packing_create),
                     onClick = { onCreate(title, fromDate, toDate) },
-                    enabled = title.isNotBlank() && fromDate != null,
+                    enabled = title.isNotBlank() && fromDate != null && !rangeInvalid,
                     modifier = Modifier.testTag("packing_create"),
                 )
             }

@@ -205,6 +205,7 @@
     <string name="packing_trip_title">Назва поїздки</string>
     <string name="packing_date_from">З (РРРР-ММ-ДД)</string>
     <string name="packing_date_to">До (РРРР-ММ-ДД, необов’язково)</string>
+    <string name="packing_range_invalid">Дата завершення не може бути раніше дати початку</string>
     <string name="packing_suggested_title">Запропоновано з планів і журналу носіння</string>
     <string name="packing_suggested_empty">На ці дати нічого не заплановано й не записано — додайте речі з шафи.</string>
     <string name="packing_add_from_wardrobe">Додати з шафи</string>

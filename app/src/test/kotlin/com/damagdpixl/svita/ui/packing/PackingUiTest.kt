@@ -1,8 +1,11 @@
 package com.damagdpixl.svita.ui.packing
 
+import android.os.Looper
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
 import com.damagdpixl.svita.ui.wardrobe.WardrobeUiTestBase
 import kotlinx.coroutines.flow.first
@@ -13,6 +16,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.robolectric.Shadows.shadowOf
 
 /**
  * Packing end-to-end (Robolectric, P2 T7): the wizard creates a trip persisted
@@ -172,6 +176,93 @@ class PackingUiTest : WardrobeUiTestBase() {
             composeRule.onAllNodesWithTag("picker_item_$tshirt", useUnmergedTree = true)
                 .fetchSemanticsNodes()
                 .isEmpty()
+        }
+    }
+
+    // ---------- Fix round 1 regressions -----------------------------------
+
+    @Test
+    fun `свіжо створений список одразу показує назви речей, а не #id`() {
+        seedWardrobe()
+        runBlocking {
+            graph.repos.packing.createPackingList("Карпати", null, null, listOf(tshirt, jeans))
+        }
+        openPackingTab()
+        waitUntilExists("packing_trip_1")
+        clickByTag("packing_trip_1")
+        waitUntilExists("trip_progress")
+        // Виправлення гонки розв'язання імен: рядки перевиводяться, коли
+        // індекс шафи приходить, — назви мають з'явитись без жодної мутації
+        // з боку користувача.
+        waitUntilTrue("назви речей відрендерились без мутацій") {
+            composeRule.onAllNodesWithText("Футболка", useUnmergedTree = true)
+                .fetchSemanticsNodes()
+                .isNotEmpty() &&
+                composeRule.onAllNodesWithText("Джинси", useUnmergedTree = true)
+                    .fetchSemanticsNodes()
+                    .isNotEmpty()
+        }
+        composeRule.onNodeWithText("#$tshirt", useUnmergedTree = true).assertDoesNotExist()
+        composeRule.onNodeWithText("#$jeans", useUnmergedTree = true).assertDoesNotExist()
+    }
+
+    @Test
+    fun `інвертований діапазон - помилка під полем і створення вимкнено`() {
+        seedWardrobe()
+        openPackingTab()
+        clickByTag("packing_new_empty")
+        waitUntilExists("packing_wizard")
+        composeRule.onNodeWithTag("packing_wizard_name").performTextInput("Помилкові дати")
+        composeRule.onNodeWithTag("packing_wizard_from").performTextInput("2026-10-08")
+        composeRule.onNodeWithTag("packing_wizard_to").performTextInput("2026-10-04")
+
+        waitUntilTrue("текст помилки діапазону показано") {
+            composeRule.onAllNodesWithText(
+                "The end date cannot be before the start date",
+                useUnmergedTree = true,
+            ).fetchSemanticsNodes().isNotEmpty()
+        }
+        composeRule.onNodeWithTag("packing_create", useUnmergedTree = true)
+            .assertIsNotEnabled()
+
+        runBlocking {
+            assertTrue(
+                "інвертований діапазон не потрапляє в базу",
+                graph.repos.packing.observePackingLists().first().isEmpty(),
+            )
+        }
+    }
+
+    @Test
+    fun `швидкі зміни діапазону - фінальні пропозиції від новішого`() {
+        seedWardrobe()
+        runBlocking {
+            // Старий діапазон бачить тільки футболку, новіший — тільки джинси.
+            graph.repos.wearLog.addEntry(LocalDate(2026, 10, 5), null, listOf(tshirt))
+            graph.repos.wearLog.addEntry(LocalDate(2026, 10, 20), null, listOf(jeans))
+        }
+        val vm = PackingViewModel(graph)
+        vm.suggestionsFor(LocalDate(2026, 10, 1), LocalDate(2026, 10, 10))
+        vm.suggestionsFor(LocalDate(2026, 10, 15), LocalDate(2026, 10, 25))
+
+        pumpMainUntil("фінальні пропозиції = новіший діапазон") {
+            vm.suggestions.value == listOf(jeans)
+        }
+        assertEquals(listOf(jeans), vm.suggestions.value)
+    }
+
+    /**
+     * Прокачування Main-looper без compose-вмісту: VM-тест не має
+     * composeRule.waitForIdle, тож чергу завдань корутин ідемо вручну.
+     */
+    private fun pumpMainUntil(description: String, timeoutMillis: Long = 20_000, condition: () -> Boolean) {
+        val deadline = System.currentTimeMillis() + timeoutMillis
+        while (!condition()) {
+            if (System.currentTimeMillis() > deadline) {
+                error("Перевищено таймаут очікування: $description")
+            }
+            shadowOf(Looper.getMainLooper()).idle()
+            Thread.sleep(50)
         }
     }
 }

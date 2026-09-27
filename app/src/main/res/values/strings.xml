@@ -202,6 +202,7 @@
     <string name="packing_trip_title">Trip name</string>
     <string name="packing_date_from">From (YYYY-MM-DD)</string>
     <string name="packing_date_to">To (YYYY-MM-DD, optional)</string>
+    <string name="packing_range_invalid">The end date cannot be before the start date</string>
     <string name="packing_suggested_title">Suggested from plans and wear log</string>
     <string name="packing_suggested_empty">Nothing planned or logged on these dates — add items from the wardrobe.</string>
     <string name="packing_add_from_wardrobe">Add from wardrobe</string>

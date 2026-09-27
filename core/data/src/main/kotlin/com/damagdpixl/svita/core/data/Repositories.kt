@@ -325,7 +325,16 @@ public interface PackingRepository {
     /** Full aggregate or null when the id is unknown. */
     public suspend fun getPackingList(id: Long): PackingListAggregate?
 
-    /** Creates the list and inserts [itemIds] as unpacked entries in one transaction. */
+    /**
+     * Creates the list and inserts [itemIds] as unpacked entries in one transaction.
+     *
+     * Date-range policy: `[dateFrom, dateTo]` is a CLIENT-owned invariant —
+     * the persistence layer stores the pair as-is with no validation, on
+     * purpose: v1 keeps every value validation at the UI edge (prices and
+     * dates on items work the same way). The packing wizard is the single
+     * validation point: creation is disabled for an inverted range
+     * (`dateTo < dateFrom`), see the app's trip wizard.
+     */
     public suspend fun createPackingList(
         title: String,
         dateFrom: LocalDate? = null,

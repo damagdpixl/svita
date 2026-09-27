@@ -6,6 +6,7 @@ import com.damagdpixl.svita.core.data.ItemFilter
 import com.damagdpixl.svita.core.model.Item
 import com.damagdpixl.svita.core.model.PackingList
 import com.damagdpixl.svita.data.SvitaGraph
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -41,11 +42,21 @@ class PackingViewModel(
     val suggestions = MutableStateFlow<List<Long>>(emptyList())
 
     /**
+     * The in-flight suggestion load. Cancellation policy (fix round 1): a new
+     * range request CANCELS the previous one before launching — the write to
+     * [suggestions] happens on the main thread with no suspension between the
+     * query resuming and the write, so a cancelled older range can never
+     * overwrite a newer result, even under rapid date edits.
+     */
+    private var suggestionJob: Job? = null
+
+    /**
      * Loads the suggestion union for `[from, to]`. Called when the wizard's
      * dates become a valid range; re-called whenever they change.
      */
     fun suggestionsFor(from: LocalDate, to: LocalDate) {
-        viewModelScope.launch {
+        suggestionJob?.cancel()
+        suggestionJob = viewModelScope.launch {
             val entries = repos.wearLog.observeByRange(from, to).first()
             suggestions.value = suggestedItemIds(entries, from, to)
         }
