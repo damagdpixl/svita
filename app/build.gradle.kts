@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +7,20 @@ plugins {
     // Attribute definitions carry config JSON (enum/multi options, number bounds).
     alias(libs.plugins.kotlin.serialization)
 }
+
+// Release signing is OWNER-HELD: the keystore itself never lives in this repo.
+// If `keystore.properties` exists at the repo root (see keystore.properties.template),
+// wire signingConfigs.release from it; otherwise release builds fall back to
+// unsigned output with a clear warning, so CI stays green without any secret.
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties().apply {
+    if (keystorePropertiesFile.exists()) {
+        keystorePropertiesFile.inputStream().use { load(it) }
+    }
+}
+val hasReleaseKeystore = keystorePropertiesFile.exists() &&
+    listOf("storeFile", "storePassword", "keyAlias", "keyPassword")
+        .all { !keystoreProperties.getProperty(it).isNullOrBlank() }
 
 android {
     namespace = "com.damagdpixl.svita"
@@ -22,6 +38,18 @@ android {
         }
     }
 
+    signingConfigs {
+        if (hasReleaseKeystore) {
+            create("release") {
+                // Relative paths resolve against the repo root.
+                storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -29,6 +57,15 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+            if (hasReleaseKeystore) {
+                signingConfig = signingConfigs.getByName("release")
+            } else {
+                logger.warn(
+                    "Svita release build: keystore.properties not found — " +
+                        "producing an UNSIGNED release APK (installable nowhere, CI-safe). " +
+                        "Owner setup: docs/release_v0.1.0.md",
+                )
+            }
         }
     }
 

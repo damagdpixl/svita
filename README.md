@@ -4,7 +4,7 @@
 
 Svita is a free, open-source, offline-first wardrobe app for Android: catalog your clothes, get outfit picks from a dress-me engine that understands the weather and your comfort, track what you actually wear, and pack for trips — with **zero accounts, zero cloud, zero telemetry**.
 
-> Status: early development (v0.1.0 in progress). The repository is being bootstrapped; the first runnable release will appear in Releases when ready.
+> Status: **v0.1.0 released** — download the APK from [Releases](https://github.com/damagdpixl/svita/releases).
 
 ## Features (v0.1)
 
