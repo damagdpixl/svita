@@ -142,10 +142,57 @@
     <string name="save_failed">Couldn’t save the item. Try again.</string>
 
     <string name="outfits_headline">Compose outfits</string>
-    <string name="outfits_hint">The looks you love will be assembled here soon.</string>
+
+    <!-- Dress-me «Сьогодні» (P2 T6) -->
+    <string name="outfit_today_title">Today</string>
+    <string name="outfit_dressing_loading">Assembling a look…</string>
+    <string name="outfit_empty_wardrobe">Add a few things and Svita will assemble a look.</string>
+    <string name="outfit_no_look">Nothing matches this filter</string>
+    <string name="outfit_refresh">Refresh</string>
+    <string name="outfit_wear_today">Wear</string>
+    <string name="outfit_worn_saved">Added to today’s log</string>
+    <string name="outfit_style_label">Style</string>
+    <string name="outfit_comfort_label">Comfort</string>
+    <string name="outfit_comfort_cooler">Cooler</string>
+    <string name="outfit_comfort_warmer">Warmer</string>
+    <string name="outfit_offline_badge">offline</string>
+    <string name="outfit_weather_range">%1$s…%2$s °C</string>
+    <string name="outfit_condition_clear">Clear</string>
+    <string name="outfit_condition_partly_cloudy">Partly cloudy</string>
+    <string name="outfit_condition_overcast">Overcast</string>
+    <string name="outfit_condition_fog">Fog</string>
+    <string name="outfit_condition_rain">Rain</string>
+    <string name="outfit_condition_snow">Snow</string>
+    <string name="outfit_condition_storm">Storm</string>
+    <string name="outfit_condition_unknown">Weather unknown</string>
+
+    <!-- «Не носилось останні 60 днів» — the label states the WINDOW semantics
+         (no wear entry within the last 60 days), matching the repository query. -->
+    <string name="outfit_notworn_title">Not worn in the last 60 days</string>
+    <string name="outfit_notworn_empty">Everything has been worn in the last 60 days</string>
+
+    <plurals name="outfit_notworn_count">
+        <item quantity="one">%1$d item</item>
+        <item quantity="other">%1$d items</item>
+    </plurals>
 
     <string name="calendar_headline">Plan the days</string>
-    <string name="calendar_hint">Your wardrobe calendar moves in here soon.</string>
+    <string name="calendar_prev_month">Previous month</string>
+    <string name="calendar_next_month">Next month</string>
+    <string name="calendar_today_label">Today</string>
+    <string name="calendar_legend_logged">Logged</string>
+    <string name="calendar_legend_planned">Planned</string>
+    <string name="calendar_entry_none">Nothing logged or planned for this day</string>
+    <string name="calendar_add_wear">Log wear</string>
+    <string name="calendar_plan">Plan</string>
+    <string name="calendar_plan_choose_title">Plan an outfit</string>
+    <string name="calendar_plan_outfit">Saved outfit</string>
+    <string name="calendar_plan_dressme">Dress me</string>
+    <string name="calendar_no_outfits">No saved outfits yet</string>
+    <string name="calendar_entry_outfit">Outfit: %1$s</string>
+    <string name="calendar_entry_planned_tag">Planned</string>
+    <string name="calendar_pick_items">Choose items</string>
+    <string name="calendar_plan_hint">Pick a saved outfit or let Svita assemble one for that day’s weather.</string>
 
     <string name="packing_headline">Pack light</string>
     <string name="packing_hint">Packing lists arrive with the next milestone.</string>

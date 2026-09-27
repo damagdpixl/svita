@@ -31,8 +31,8 @@ import com.damagdpixl.svita.R
 import com.damagdpixl.svita.core.designsystem.Charcoal
 import com.damagdpixl.svita.core.designsystem.Marigold
 import com.damagdpixl.svita.core.designsystem.monoUpper
-import com.damagdpixl.svita.ui.screens.CalendarScreen
-import com.damagdpixl.svita.ui.screens.OutfitsScreen
+import com.damagdpixl.svita.ui.calendar.CalendarScreen
+import com.damagdpixl.svita.ui.outfits.OutfitsScreen
 import com.damagdpixl.svita.ui.screens.PackingScreen
 import com.damagdpixl.svita.ui.avatar.AvatarScreen
 import com.damagdpixl.svita.ui.settings.CustomizationScreen

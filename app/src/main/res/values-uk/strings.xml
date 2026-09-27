@@ -143,10 +143,59 @@
     <string name="save_failed">Не вдалося зберегти річ. Спробуйте ще раз.</string>
 
     <string name="outfits_headline">Складай образи</string>
-    <string name="outfits_hint">Улюблені луки зберуться тут уже скоро.</string>
+
+    <!-- «Сьогодні» (P2 T6) -->
+    <string name="outfit_today_title">Сьогодні</string>
+    <string name="outfit_dressing_loading">Збираю образ…</string>
+    <string name="outfit_empty_wardrobe">Додайте кілька речей — і Svita зберере образ.</string>
+    <string name="outfit_no_look">Під цей фільтр нічого не підходить</string>
+    <string name="outfit_refresh">Оновити</string>
+    <string name="outfit_wear_today">Носити</string>
+    <string name="outfit_worn_saved">Додано до сьогоднішнього щоденника</string>
+    <string name="outfit_style_label">Стиль</string>
+    <string name="outfit_comfort_label">Комфорт</string>
+    <string name="outfit_comfort_cooler">Холодніше</string>
+    <string name="outfit_comfort_warmer">Тепліше</string>
+    <string name="outfit_offline_badge">офлайн</string>
+    <string name="outfit_weather_range">%1$s…%2$s °C</string>
+    <string name="outfit_condition_clear">Ясно</string>
+    <string name="outfit_condition_partly_cloudy">Мінлива хмарність</string>
+    <string name="outfit_condition_overcast">Похмуро</string>
+    <string name="outfit_condition_fog">Туман</string>
+    <string name="outfit_condition_rain">Дощ</string>
+    <string name="outfit_condition_snow">Сніг</string>
+    <string name="outfit_condition_storm">Гроза</string>
+    <string name="outfit_condition_unknown">Погода невідома</string>
+
+    <!-- «Не носилось останні 60 днів» — формулювання відповідає семантиці
+         ВІКНА (не було запису про носіння протягом останніх 60 днів). -->
+    <string name="outfit_notworn_title">Не носилось останні 60 днів</string>
+    <string name="outfit_notworn_empty">Останні 60 днів носилось усе</string>
+
+    <plurals name="outfit_notworn_count">
+        <item quantity="one">%1$d річ</item>
+        <item quantity="few">%1$d речі</item>
+        <item quantity="many">%1$d речей</item>
+        <item quantity="other">%1$d речей</item>
+    </plurals>
 
     <string name="calendar_headline">Плануй дні</string>
-    <string name="calendar_hint">Календар гардеробу переїде сюди вже скоро.</string>
+    <string name="calendar_prev_month">Попередній місяць</string>
+    <string name="calendar_next_month">Наступний місяць</string>
+    <string name="calendar_today_label">Сьогодні</string>
+    <string name="calendar_legend_logged">Носилось</string>
+    <string name="calendar_legend_planned">Заплановано</string>
+    <string name="calendar_entry_none">На цей день нічого не записано</string>
+    <string name="calendar_add_wear">Додати носіння</string>
+    <string name="calendar_plan">Запланувати</string>
+    <string name="calendar_plan_choose_title">Запланувати образ</string>
+    <string name="calendar_plan_outfit">Збережений образ</string>
+    <string name="calendar_plan_dressme">Зібрати образ</string>
+    <string name="calendar_no_outfits">Збережених образів ще немає</string>
+    <string name="calendar_entry_outfit">Образ: %1$s</string>
+    <string name="calendar_entry_planned_tag">Заплановано</string>
+    <string name="calendar_pick_items">Виберіть речі</string>
+    <string name="calendar_plan_hint">Оберіть збережений образ або нехай Svita збирає його під погоду того дня.</string>
 
     <string name="packing_headline">Пакуй легко</string>
     <string name="packing_hint">Списки для поїздок з’являться в наступній версії.</string>

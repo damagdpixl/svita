@@ -58,26 +58,6 @@ private fun PlaceholderScreen(
 }
 
 @Composable
-fun OutfitsScreen(modifier: Modifier = Modifier) {
-    PlaceholderScreen(
-        headlineText = stringResource(R.string.outfits_headline),
-        hintText = stringResource(R.string.outfits_hint),
-        screenTag = "screen_outfits",
-        modifier = modifier,
-    )
-}
-
-@Composable
-fun CalendarScreen(modifier: Modifier = Modifier) {
-    PlaceholderScreen(
-        headlineText = stringResource(R.string.calendar_headline),
-        hintText = stringResource(R.string.calendar_hint),
-        screenTag = "screen_calendar",
-        modifier = modifier,
-    )
-}
-
-@Composable
 fun PackingScreen(modifier: Modifier = Modifier) {
     PlaceholderScreen(
         headlineText = stringResource(R.string.packing_headline),
@@ -86,4 +66,3 @@ fun PackingScreen(modifier: Modifier = Modifier) {
         modifier = modifier,
     )
 }
-
