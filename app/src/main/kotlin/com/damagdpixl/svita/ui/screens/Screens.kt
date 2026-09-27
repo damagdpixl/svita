@@ -2,7 +2,6 @@ package com.damagdpixl.svita.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -20,45 +18,6 @@ import androidx.compose.ui.unit.dp
 import com.damagdpixl.svita.R
 import com.damagdpixl.svita.core.designsystem.CharcoalPanel
 import com.damagdpixl.svita.core.designsystem.Cream
-import com.damagdpixl.svita.core.designsystem.GreenCta
-import com.damagdpixl.svita.core.designsystem.ManifestoTiles
-
-/**
- * Wardrobe empty state: the manifesto typewriter wallpaper, a serif headline
- * and the green «Add item» CTA.
- */
-@Composable
-fun WardrobeScreen(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .testTag("screen_wardrobe"),
-    ) {
-        ManifestoTiles(
-            text = stringResource(R.string.manifesto_line),
-            modifier = Modifier.fillMaxSize(),
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .padding(24.dp),
-            verticalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Text(
-                text = stringResource(R.string.wardrobe_headline),
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-            GreenCta(
-                text = stringResource(R.string.wardrobe_add_item),
-                onClick = { /* real flow lands with the data milestone */ },
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-            )
-        }
-    }
-}
 
 /** Shared placeholder in the design language: serif headline + charcoal panel hint. */
 @Composable

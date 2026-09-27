@@ -11,6 +11,109 @@
 
     <string name="wardrobe_headline">Твоя шафа</string>
     <string name="wardrobe_add_item">Додати річ</string>
+    <string name="wardrobe_search_hint">Пошук за назвою</string>
+    <string name="wardrobe_filters">Фільтри</string>
+    <string name="wardrobe_archive_toggle">Архів</string>
+    <string name="wardrobe_import_hint">Імпортувати з галереї</string>
+    <string name="wardrobe_empty_intro">Наповнимо шафу</string>
+    <string name="wardrobe_empty_hint">Додайте першу річ — вона залишиться лише на цьому пристрої.</string>
+    <string name="wardrobe_nothing_found">Нічого не знайдено</string>
+    <string name="wardrobe_in_archive">В архіві</string>
+
+    <string name="wizard_title">Швидкий старт</string>
+    <string name="wizard_step_of">Крок %1$d з %2$d</string>
+    <string name="wizard_photo_title">Почніть із фото</string>
+    <string name="wizard_photo_hint">Необов’язково — фото можна додати будь-коли пізніше.</string>
+    <string name="wizard_subtype_title">Що це за річ?</string>
+    <string name="wizard_name_title">Назвіть річ</string>
+    <string name="wizard_attributes_title">Деталі</string>
+    <string name="wizard_attributes_empty">Власних властивостей ще немає.</string>
+    <string name="wizard_attributes_optional">Усі поля — необов’язкові</string>
+
+    <string name="editor_title_new">Нова річ</string>
+    <string name="editor_title_edit">Редагувати річ</string>
+    <string name="editor_loading">Завантаження…</string>
+    <string name="editor_photos">Фото</string>
+    <string name="editor_photos_count">Додано фото: %1$d</string>
+    <string name="editor_add_photo">Додати фото</string>
+    <string name="editor_photo_pending">Нове</string>
+    <string name="editor_subtype">Тип</string>
+    <string name="editor_subtype_pick">Обрати</string>
+    <string name="editor_subtype_pick_title">Оберіть тип</string>
+    <string name="editor_subtype_none">Не обрано</string>
+    <string name="editor_subtype_required">Оберіть тип речі</string>
+    <string name="editor_name">Назва</string>
+    <string name="editor_name_required">Вкажіть назву речі</string>
+    <string name="editor_price">Ціна, необов’язково</string>
+    <string name="editor_price_invalid">Введіть число</string>
+    <string name="editor_purchase_date">Дата купівлі (РРРР-ММ-ДД)</string>
+    <string name="editor_date_invalid">Використовуйте формат РРРР-ММ-ДД</string>
+    <string name="editor_seasons">Сезони</string>
+    <string name="editor_sex">Для</string>
+    <string name="editor_notes">Нотатки</string>
+    <string name="editor_tags">Теги</string>
+    <string name="editor_tags_hint">Новий тег</string>
+    <string name="editor_attributes">Власні властивості</string>
+    <string name="editor_attributes_empty">Для цього типу ще немає властивостей — додайте свої.</string>
+    <string name="editor_add_attribute">Нова властивість</string>
+    <string name="editor_attribute_name">Назва властивості</string>
+    <string name="editor_attribute_type">Вид</string>
+    <string name="editor_attribute_options">Варіанти (через кому)</string>
+    <string name="editor_attribute_min">Мінімум, необов’язково</string>
+    <string name="editor_attribute_max">Максимум, необов’язково</string>
+
+    <string name="attribute_type_text">Текст</string>
+    <string name="attribute_type_number">Число</string>
+    <string name="attribute_type_enum">Вибір</string>
+    <string name="attribute_type_multi">Кілька</string>
+    <string name="attribute_type_color">Колір</string>
+
+    <string name="season_spring">Весна</string>
+    <string name="season_summer">Літо</string>
+    <string name="season_autumn">Осінь</string>
+    <string name="season_winter">Зима</string>
+
+    <string name="sex_male">Чоловіче</string>
+    <string name="sex_female">Жіноче</string>
+    <string name="sex_unisex">Унісекс</string>
+
+    <string name="filter_color">Колір</string>
+
+    <string name="value_error_empty">Значення не може бути порожнім</string>
+    <string name="value_error_too_long">Значення задовге</string>
+    <string name="value_error_not_a_number">Це не число</string>
+    <string name="value_error_out_of_range">Поза дозволеним діапазоном</string>
+    <string name="value_error_missing_config">Варіанти не налаштовано</string>
+    <string name="value_error_malformed_config">Конфігурацію властивості пошкоджено</string>
+    <string name="value_error_not_an_option">Оберіть один із запропонованих варіантів</string>
+    <string name="value_error_malformed_multi">Значення мультивибору пошкоджено</string>
+    <string name="value_error_malformed_color">Використовуйте колір у форматі #RRGGBB</string>
+
+    <string name="detail_loading">Завантаження…</string>
+    <string name="detail_no_photo">Без фото</string>
+    <string name="detail_photo_position">%1$d з %2$d</string>
+    <string name="detail_wear_count">Одягнено разів: %1$d</string>
+    <string name="detail_price">Ціна</string>
+    <string name="detail_purchase_date">Куплено</string>
+    <string name="detail_tags">Теги</string>
+    <string name="detail_attributes">Властивості</string>
+    <string name="detail_none">—</string>
+    <string name="detail_delete_confirm_title">Видалити цю річ?</string>
+    <string name="detail_delete_confirm_text">Річ зникне із шафи, образів і списків пакування.</string>
+
+    <string name="action_back">Назад</string>
+    <string name="action_skip">Пропустити</string>
+    <string name="action_next">Далі</string>
+    <string name="action_finish">Готово</string>
+    <string name="action_save">Зберегти</string>
+    <string name="action_add">Додати</string>
+    <string name="action_cancel">Скасувати</string>
+    <string name="action_delete">Видалити</string>
+    <string name="action_edit">Редагувати</string>
+    <string name="action_archive">В архів</string>
+    <string name="action_unarchive">З архіву</string>
+    <string name="action_apply">Застосувати</string>
+    <string name="action_reset">Скинути</string>
 
     <string name="outfits_headline">Складай образи</string>
     <string name="outfits_hint">Улюблені луки зберуться тут уже скоро.</string>

@@ -8,15 +8,23 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.waitUntilAtLeastOneExists
 import com.damagdpixl.svita.core.designsystem.EditorialTheme
+import com.damagdpixl.svita.data.SvitaGraph
+import com.damagdpixl.svita.data.WardrobePrefs
+import kotlinx.coroutines.runBlocking
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 
 /**
- * Robolectric compose smoke test of the navigation shell.
+ * Robolectric compose smoke test of the navigation shell (real in-memory
+ * database behind the manual DI graph; onboarding pre-done so the wardrobe
+ * tab shows the grid, not the first-run wizard).
  *
  * Note: Robolectric lays the Scaffold bottom bar out with degenerate bounds,
  * so tab activation uses the OnClick semantics action directly instead of an
@@ -30,6 +38,19 @@ class NavigationSmokeTest {
 
     @get:Rule
     val composeRule = createComposeRule()
+
+    @Before
+    fun setUpGraph() {
+        SvitaGraph.init(RuntimeEnvironment.getApplication(), databaseName = null)
+        runBlocking {
+            SvitaGraph.get().repos.settings.putBoolean(WardrobePrefs.ONBOARDING_DONE, true)
+        }
+    }
+
+    @After
+    fun tearDownGraph() {
+        SvitaGraph.resetForTests()
+    }
 
     @Test
     fun bottomBarShowsFiveDestinations() {

@@ -35,7 +35,28 @@ import com.damagdpixl.svita.ui.screens.CalendarScreen
 import com.damagdpixl.svita.ui.screens.OutfitsScreen
 import com.damagdpixl.svita.ui.screens.PackingScreen
 import com.damagdpixl.svita.ui.screens.SettingsScreen
-import com.damagdpixl.svita.ui.screens.WardrobeScreen
+import com.damagdpixl.svita.ui.wardrobe.ItemDetailScreen
+import com.damagdpixl.svita.ui.wardrobe.ItemEditorScreen
+import com.damagdpixl.svita.ui.wardrobe.WardrobeScreen
+
+/** All navigation routes in one place — the single source of truth. */
+object Routes {
+    const val WARDROBE = "wardrobe"
+    const val OUTFITS = "outfits"
+    const val CALENDAR = "calendar"
+    const val PACKING = "packing"
+    const val SETTINGS = "settings"
+
+    const val ITEM_DETAIL = "wardrobe/item/{itemId}"
+    const val ITEM_EDITOR = "wardrobe/edit/{itemId}"
+
+    /** The bulk-import screen lands in P2 T3; the hint deep-links it if present. */
+    const val IMPORT = "wardrobe/import"
+
+    fun itemDetail(itemId: Long): String = "wardrobe/item/$itemId"
+
+    fun itemEditor(itemId: Long?): String = "wardrobe/edit/${itemId ?: 0}"
+}
 
 /** A bottom-bar destination of the app shell. */
 data class TopDestination(
@@ -44,11 +65,11 @@ data class TopDestination(
 )
 
 val TopDestinations: List<TopDestination> = listOf(
-    TopDestination(route = "wardrobe", labelRes = R.string.nav_wardrobe),
-    TopDestination(route = "outfits", labelRes = R.string.nav_outfits),
-    TopDestination(route = "calendar", labelRes = R.string.nav_calendar),
-    TopDestination(route = "packing", labelRes = R.string.nav_packing),
-    TopDestination(route = "settings", labelRes = R.string.nav_settings),
+    TopDestination(route = Routes.WARDROBE, labelRes = R.string.nav_wardrobe),
+    TopDestination(route = Routes.OUTFITS, labelRes = R.string.nav_outfits),
+    TopDestination(route = Routes.CALENDAR, labelRes = R.string.nav_calendar),
+    TopDestination(route = Routes.PACKING, labelRes = R.string.nav_packing),
+    TopDestination(route = Routes.SETTINGS, labelRes = R.string.nav_settings),
 )
 
 /**
@@ -122,14 +143,41 @@ fun SvitaApp(modifier: Modifier = Modifier) {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "wardrobe",
+            startDestination = Routes.WARDROBE,
             modifier = Modifier.padding(innerPadding),
         ) {
-            composable(route = "wardrobe") { WardrobeScreen() }
-            composable(route = "outfits") { OutfitsScreen() }
-            composable(route = "calendar") { CalendarScreen() }
-            composable(route = "packing") { PackingScreen() }
-            composable(route = "settings") { SettingsScreen() }
+            composable(Routes.WARDROBE) {
+                WardrobeScreen(
+                    onOpenItem = { itemId -> navController.navigate(Routes.itemDetail(itemId)) },
+                    onAddItem = { navController.navigate(Routes.itemEditor(null)) },
+                    // The bulk-import screen lands in T3; until its route exists
+                    // the hint falls back to the wardrobe grid it lives on.
+                    onOpenImport = {
+                        if (navController.graph.findNode(route = Routes.IMPORT) != null) {
+                            navController.navigate(Routes.IMPORT)
+                        }
+                    },
+                )
+            }
+            composable(Routes.ITEM_DETAIL) { entry ->
+                val itemId = entry.arguments?.getString("itemId")?.toLongOrNull() ?: 0L
+                ItemDetailScreen(
+                    itemId = itemId,
+                    onBack = { navController.popBackStack() },
+                    onEdit = { id -> navController.navigate(Routes.itemEditor(id)) },
+                )
+            }
+            composable(Routes.ITEM_EDITOR) { entry ->
+                val itemId = entry.arguments?.getString("itemId")?.toLongOrNull() ?: 0L
+                ItemEditorScreen(
+                    itemId = itemId.takeIf { it > 0 },
+                    onBack = { navController.popBackStack() },
+                )
+            }
+            composable(Routes.OUTFITS) { OutfitsScreen() }
+            composable(Routes.CALENDAR) { CalendarScreen() }
+            composable(Routes.PACKING) { PackingScreen() }
+            composable(Routes.SETTINGS) { SettingsScreen() }
         }
     }
 }

@@ -12,6 +12,109 @@
 
     <string name="wardrobe_headline">Your closet</string>
     <string name="wardrobe_add_item">Add item</string>
+    <string name="wardrobe_search_hint">Search by name</string>
+    <string name="wardrobe_filters">Filters</string>
+    <string name="wardrobe_archive_toggle">Archive</string>
+    <string name="wardrobe_import_hint">Import from gallery</string>
+    <string name="wardrobe_empty_intro">Let’s fill the closet</string>
+    <string name="wardrobe_empty_hint">Add your first item — it stays on this device only.</string>
+    <string name="wardrobe_nothing_found">Nothing found</string>
+    <string name="wardrobe_in_archive">In archive</string>
+
+    <string name="wizard_title">Quick start</string>
+    <string name="wizard_step_of">Step %1$d of %2$d</string>
+    <string name="wizard_photo_title">Start with a photo</string>
+    <string name="wizard_photo_hint">Optional — photos can be added any time later.</string>
+    <string name="wizard_subtype_title">What is it?</string>
+    <string name="wizard_name_title">Name it</string>
+    <string name="wizard_attributes_title">Details</string>
+    <string name="wizard_attributes_empty">No custom attributes yet.</string>
+    <string name="wizard_attributes_optional">Every field is optional</string>
+
+    <string name="editor_title_new">Add item</string>
+    <string name="editor_title_edit">Edit item</string>
+    <string name="editor_loading">Loading…</string>
+    <string name="editor_photos">Photos</string>
+    <string name="editor_photos_count">Photos added: %1$d</string>
+    <string name="editor_add_photo">Add photo</string>
+    <string name="editor_photo_pending">New</string>
+    <string name="editor_subtype">Type</string>
+    <string name="editor_subtype_pick">Choose</string>
+    <string name="editor_subtype_pick_title">Choose a type</string>
+    <string name="editor_subtype_none">Not chosen</string>
+    <string name="editor_subtype_required">Choose the type of the item</string>
+    <string name="editor_name">Name</string>
+    <string name="editor_name_required">Name is required</string>
+    <string name="editor_price">Price, optional</string>
+    <string name="editor_price_invalid">Enter a number</string>
+    <string name="editor_purchase_date">Purchase date (YYYY-MM-DD)</string>
+    <string name="editor_date_invalid">Use the YYYY-MM-DD format</string>
+    <string name="editor_seasons">Seasons</string>
+    <string name="editor_sex">For</string>
+    <string name="editor_notes">Notes</string>
+    <string name="editor_tags">Tags</string>
+    <string name="editor_tags_hint">New tag</string>
+    <string name="editor_attributes">Custom attributes</string>
+    <string name="editor_attributes_empty">No attributes for this type yet — add your own.</string>
+    <string name="editor_add_attribute">New attribute</string>
+    <string name="editor_attribute_name">Attribute name</string>
+    <string name="editor_attribute_type">Kind</string>
+    <string name="editor_attribute_options">Options (comma-separated)</string>
+    <string name="editor_attribute_min">Minimum, optional</string>
+    <string name="editor_attribute_max">Maximum, optional</string>
+
+    <string name="attribute_type_text">Text</string>
+    <string name="attribute_type_number">Number</string>
+    <string name="attribute_type_enum">Choice</string>
+    <string name="attribute_type_multi">Multi-select</string>
+    <string name="attribute_type_color">Color</string>
+
+    <string name="season_spring">Spring</string>
+    <string name="season_summer">Summer</string>
+    <string name="season_autumn">Autumn</string>
+    <string name="season_winter">Winter</string>
+
+    <string name="sex_male">Men</string>
+    <string name="sex_female">Women</string>
+    <string name="sex_unisex">Unisex</string>
+
+    <string name="filter_color">Color</string>
+
+    <string name="value_error_empty">The value cannot be empty</string>
+    <string name="value_error_too_long">The value is too long</string>
+    <string name="value_error_not_a_number">That is not a number</string>
+    <string name="value_error_out_of_range">Out of the allowed range</string>
+    <string name="value_error_missing_config">No options are configured</string>
+    <string name="value_error_malformed_config">The attribute config is broken</string>
+    <string name="value_error_not_an_option">Pick one of the offered options</string>
+    <string name="value_error_malformed_multi">The multi-select value is broken</string>
+    <string name="value_error_malformed_color">Use a #RRGGBB color</string>
+
+    <string name="detail_loading">Loading…</string>
+    <string name="detail_no_photo">No photo</string>
+    <string name="detail_photo_position">%1$d of %2$d</string>
+    <string name="detail_wear_count">Times worn: %1$d</string>
+    <string name="detail_price">Price</string>
+    <string name="detail_purchase_date">Purchased</string>
+    <string name="detail_tags">Tags</string>
+    <string name="detail_attributes">Attributes</string>
+    <string name="detail_none">—</string>
+    <string name="detail_delete_confirm_title">Delete this item?</string>
+    <string name="detail_delete_confirm_text">It will disappear from the wardrobe, outfits and packing lists.</string>
+
+    <string name="action_back">Back</string>
+    <string name="action_skip">Skip</string>
+    <string name="action_next">Next</string>
+    <string name="action_finish">Done</string>
+    <string name="action_save">Save</string>
+    <string name="action_add">Add</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_archive">Archive</string>
+    <string name="action_unarchive">Restore</string>
+    <string name="action_apply">Apply</string>
+    <string name="action_reset">Reset</string>
 
     <string name="outfits_headline">Compose outfits</string>
     <string name="outfits_hint">The looks you love will be assembled here soon.</string>
