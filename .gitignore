@@ -11,7 +11,13 @@ docs/outfit_algorithm_spec.md
 # --- Keys / secrets ---
 *.jks
 *.keystore
+*.p12
+*.pfx
+*.bks
 keystore.properties
+keystore.properties.bak
+keystore.properties.*
+!keystore.properties.template
 local.properties
 
 # --- Standard Android/Gradle ---

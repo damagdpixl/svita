@@ -59,10 +59,19 @@ android {
             )
             if (hasReleaseKeystore) {
                 signingConfig = signingConfigs.getByName("release")
-            } else {
+            } else if (!keystorePropertiesFile.exists()) {
                 logger.warn(
                     "Svita release build: keystore.properties not found — " +
                         "producing an UNSIGNED release APK (installable nowhere, CI-safe). " +
+                        "Owner setup: docs/release_v0.1.0.md",
+                )
+            } else {
+                val missing = listOf("storeFile", "storePassword", "keyAlias", "keyPassword")
+                    .filter { keystoreProperties.getProperty(it).isNullOrBlank() }
+                logger.warn(
+                    "Svita release build: keystore.properties found but INCOMPLETE " +
+                        "(missing/blank fields: ${missing.joinToString()}) — " +
+                        "producing an UNSIGNED release APK. " +
                         "Owner setup: docs/release_v0.1.0.md",
                 )
             }

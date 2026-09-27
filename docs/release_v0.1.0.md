@@ -11,7 +11,7 @@ The agent never creates or touches the keystore — these are YOUR commands.
 
 Створюйте keystore **поза репозиторієм** (наприклад, `~/keystores/svita/`), щоб
 випадково не закомітити його. `.gitignore` уже блокує `*.jks`, `*.keystore`,
-`keystore.properties` — але тримайте файл і поза деревом проєкту.
+`*.p12`, `keystore.properties` — але тримайте файл і поза деревом проєкту.
 
 ```bash
 mkdir -p ~/keystores/svita && cd ~/keystores/svita
@@ -56,8 +56,12 @@ ls -la app/build/outputs/apk/release/   # очікуємо app-release.apk (НЕ
 ```bash
 APK=app/build/outputs/apk/release/app-release.apk
 /home/pixl/Android/Sdk/build-tools/35.0.0/apksigner verify --print-certs "$APK"
-sha256sum "$APK" | tee "$APK.sha256"
-sha256sum -c "$APK.sha256"        # контроль: OK
+# Чексуму генеруємо за іменем ФАЙЛА без шляху — інакше `sha256sum -c` не спрацює
+# у того, хто завантажить APK зі сторінки релізу.
+cd app/build/outputs/apk/release
+sha256sum app-release.apk > app-release.apk.sha256
+sha256sum -c app-release.apk.sha256   # контроль: OK
+cd - >/dev/null
 keytool -list -v -keystore ~/keystores/svita/svita-release.jks   # валідність до ~2054
 ```
 
@@ -67,6 +71,12 @@ keytool -list -v -keystore ~/keystores/svita/svita-release.jks   # валідн�
 ### 5. Опублікуйте GitHub release
 
 ```bash
+# Самодостатній блок: змінну APK поставлено заново, тож команди можна вставити
+# у свіжий термінал.
+APK=app/build/outputs/apk/release/app-release.apk
+# Гарди: НІКОЛИ не публікувати непідписаний APK.
+case "$APK" in *-unsigned.apk) echo "REFUSING: unsigned APK filename"; exit 1;; esac
+/home/pixl/Android/Sdk/build-tools/35.0.0/apksigner verify "$APK" || { echo "REFUSING: APK is not signed"; exit 1; }
 gh release create v0.1.0 \
   --title "Svita v0.1.0" \
   --notes-file changelogs/v0.1.0.md \
@@ -83,8 +93,8 @@ gh release create v0.1.0 \
 ### 1. One-time: generate the signing key
 
 Create the keystore **outside the repository** (e.g. `~/keystores/svita/`).
-`.gitignore` already blocks `*.jks`, `*.keystore` and `keystore.properties`, but
-keep the file out of the project tree anyway.
+`.gitignore` already blocks `*.jks`, `*.keystore`, `*.p12` and
+`keystore.properties`, but keep the file out of the project tree anyway.
 
 ```bash
 mkdir -p ~/keystores/svita && cd ~/keystores/svita
@@ -128,8 +138,12 @@ check the `storeFile` path.
 ```bash
 APK=app/build/outputs/apk/release/app-release.apk
 /home/pixl/Android/Sdk/build-tools/35.0.0/apksigner verify --print-certs "$APK"
-sha256sum "$APK" | tee "$APK.sha256"
-sha256sum -c "$APK.sha256"        # must print: OK
+# Generate the checksum against the FILE NAME only — with a path baked in,
+# `sha256sum -c` breaks for whoever downloads the APK from the release page.
+cd app/build/outputs/apk/release
+sha256sum app-release.apk > app-release.apk.sha256
+sha256sum -c app-release.apk.sha256   # must print: OK
+cd - >/dev/null
 keytool -list -v -keystore ~/keystores/svita/svita-release.jks   # validity ~2054
 ```
 
@@ -139,6 +153,11 @@ first run + wardrobe creation.
 ### 5. Publish the GitHub release
 
 ```bash
+# Self-contained: APK is re-set here, so the block works in a fresh terminal.
+APK=app/build/outputs/apk/release/app-release.apk
+# Guards: NEVER publish an unsigned APK.
+case "$APK" in *-unsigned.apk) echo "REFUSING: unsigned APK filename"; exit 1;; esac
+/home/pixl/Android/Sdk/build-tools/35.0.0/apksigner verify "$APK" || { echo "REFUSING: APK is not signed"; exit 1; }
 gh release create v0.1.0 \
   --title "Svita v0.1.0" \
   --notes-file changelogs/v0.1.0.md \
