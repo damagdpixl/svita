@@ -12,7 +12,11 @@ import com.damagdpixl.svita.core.model.Subtype
 import com.damagdpixl.svita.core.model.Tag
 import com.damagdpixl.svita.data.PhotoHash
 import com.damagdpixl.svita.data.SvitaGraph
+import java.util.concurrent.atomic.AtomicInteger
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +29,11 @@ import kotlinx.coroutines.withContext
 /** One photo in the pending import batch. */
 data class ImportPhoto(
     val uri: Uri,
-    /** Stable identity for test tags and lookups (the URI as string). */
+    /**
+     * Stable identity for test tags and lookups — synthetic and unique per
+     * entry on purpose: the SAME URI can legitimately be picked twice (kept
+     * via «все одно додати»), so the URI itself is not a key.
+     */
     val key: String,
     /** Item name default (file name without extension), editable per photo. */
     val name: String,
@@ -64,7 +72,12 @@ data class ImportFailure(
 /** Import pass phase: editing the batch, or one sequential create pass running. */
 sealed interface ImportPhase {
     data object Editing : ImportPhase
-    data class Importing(val done: Int, val total: Int) : ImportPhase
+
+    /**
+     * A pass is running. [created] counts only successfully written items —
+     * failures do not advance it («Додано X з Y» stays honest).
+     */
+    data class Importing(val created: Int, val total: Int) : ImportPhase
 }
 
 data class ImportUiState(
@@ -117,13 +130,19 @@ class ImportViewModel(
     localeTag: String = "uk",
     private val displayNameOf: (Uri) -> String,
     private val hashOf: suspend (Uri) -> Long?,
+    /** Test seam for cancellation: null = [viewModelScope] (production). */
+    private val scopeOverride: CoroutineScope? = null,
 ) : ViewModel() {
 
     private val repos = graph.repos
     private val ukrainian = localeTag.lowercase().startsWith("uk")
+    private val scope: CoroutineScope get() = scopeOverride ?: viewModelScope
 
     private val _state = MutableStateFlow(ImportUiState())
     val state: StateFlow<ImportUiState> = _state.asStateFlow()
+
+    /** Monotonic source of synthetic per-entry keys (see [ImportPhoto.key]). */
+    private val keyCounter = AtomicInteger()
 
     val tags: StateFlow<List<Tag>> = repos.wardrobe.observeTags()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
@@ -132,7 +151,7 @@ class ImportViewModel(
     private var existingByHash: Map<Long, String> = emptyMap()
 
     init {
-        viewModelScope.launch {
+        scope.launch {
             val groups = loadSubtypeGroups(repos)
             _state.value = _state.value.copy(groups = groups)
             existingByHash = computeExistingHashes()
@@ -147,7 +166,7 @@ class ImportViewModel(
      */
     fun addPhotos(uris: List<Uri>) {
         if (uris.isEmpty()) return
-        viewModelScope.launch {
+        scope.launch {
             _state.value = _state.value.copy(analyzing = true)
             val clean = mutableListOf<ImportPhoto>()
             val warnings = mutableListOf<ImportDuplicateWarning>()
@@ -157,7 +176,7 @@ class ImportViewModel(
                 val hash = hashOf(uri)
                 val photo = ImportPhoto(
                     uri = uri,
-                    key = uri.toString(),
+                    key = newPhotoKey(),
                     name = defaultName(uri),
                     hash = hash,
                 )
@@ -244,7 +263,7 @@ class ImportViewModel(
         val name = _state.value.tagInput.trim()
         if (name.isEmpty()) return
         _state.value = _state.value.copy(tagInput = "")
-        viewModelScope.launch {
+        scope.launch {
             val existing = repos.wardrobe.tagByName(name)
             val id = existing?.id ?: runCatching { repos.wardrobe.createTag(name) }.getOrNull()
                 ?: return@launch
@@ -289,15 +308,24 @@ class ImportViewModel(
 
     private fun runPass(batch: List<ImportPhoto>) {
         _state.value = _state.value.copy(
-            phase = ImportPhase.Importing(done = 0, total = batch.size),
+            phase = ImportPhase.Importing(created = 0, total = batch.size),
             subtypeMissing = false,
             blankNameKeys = emptySet(),
         )
-        viewModelScope.launch {
-            var done = 0
+        scope.launch {
+            var createdInPass = 0
             val failures = mutableListOf<ImportFailure>()
             for (photo in batch) {
-                val storedPath = runCatching { graph.photoStore.import(photo.uri) }.getOrNull()
+                // Cancellation (scope cleared, e.g. OS-back mid-pass) must stop
+                // the loop — never mark the remaining photos as failed.
+                coroutineContext.ensureActive()
+                val storedPath = try {
+                    graph.photoStore.import(photo.uri)
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Throwable) {
+                    null
+                }
                 if (storedPath == null) {
                     failures += ImportFailure(photo, ImportFailureKind.UNREADABLE_PHOTO)
                 } else {
@@ -315,7 +343,13 @@ class ImportViewModel(
                             photos = listOf(storedPath),
                             tagIds = _state.value.selectedTagIds,
                         )
-                    } catch (t: Throwable) {
+                        createdInPass += 1
+                    } catch (e: CancellationException) {
+                        // No orphan-file cleanup here on purpose: the item write
+                        // may already have committed; propagating cancellation
+                        // ends the pass without publishing false failures.
+                        throw e
+                    } catch (e: Throwable) {
                         // The item row was not written: the just-stored file
                         // would become an orphan — delete it (same policy as
                         // the item editor).
@@ -323,12 +357,14 @@ class ImportViewModel(
                         failures += ImportFailure(photo, ImportFailureKind.WRITE_FAILED)
                     }
                 }
-                done += 1
                 _state.value = _state.value.copy(
-                    phase = ImportPhase.Importing(done = done, total = batch.size),
+                    phase = ImportPhase.Importing(
+                        created = createdInPass,
+                        total = batch.size,
+                    ),
                 )
             }
-            val created = batch.size - failures.size
+            val created = createdInPass
             _state.value = _state.value.copy(
                 phase = ImportPhase.Editing,
                 photos = failures.map { it.photo },
@@ -363,6 +399,8 @@ class ImportViewModel(
 
     private fun defaultName(uri: Uri): String =
         displayNameOf(uri).substringBeforeLast('.').trim().ifEmpty { FALLBACK_NAME }
+
+    private fun newPhotoKey(): String = "photo_${keyCounter.incrementAndGet()}"
 
     private fun <T> Set<T>.toggle(value: T): Set<T> =
         if (value in this) this - value else this + value

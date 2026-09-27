@@ -471,7 +471,7 @@ private fun ImportPhotoCard(
     }
 }
 
-/** Sequential pass progress: counter plus a thin determinate bar. */
+/** Sequential pass progress: created-count plus a thin determinate bar. */
 @Composable
 private fun ImportingBody(phase: ImportPhase.Importing) {
     Box(
@@ -482,7 +482,7 @@ private fun ImportingBody(phase: ImportPhase.Importing) {
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = stringResource(R.string.import_progress, phase.done, phase.total),
+                text = stringResource(R.string.import_progress, phase.created, phase.total),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.testTag("import_progress"),
@@ -490,7 +490,7 @@ private fun ImportingBody(phase: ImportPhase.Importing) {
             Spacer(modifier = Modifier.height(16.dp))
             LinearProgressIndicator(
                 progress = {
-                    if (phase.total == 0) 0f else phase.done.toFloat() / phase.total
+                    if (phase.total == 0) 0f else phase.created.toFloat() / phase.total
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -525,8 +525,10 @@ private fun FailuresPanel(state: ImportUiState) {
                 ImportFailureKind.UNREADABLE_PHOTO -> stringResource(R.string.import_failure_unreadable)
                 ImportFailureKind.WRITE_FAILED -> stringResource(R.string.import_failure_write)
             }
+            // Names are guaranteed non-blank here: startImport refuses to run
+            // while any entry has a blank name.
             Text(
-                text = "«${failure.photo.name.ifBlank { stringResource(R.string.editor_subtype_none) }}» — $reason",
+                text = "«${failure.photo.name}» — $reason",
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
                 modifier = Modifier.padding(top = 2.dp),

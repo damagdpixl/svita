@@ -11,6 +11,10 @@ import com.damagdpixl.svita.core.model.Sex
 import com.damagdpixl.svita.data.PhotoHash
 import com.damagdpixl.svita.data.SvitaGraph
 import java.io.File
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -67,11 +71,12 @@ class ImportBatchTest {
 
     private val tempFiles = mutableListOf<File>()
 
-    private fun newViewModel(): ImportViewModel = ImportViewModel(
+    private fun newViewModel(scope: CoroutineScope? = null): ImportViewModel = ImportViewModel(
         graph = graph,
         localeTag = "uk",
         displayNameOf = { uri -> uri.lastPathSegment?.substringBeforeLast('.') ?: "IMG" },
         hashOf = { uri -> PhotoHash.ofPickedImage(app.contentResolver, uri) },
+        scopeOverride = scope,
     )
 
     private fun writePatternJpeg(pattern: Pattern, name: String): File {
@@ -196,7 +201,7 @@ class ImportBatchTest {
         assertEquals(2, runBlocking { itemCount() })
 
         // Партія лишилася з невдалим фото — це і є список на retry.
-        assertEquals(listOf(broken.toString()), vm.state.value.photos.map { it.key })
+        assertEquals(listOf(broken), vm.state.value.photos.map { it.uri })
 
         // Retry битого файлу знову невдалий, лічильник створених не росте.
         vm.startImport()
@@ -295,5 +300,74 @@ class ImportBatchTest {
         assertTrue(vm.state.value.subtypeMissing)
         assertEquals(ImportPhase.Editing, vm.state.value.phase)
         assertEquals(0, runBlocking { itemCount() })
+    }
+
+    @Test
+    fun `повторно обране те саме фото — три записи з унікальними ключами`() {
+        // Регресія: ключем запису був uri.toString(), тому [A, C, A] давало
+        // два записи з одним ключем — дублікат ключа LazyColumn (креш екрана).
+        val a = writePatternJpeg(Pattern.VERTICAL, "TwinA")
+        val c = writePatternJpeg(Pattern.HORIZONTAL, "Other")
+        val uriA = Uri.fromFile(a)
+
+        vm.addPhotos(listOf(uriA, Uri.fromFile(c), uriA))
+        await("третє фото (дублікат першого) під попередженням") {
+            vm.state.value.photos.size == 2 && vm.state.value.pendingWarnings.size == 1
+        }
+
+        vm.keepDuplicate()
+        await("усі три записи в партії") {
+            vm.state.value.photos.size == 3 && vm.state.value.pendingWarnings.isEmpty()
+        }
+        assertEquals(
+            "кожен запис має власний ключ",
+            3,
+            vm.state.value.photos.map { it.key }.distinct().size,
+        )
+
+        vm.selectSharedSubtype(subtypeId)
+        vm.startImport()
+        await("імпорт завершено") { vm.state.value.navigateBack }
+        assertEquals(0, vm.state.value.lastFailures.size)
+        assertEquals(3, runBlocking { itemCount() })
+    }
+
+    @Test
+    fun `скасування посеред проходу зупиняє обробку без хибних невдалих`() {
+        val passScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+        vm = newViewModel(passScope)
+        try {
+            val p1 = writePatternJpeg(Pattern.VERTICAL, "Cancel1")
+            val p2 = writePatternJpeg(Pattern.HORIZONTAL, "Cancel2")
+            val p3 = writePatternJpeg(Pattern.DIAGONAL, "Cancel3")
+            vm.addPhotos(listOf(Uri.fromFile(p1), Uri.fromFile(p2), Uri.fromFile(p3)))
+            await("партія з трьох фото") { vm.state.value.photos.size == 3 }
+
+            vm.selectSharedSubtype(subtypeId)
+            vm.startImport()
+            await("перша річ створена") {
+                (vm.state.value.phase as? ImportPhase.Importing)?.created == 1
+            }
+
+            passScope.cancel()
+            // Прокачуємо looper: жодне з двох фото, що лишилися, не має
+            // «дійти» до бази чи списку невдалих.
+            repeat(5) {
+                shadowOf(Looper.getMainLooper()).idle()
+                Thread.sleep(50)
+            }
+
+            assertEquals(1, runBlocking { itemCount() })
+            assertTrue(
+                "скасування не публікує хибних UNREADABLE_PHOTO",
+                vm.state.value.lastFailures.isEmpty(),
+            )
+            assertTrue(
+                "прохід заморожено на момент скасування",
+                vm.state.value.phase is ImportPhase.Importing,
+            )
+        } finally {
+            passScope.cancel()
+        }
     }
 }
