@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    // Attribute definitions carry config JSON (enum/multi options, number bounds).
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -74,10 +76,20 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.navigation.compose)
+
+    // ViewModels: debounce/flatMapLatest over repository flows.
+    implementation(libs.kotlinx.coroutines.core)
+    // Domain dates surface in editor/detail state.
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.kotlinx.serialization.json)
+    // The app owns the database lifecycle: AndroidSqliteDriver + reactive cover index.
+    implementation(libs.sqldelight.android.driver)
+    implementation(libs.sqldelight.coroutines)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
 
