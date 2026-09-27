@@ -33,11 +33,13 @@ import com.damagdpixl.svita.core.designsystem.Marigold
 import com.damagdpixl.svita.core.designsystem.monoUpper
 import com.damagdpixl.svita.ui.calendar.CalendarScreen
 import com.damagdpixl.svita.ui.outfits.OutfitsScreen
-import com.damagdpixl.svita.ui.screens.PackingScreen
+import com.damagdpixl.svita.ui.packing.PackingScreen
+import com.damagdpixl.svita.ui.packing.TripDetailScreen
 import com.damagdpixl.svita.ui.avatar.AvatarScreen
 import com.damagdpixl.svita.ui.settings.CustomizationScreen
 import com.damagdpixl.svita.ui.settings.SettingsScreen
 import com.damagdpixl.svita.ui.settings.TagsScreen
+import com.damagdpixl.svita.ui.stats.StatsScreen
 import com.damagdpixl.svita.ui.wardrobe.ImportScreen
 import com.damagdpixl.svita.ui.wardrobe.ItemDetailScreen
 import com.damagdpixl.svita.ui.wardrobe.ItemEditorScreen
@@ -56,6 +58,12 @@ object Routes {
     const val TAGS = "settings/tags"
     const val AVATAR = "settings/avatar"
 
+    /** Statistics (P2 T7): honest numbers over the wear log. */
+    const val STATS = "settings/stats"
+
+    /** Trip checklist (P2 T7). */
+    const val PACKING_DETAIL = "packing/trip/{listId}"
+
     const val ITEM_DETAIL = "wardrobe/item/{itemId}"
     const val ITEM_EDITOR = "wardrobe/edit/{itemId}"
 
@@ -65,6 +73,8 @@ object Routes {
     fun itemDetail(itemId: Long): String = "wardrobe/item/$itemId"
 
     fun itemEditor(itemId: Long?): String = "wardrobe/edit/${itemId ?: 0}"
+
+    fun packingDetail(listId: Long): String = "packing/trip/$listId"
 }
 
 /** A bottom-bar destination of the app shell. */
@@ -182,13 +192,26 @@ fun SvitaApp(modifier: Modifier = Modifier) {
             }
             composable(Routes.OUTFITS) { OutfitsScreen() }
             composable(Routes.CALENDAR) { CalendarScreen() }
-            composable(Routes.PACKING) { PackingScreen() }
+            composable(Routes.PACKING) {
+                PackingScreen(onOpenTrip = { listId -> navController.navigate(Routes.packingDetail(listId)) })
+            }
+            composable(Routes.PACKING_DETAIL) { entry ->
+                val listId = entry.arguments?.getString("listId")?.toLongOrNull() ?: 0L
+                TripDetailScreen(
+                    listId = listId,
+                    onBack = { navController.popBackStack() },
+                )
+            }
             composable(Routes.SETTINGS) {
                 SettingsScreen(
                     onOpenCustomization = { navController.navigate(Routes.CUSTOMIZATION) },
                     onOpenTags = { navController.navigate(Routes.TAGS) },
                     onOpenAvatar = { navController.navigate(Routes.AVATAR) },
+                    onOpenStats = { navController.navigate(Routes.STATS) },
                 )
+            }
+            composable(Routes.STATS) {
+                StatsScreen(onBack = { navController.popBackStack() })
             }
             composable(Routes.CUSTOMIZATION) {
                 CustomizationScreen(onBack = { navController.popBackStack() })

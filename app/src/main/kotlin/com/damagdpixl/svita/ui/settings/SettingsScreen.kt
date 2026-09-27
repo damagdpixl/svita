@@ -48,6 +48,7 @@ fun SettingsScreen(
     onOpenCustomization: () -> Unit,
     onOpenTags: () -> Unit,
     onOpenAvatar: () -> Unit,
+    onOpenStats: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -111,6 +112,21 @@ fun SettingsScreen(
             trailing = {
                 Text(
                     text = stringResource(R.string.settings_menu_tags_hint),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Charcoal.copy(alpha = 0.45f),
+                )
+                Text(text = "›", style = MaterialTheme.typography.titleMedium)
+            },
+        )
+        CreamMenuBar(
+            label = stringResource(R.string.settings_menu_stats),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onOpenStats)
+                .testTag("settings_row_stats"),
+            trailing = {
+                Text(
+                    text = stringResource(R.string.settings_menu_stats_hint),
                     style = MaterialTheme.typography.labelSmall,
                     color = Charcoal.copy(alpha = 0.45f),
                 )

@@ -193,8 +193,46 @@
     <string name="calendar_pick_items">Choose items</string>
     <string name="calendar_plan_hint">Pick a saved outfit or let Svita assemble one for that day’s weather.</string>
 
+    <!-- Packing (P2 T7): trips, wizard, checklist -->
     <string name="packing_headline">Pack light</string>
-    <string name="packing_hint">Packing lists arrive with the next milestone.</string>
+    <string name="packing_empty_intro">No trips yet</string>
+    <string name="packing_empty_hint">Plan a trip — Svita gathers the things from your planned and logged outfits.</string>
+    <string name="packing_new_trip">New trip</string>
+    <string name="packing_wizard_title">Plan a trip</string>
+    <string name="packing_trip_title">Trip name</string>
+    <string name="packing_date_from">From (YYYY-MM-DD)</string>
+    <string name="packing_date_to">To (YYYY-MM-DD, optional)</string>
+    <string name="packing_suggested_title">Suggested from plans and wear log</string>
+    <string name="packing_suggested_empty">Nothing planned or logged on these dates — add items from the wardrobe.</string>
+    <string name="packing_add_from_wardrobe">Add from wardrobe</string>
+    <string name="packing_create">Create list</string>
+    <string name="packing_dates">%1$s – %2$s</string>
+    <string name="packing_progress">%1$d of %2$d packed</string>
+    <string name="packing_add_items">Add items</string>
+    <string name="packing_delete_confirm_title">Delete this list?</string>
+    <string name="packing_delete_confirm_text">The checklist “%1$s” will be deleted.</string>
+
+    <!-- Statistics (P2 T7): honest numbers, no vanity metrics -->
+    <string name="settings_menu_stats">Statistics</string>
+    <string name="settings_menu_stats_hint">Cost per wear and wardrobe mix</string>
+    <string name="stats_title">Statistics</string>
+    <string name="stats_empty">Statistics appear after the first wears</string>
+    <string name="stats_cpw_title">Cost per wear</string>
+    <string name="stats_cpw_empty">Add prices and a few wears — the math will show up here</string>
+    <string name="stats_cpw_value">%1$s per wear</string>
+    <string name="stats_most_title">Most worn</string>
+    <string name="stats_least_title">Least worn</string>
+    <string name="stats_composition_title">Wardrobe composition</string>
+
+    <plurals name="stats_wears_count">
+        <item quantity="one">%1$d wear</item>
+        <item quantity="other">%1$d wears</item>
+    </plurals>
+
+    <plurals name="stats_items_count">
+        <item quantity="one">%1$d item</item>
+        <item quantity="other">%1$d items</item>
+    </plurals>
 
     <string name="settings_headline">Settings</string>
 

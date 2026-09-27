@@ -196,8 +196,50 @@
     <string name="calendar_pick_items">Виберіть речі</string>
     <string name="calendar_plan_hint">Оберіть збережений образ або нехай Svita збирає його під погоду того дня.</string>
 
+    <!-- Поїздки (P2 T7): списки, майстер створення, чекліст -->
     <string name="packing_headline">Пакуй легко</string>
-    <string name="packing_hint">Списки для поїздок з’являться в наступній версії.</string>
+    <string name="packing_empty_intro">Ще немає поїздок</string>
+    <string name="packing_empty_hint">Заплануйте поїздку — Svita збере речі із запланованих і записаних образів.</string>
+    <string name="packing_new_trip">Нова поїздка</string>
+    <string name="packing_wizard_title">Запланувати поїздку</string>
+    <string name="packing_trip_title">Назва поїздки</string>
+    <string name="packing_date_from">З (РРРР-ММ-ДД)</string>
+    <string name="packing_date_to">До (РРРР-ММ-ДД, необов’язково)</string>
+    <string name="packing_suggested_title">Запропоновано з планів і журналу носіння</string>
+    <string name="packing_suggested_empty">На ці дати нічого не заплановано й не записано — додайте речі з шафи.</string>
+    <string name="packing_add_from_wardrobe">Додати з шафи</string>
+    <string name="packing_create">Створити список</string>
+    <string name="packing_dates">%1$s – %2$s</string>
+    <string name="packing_progress">Зібрано %1$d з %2$d</string>
+    <string name="packing_add_items">Додати речі</string>
+    <string name="packing_delete_confirm_title">Видалити цей список?</string>
+    <string name="packing_delete_confirm_text">Чекліст “%1$s” буде видалено.</string>
+
+    <!-- Статистика (P2 T7): чесні числа, без марнославних метрик -->
+    <string name="settings_menu_stats">Статистика</string>
+    <string name="settings_menu_stats_hint">Ціна за носіння та склад шафи</string>
+    <string name="stats_title">Статистика</string>
+    <string name="stats_empty">Статистика з’явиться після перших носінь</string>
+    <string name="stats_cpw_title">Ціна за носіння</string>
+    <string name="stats_cpw_empty">Додайте ціни та кілька носінь — математика з’явиться тут</string>
+    <string name="stats_cpw_value">%1$s за носіння</string>
+    <string name="stats_most_title">Найчастіше в носінні</string>
+    <string name="stats_least_title">Найрідше в носінні</string>
+    <string name="stats_composition_title">Склад шафи</string>
+
+    <plurals name="stats_wears_count">
+        <item quantity="one">%1$d носіння</item>
+        <item quantity="few">%1$d носіння</item>
+        <item quantity="many">%1$d носінь</item>
+        <item quantity="other">%1$d носінь</item>
+    </plurals>
+
+    <plurals name="stats_items_count">
+        <item quantity="one">%1$d річ</item>
+        <item quantity="few">%1$d речі</item>
+        <item quantity="many">%1$d речей</item>
+        <item quantity="other">%1$d речі</item>
+    </plurals>
 
     <string name="settings_headline">Налаштування</string>
 
